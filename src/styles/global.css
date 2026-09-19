@@ -15,8 +15,32 @@ a {
 }
 
 main {
+  position: relative;
   width: min(1080px, calc(100% - 40px));
   margin: 0 auto;
+}
+
+.topbar {
+  position: absolute;
+  top: 26px;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 2;
+  font-size: 0.9rem;
+  color: #7a7a75;
+}
+
+.lang-link {
+  padding: 4px 2px;
+  border-bottom: 1px solid transparent;
+}
+
+.lang-link:hover,
+.lang-link.active {
+  color: #151515;
+  border-bottom-color: #151515;
 }
 
 .hero {
@@ -167,6 +191,7 @@ footer p { margin: 0; }
 
 @media (max-width: 720px) {
   main { width: min(100% - 28px, 1080px); }
+  .topbar { top: 18px; }
   .hero { min-height: 62vh; }
   .hero-links { align-items: flex-start; flex-direction: column; }
   section { padding: 58px 0; }
