@@ -1,0 +1,122 @@
+---
+import '../styles/global.css';
+
+const papers = [
+  {
+    venue: 'CVPR 2026 · Highlight',
+    title: 'OSA: Echocardiography Video Segmentation via Orthogonalized State Update and Anatomical Prior-aware Feature Enhancement',
+    authors: 'Rui Wang · Huisi Wu · Jing Qin',
+    paper: 'https://openaccess.thecvf.com/content/CVPR2026/html/Wang_OSA_Echocardiography_Video_Segmentation_via_Orthogonalized_State_Update_and_Anatomical_CVPR_2026_paper.html',
+    code: 'https://github.com/wangrui2025/osa',
+    project: 'https://wangrui2025.github.io/osa/en/',
+  },
+  {
+    venue: 'ICCV 2025',
+    title: 'GDKVM: Echocardiography Video Segmentation via Spatiotemporal Key-Value Memory with Gated Delta Rule',
+    authors: 'Rui Wang · Yimu Sun · Jingxing Guo · Huisi Wu · Jing Qin',
+    paper: 'https://openaccess.thecvf.com/content/ICCV2025/html/Wang_GDKVM_Echocardiography_Video_Segmentation_via_Spatiotemporal_Key-Value_Memory_with_Gated_ICCV_2025_paper.html',
+    code: 'https://github.com/wangrui2025/GDKVM',
+    project: 'https://wangrui2025.github.io/GDKVM/en/',
+  },
+  {
+    venue: 'CVPR 2024 · Oral',
+    title: 'MemSAM: Taming Segment Anything Model for Echocardiography Video Segmentation',
+    authors: 'Xiaolong Deng · Huisi Wu · Runhao Zeng · Jing Qin',
+    paper: 'https://openaccess.thecvf.com/content/CVPR2024/html/Deng_MemSAM_Taming_Segment_Anything_Model_for_Echocardiography_Video_Segmentation_CVPR_2024_paper.html',
+    code: 'https://github.com/dengxl0520/MemSAM',
+  },
+];
+
+const datasets = [
+  {
+    name: 'CAMUS',
+    full: 'Cardiac Acquisitions for Multi-structure Ultrasound Segmentation',
+    note: '500 patients · A2C and A4C · expert segmentation annotations',
+    dataset: 'https://www.creatis.insa-lyon.fr/Challenge/camus/',
+    paper: 'https://doi.org/10.1109/TMI.2019.2900516',
+  },
+  {
+    name: 'EchoNet-Dynamic',
+    full: 'Video-based cardiac function assessment',
+    note: '10,030 A4C videos · EF and LV tracings',
+    dataset: 'https://echonet.github.io/dynamic/',
+    paper: 'https://doi.org/10.1038/s41586-020-2145-8',
+    code: 'https://github.com/echonet/dynamic',
+  },
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content="A curated collection of papers, datasets, and resources for AI in echocardiography." />
+    <title>Awesome Echocardiography</title>
+  </head>
+  <body>
+    <main>
+      <header class="hero">
+        <div class="eyebrow">v0.1 · deliberately small</div>
+        <h1>Awesome Echocardiography</h1>
+        <p class="lead">A curated starting point for artificial intelligence in echocardiography.</p>
+        <div class="hero-links">
+          <a class="primary" href="https://github.com/wangrui2025/awesome-echocardiography">GitHub repository ↗</a>
+          <span>3 papers · 2 datasets</span>
+        </div>
+      </header>
+
+      <section>
+        <div class="section-head">
+          <div>
+            <p class="kicker">Research</p>
+            <h2>Papers</h2>
+          </div>
+          <p>For the first release, the list is intentionally limited to three echocardiography video-segmentation papers.</p>
+        </div>
+        <div class="paper-list">
+          {papers.map((item) => (
+            <article class="paper-card">
+              <div class="venue">{item.venue}</div>
+              <h3>{item.title}</h3>
+              <p class="authors">{item.authors}</p>
+              <div class="links">
+                <a href={item.paper}>Paper ↗</a>
+                <a href={item.code}>Code ↗</a>
+                {item.project && <a href={item.project}>Project ↗</a>}
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <div>
+            <p class="kicker">Data</p>
+            <h2>Datasets</h2>
+          </div>
+          <p>Two widely used public resources, listed with their original dataset pages and papers.</p>
+        </div>
+        <div class="dataset-grid">
+          {datasets.map((item) => (
+            <article class="dataset-card">
+              <div class="dataset-name">{item.name}</div>
+              <h3>{item.full}</h3>
+              <p>{item.note}</p>
+              <div class="links">
+                <a href={item.dataset}>Dataset ↗</a>
+                <a href={item.paper}>Paper ↗</a>
+                {item.code && <a href={item.code}>Code ↗</a>}
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <footer>
+        <p>Built as a focused, community-oriented index. Broader coverage will be added gradually.</p>
+        <a href="https://github.com/wangrui2025/awesome-echocardiography/issues">Suggest an addition ↗</a>
+      </footer>
+    </main>
+  </body>
+</html>
