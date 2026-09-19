@@ -1,0 +1,137 @@
+---
+import '../styles/global.css';
+import { papers, datasets } from '../data';
+
+interface Props {
+  locale: 'zh' | 'en';
+}
+
+const { locale } = Astro.props;
+const isZh = locale === 'zh';
+
+const copy = isZh ? {
+  lang: 'zh-CN',
+  description: '超声心动图人工智能领域的精选论文、数据集与研究资源。',
+  eyebrow: 'v0.1 · 暂时保持小而精',
+  lead: '超声心动图人工智能研究资源的精选入口。',
+  repo: 'GitHub 仓库 ↗',
+  count: '3 篇论文 · 2 个数据集',
+  research: '研究',
+  papers: '论文',
+  papersNote: '第一版有意只收录 3 篇超声心动图视频分割论文。',
+  data: '数据',
+  datasets: '数据集',
+  datasetsNote: '首批收录两个常用公开数据资源，并链接原始数据集页面和论文。',
+  paper: '论文 ↗',
+  code: '代码 ↗',
+  project: '项目 ↗',
+  dataset: '数据集 ↗',
+  footer: '这是一个聚焦、面向社区的索引。后续将逐步扩充。',
+  suggest: '推荐收录 ↗',
+} : {
+  lang: 'en',
+  description: 'A curated collection of papers, datasets, and resources for AI in echocardiography.',
+  eyebrow: 'v0.1 · deliberately small',
+  lead: 'A curated starting point for artificial intelligence in echocardiography.',
+  repo: 'GitHub repository ↗',
+  count: '3 papers · 2 datasets',
+  research: 'Research',
+  papers: 'Papers',
+  papersNote: 'For the first release, the list is intentionally limited to three echocardiography video-segmentation papers.',
+  data: 'Data',
+  datasets: 'Datasets',
+  datasetsNote: 'Two widely used public resources, listed with their original dataset pages and papers.',
+  paper: 'Paper ↗',
+  code: 'Code ↗',
+  project: 'Project ↗',
+  dataset: 'Dataset ↗',
+  footer: 'Built as a focused, community-oriented index. Broader coverage will be added gradually.',
+  suggest: 'Suggest an addition ↗',
+};
+---
+
+<html lang={copy.lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={copy.description} />
+    <link rel="alternate" hreflang="zh-CN" href="/" />
+    <link rel="alternate" hreflang="en" href="/en/" />
+    <link rel="alternate" hreflang="x-default" href="/" />
+    <title>Awesome Echocardiography</title>
+  </head>
+  <body>
+    <main>
+      <nav class="topbar" aria-label={isZh ? '语言切换' : 'Language switcher'}>
+        <a class:list={['lang-link', { active: isZh }]} href="/">中文</a>
+        <span aria-hidden="true">/</span>
+        <a class:list={['lang-link', { active: !isZh }]} href="/en/">EN</a>
+      </nav>
+
+      <header class="hero">
+        <div class="eyebrow">{copy.eyebrow}</div>
+        <h1>Awesome Echocardiography</h1>
+        <p class="lead">{copy.lead}</p>
+        <div class="hero-links">
+          <a class="primary" href="https://github.com/wangrui2025/awesome-echocardiography">{copy.repo}</a>
+          <span>{copy.count}</span>
+        </div>
+      </header>
+
+      <section>
+        <div class="section-head">
+          <div>
+            <p class="kicker">{copy.research}</p>
+            <h2>{copy.papers}</h2>
+          </div>
+          <p>{copy.papersNote}</p>
+        </div>
+
+        <div class="paper-list">
+          {papers.map((item) => (
+            <article class="paper-card">
+              <div class="venue">{item.venue}</div>
+              <h3>{item.title}</h3>
+              <p class="authors">{item.authors}</p>
+              <div class="links">
+                <a href={item.paper}>{copy.paper}</a>
+                <a href={item.code}>{copy.code}</a>
+                {item.project && <a href={item.project}>{copy.project}</a>}
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <div>
+            <p class="kicker">{copy.data}</p>
+            <h2>{copy.datasets}</h2>
+          </div>
+          <p>{copy.datasetsNote}</p>
+        </div>
+
+        <div class="dataset-grid">
+          {datasets.map((item) => (
+            <article class="dataset-card">
+              <div class="dataset-name">{item.name}</div>
+              <h3>{item.full}</h3>
+              <p>{isZh ? item.noteZh : item.noteEn}</p>
+              <div class="links">
+                <a href={item.dataset}>{copy.dataset}</a>
+                <a href={item.paper}>{copy.paper}</a>
+                {item.code && <a href={item.code}>{copy.code}</a>}
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <footer>
+        <p>{copy.footer}</p>
+        <a href="https://github.com/wangrui2025/awesome-echocardiography/issues">{copy.suggest}</a>
+      </footer>
+    </main>
+  </body>
+</html>
