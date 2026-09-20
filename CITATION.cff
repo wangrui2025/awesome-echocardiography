@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use Awesome Echocardiography in research, teaching, or a public resource, please cite this repository."
+title: "Awesome Echocardiography"
+type: software
+authors:
+  - name: "Awesome Echocardiography Maintainers"
+repository-code: "https://github.com/wangrui2025/awesome-echocardiography"
+url: "https://awesome-echocardiography.vercel.app"
+abstract: "A manually curated research index of papers, datasets, code-status evidence, research directions, and reporting standards for artificial intelligence in echocardiography."
+keywords:
+  - echocardiography
+  - cardiac ultrasound
+  - medical imaging
+  - computer vision
+  - artificial intelligence
+  - deep learning
+  - segmentation
+  - cardiac function
+preferred-citation:
+  type: generic
+  title: "Awesome Echocardiography"
+  authors:
+    - name: "Awesome Echocardiography Maintainers"
+  year: 2026
+  url: "https://github.com/wangrui2025/awesome-echocardiography"

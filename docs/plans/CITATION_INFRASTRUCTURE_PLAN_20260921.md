@@ -76,30 +76,30 @@ If external account authentication cannot be completed safely, record the exact 
 ### A. Planning
 - [x] Create isolated worktree from current `origin/main`.
 - [x] Write this plan before implementation.
-- [ ] Open the feature PR with this plan as the first commit.
+- [x] Open the feature PR with this plan as the first commit.
 
 ### B. Citation metadata
-- [ ] Add `CITATION.cff`.
-- [ ] Use real repository and website URLs.
-- [ ] Add author/maintainer metadata without inventing identifiers.
-- [ ] Add keywords relevant to echocardiography AI.
-- [ ] Do not include a fake DOI or version.
+- [x] Add `CITATION.cff`.
+- [x] Use real repository and website URLs.
+- [x] Add author/maintainer metadata without inventing identifiers.
+- [x] Add keywords relevant to echocardiography AI.
+- [x] Do not include a fake DOI or version.
 
 ### C. Citation guide
-- [ ] Add `CITATION.md`.
-- [ ] Add plain-text citation format.
-- [ ] Add BibTeX example.
-- [ ] Explain DOI preference if/when a real Zenodo DOI exists.
-- [ ] Add README citation entry point.
+- [x] Add `CITATION.md`.
+- [x] Add plain-text citation format.
+- [x] Add BibTeX example.
+- [x] Explain DOI preference if/when a real Zenodo DOI exists.
+- [x] Add README citation entry point.
 
 ### D. Validation
-- [ ] `CITATION.cff` parses as YAML.
-- [ ] Required citation fields are present.
-- [ ] `npm run build` returns 0 errors, 0 warnings, 0 hints.
-- [ ] Homepage remains 3 featured papers.
-- [ ] Papers page remains 10 public papers.
-- [ ] Research Map routes still build.
-- [ ] Reference Metrics routes/build remain unaffected.
+- [x] `CITATION.cff` parses as YAML.
+- [x] Required citation fields are present.
+- [x] `npm run build` returns 0 errors, 0 warnings, 0 hints.
+- [x] Homepage remains 3 featured papers.
+- [x] Papers page remains 10 public papers.
+- [x] Research Map routes still build.
+- [x] Reference Metrics routes/build remain unaffected.
 
 ### E. Delivery
 - [ ] Push implementation to feature branch.

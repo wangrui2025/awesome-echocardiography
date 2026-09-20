@@ -69,6 +69,10 @@ The project is being built incrementally. Broader coverage will be added only af
 
 Paper suggestions should use the structured [paper submission form](https://github.com/wangrui2025/awesome-echocardiography/issues/new?template=paper.yml), which separates project pages from actual implementation repositories and records code-status evidence. General site issues and focused pull requests are also welcome. Proposed benchmark or metric implementations should include reproducible fixtures and document any deviation from Reference Metrics v1.1.
 
+## Citing this project
+
+Use [CITATION.cff](CITATION.cff) for machine-readable citation metadata or [CITATION.md](CITATION.md) for the recommended plain-text and BibTeX formats. A DOI will only be added after a real archival record is minted.
+
 ## Curation and code-status policy
 
 This is a curated research index, not an exhaustive bibliography. Important echocardiography work may be included even without public code. Repository links are verified separately from code availability: placeholder or “coming soon” repositories are not labeled as released code. See [CONTRIBUTING.md](CONTRIBUTING.md) for the status definitions and review rules.
