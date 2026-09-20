@@ -128,7 +128,7 @@ const copy = isZh ? {
               </div>
               <div class="code-status-row">
                 <span class:list={["code-status", `code-status--${item.codeStatus}`]}>
-                  {item.codeStatus === "available" ? copy.codeAvailable : item.codeStatus === "partial" ? copy.codePartial : item.codeStatus === "announced" ? copy.codeAnnounced : copy.codeNone}
+                  {item.codeStatus === "available" ? copy.codeAvailable : item.codeStatus === "announced" ? copy.codeAnnounced : copy.codeNone}
                 </span>
                 <span class="code-status-note" title={isZh ? item.codeNoteZh : item.codeNoteEn}>
                   {isZh ? item.codeNoteZh : item.codeNoteEn}
