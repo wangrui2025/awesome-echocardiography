@@ -138,7 +138,7 @@ The homepage and Papers page must read from the **same canonical records**. No d
 
 ### F. PR / deployment closeout
 
-- [ ] Push implementation commits to this feature branch.
+- [x] Push implementation commits to this feature branch.
 - [ ] PR CI build passes.
 - [ ] Reference-metrics CI remains green.
 - [ ] Vercel Preview passes.
