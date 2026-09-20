@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import SiteNav from './SiteNav.astro';
 import { papers, datasets } from '../data';
 
 interface Props {
@@ -21,11 +22,16 @@ const copy = isZh ? {
   papersNote: '第一版有意只收录 3 篇超声心动图视频分割论文。',
   data: '数据',
   datasets: '数据集',
-  datasetsNote: '首批收录两个常用公开数据资源，并链接原始数据集页面和论文。',
+  datasetsNote: '不只是给下载链接：每个数据集都解释它的标注、特点、适合任务和使用注意事项。',
   paper: '论文 ↗',
   code: '代码 ↗',
   project: '项目 ↗',
-  dataset: '数据集 ↗',
+  dataset: '官方数据 ↗',
+  details: '了解特点 →',
+  benchmark: '公共标准',
+  metrics: '指标与报告规范',
+  metricsNote: '统一 Dice、IoU、HD、ASD、HD95、LVEF 的定义、单位和报告方式，让不同论文的结果真正可比较。',
+  metricsCta: '查看指标页 →',
   footer: '这是一个聚焦、面向社区的索引。后续将逐步扩充。',
   suggest: '推荐收录 ↗',
 } : {
@@ -40,11 +46,16 @@ const copy = isZh ? {
   papersNote: 'For the first release, the list is intentionally limited to three echocardiography video-segmentation papers.',
   data: 'Data',
   datasets: 'Datasets',
-  datasetsNote: 'Two widely used public resources, listed with their original dataset pages and papers.',
+  datasetsNote: 'More than download links: each dataset page explains labels, strengths, suitable tasks and usage caveats.',
   paper: 'Paper ↗',
   code: 'Code ↗',
   project: 'Project ↗',
-  dataset: 'Dataset ↗',
+  dataset: 'Official data ↗',
+  details: 'Why this dataset →',
+  benchmark: 'Open benchmark',
+  metrics: 'Metrics & reporting guide',
+  metricsNote: 'Normalize definitions, units and reporting for Dice, IoU, HD, ASD, HD95 and LVEF so results are genuinely comparable.',
+  metricsCta: 'Open metrics guide →',
   footer: 'Built as a focused, community-oriented index. Broader coverage will be added gradually.',
   suggest: 'Suggest an addition ↗',
 };
@@ -62,11 +73,7 @@ const copy = isZh ? {
   </head>
   <body>
     <main>
-      <nav class="topbar" aria-label={isZh ? '语言切换' : 'Language switcher'}>
-        <a class:list={['lang-link', { active: isZh }]} href="/">中文</a>
-        <span aria-hidden="true">/</span>
-        <a class:list={['lang-link', { active: !isZh }]} href="/en/">EN</a>
-      </nav>
+      <SiteNav locale={locale} switchHref={isZh ? '/en/' : '/'} current="home" />
 
       <header class="hero">
         <div class="eyebrow">{copy.eyebrow}</div>
@@ -119,6 +126,7 @@ const copy = isZh ? {
               <h3>{item.full}</h3>
               <p>{isZh ? item.noteZh : item.noteEn}</p>
               <div class="links">
+                <a class="detail-link" href={isZh ? `/datasets/${item.slug}/` : `/en/datasets/${item.slug}/`}>{copy.details}</a>
                 <a href={item.dataset}>{copy.dataset}</a>
                 <a href={item.paper}>{copy.paper}</a>
                 {item.code && <a href={item.code}>{copy.code}</a>}
@@ -126,6 +134,17 @@ const copy = isZh ? {
             </article>
           ))}
         </div>
+      </section>
+
+      <section class="standard-card-section">
+        <a class="standard-card" href={isZh ? '/metrics/' : '/en/metrics/'}>
+          <div>
+            <p class="kicker">{copy.benchmark}</p>
+            <h2>{copy.metrics}</h2>
+          </div>
+          <p>{copy.metricsNote}</p>
+          <span>{copy.metricsCta}</span>
+        </a>
       </section>
 
       <footer>
