@@ -46,7 +46,7 @@ jobs:
       - name: Install reference dependencies
         run: python -m pip install -r reference/metrics_v1/requirements.txt
 
-      - name: Run Reference Metrics v1 regression tests
+      - name: Run Reference Metrics v1.1 regression tests
         working-directory: reference/metrics_v1
         run: python -m unittest -v test_reference_metrics.py
 
@@ -63,5 +63,5 @@ jobs:
           assert summary["max_abs_diff_hd95"] < 1e-6
           assert summary["max_abs_diff_asd"] < 1e-6
           assert summary["empty_policy_intentionally_differs"] is True
-          print("Reference Metrics v1 audit evidence: PASS")
+          print("Reference Metrics v1.1 segmentation audit evidence: PASS")
           PY
