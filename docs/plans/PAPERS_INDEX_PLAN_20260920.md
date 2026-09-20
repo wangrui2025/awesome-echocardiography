@@ -139,11 +139,11 @@ The homepage and Papers page must read from the **same canonical records**. No d
 ### F. PR / deployment closeout
 
 - [x] Push implementation commits to this feature branch.
-- [ ] PR CI build passes.
-- [ ] Reference-metrics CI remains green.
-- [ ] Vercel Preview passes.
-- [ ] Validate Preview content before merge.
-- [ ] Squash-merge only when all gates are green.
+- [x] PR CI build passes.
+- [x] Reference-metrics CI remains green.
+- [x] Vercel Preview passes.
+- [x] Validate Preview content before merge.
+- [x] Squash-merge only when all gates are green.
 - [ ] Production deployment succeeds.
 - [ ] Verify production `/papers/` and `/en/papers/` return HTTP 200 and correct content.
 - [ ] Update this checklist to fully reflect completed delivery.
