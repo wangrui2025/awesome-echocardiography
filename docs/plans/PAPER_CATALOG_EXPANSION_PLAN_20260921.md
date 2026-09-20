@@ -117,9 +117,9 @@ No paper is duplicated across multiple primary categories in this PR.
 - [x] Vercel Preview passes.
 - [x] Preview content is verified before merge.
 - [x] Squash-merge only with a clean exact head.
-- [ ] Production deployment succeeds.
-- [ ] Production `/papers/` and `/en/papers/` return HTTP 200 with 10 papers.
-- [ ] Update this checklist and record delivery evidence.
+- [x] Production deployment succeeds.
+- [x] Production `/papers/` and `/en/papers/` return HTTP 200 with 10 papers.
+- [x] Update this checklist and record delivery evidence.
 
 ## 7. Delivery standard
 
@@ -144,3 +144,12 @@ Do not merge if:
 - a paper is duplicated across primary categories;
 - the metrics/reference-standard CI regresses;
 - Preview or Production is red.
+
+## 9. Delivery evidence
+
+- Feature PR: **#10 — feat: expand curated paper catalog**
+- Merge commit: `5945f7bbd13a0c87f6c230eed0a0c08ae4cea9b3`
+- Main CI: build and reference-metrics **SUCCESS**.
+- Main Vercel Production: **SUCCESS**.
+- Production verification: Chinese and English Papers pages each render **10** papers across **6** categories; homepage remains **3** featured papers.
+- Verified code-state distribution: **5 Code available / 4 Code announced / 1 Partial code**.
