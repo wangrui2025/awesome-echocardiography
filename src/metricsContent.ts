@@ -118,7 +118,7 @@ export const metricGroupsZh: MetricGroup[] = [
         ],
         reasons: [
           "不同库对 ASD 可能定义成单向、双向 50/50 或 pooled mean。",
-          "这个定义与后来 GDKVM 的 MONAI symmetric surface distance 语义一致。"
+          "这个定义与常用的 symmetric surface-distance 实现语义一致，并通过公开回归测试固定。"
         ]
       }
     ]
@@ -305,7 +305,7 @@ export const metricGroupsZh: MetricGroup[] = [
         ],
         reasons: [
           "预测整体偏高 10 个单位仍可能有接近 1 的相关系数。",
-          "GDKVM 与 OSA 报 corr 很有价值，但必须同时结合 bias / agreement 解读。"
+          "相关系数可以描述趋势，但必须结合误差与 agreement 指标一起解读。"
         ]
       },
       {
@@ -343,7 +343,7 @@ export const metricGroupsZh: MetricGroup[] = [
         ],
         reasons: [
           "相同 segmentation 采用不同体积估计方法也可能得到不同 LVEF。",
-          "这正是 GDKVM / OSA 的临床指标需要从“代码习惯”升级成明确 protocol 的原因。"
+          "因此体积估计方法必须从隐式代码习惯升级成明确、可复现的 protocol。"
         ]
       }
     ]
@@ -352,7 +352,7 @@ export const metricGroupsZh: MetricGroup[] = [
     id: "agreement",
     kicker: "临床一致性",
     title: "Clinical Agreement",
-    intro: "Correlation 看“是否一起变化”，agreement 看“数值是否足够接近”。GDKVM 的 Bland–Altman 图和 GDKVM / OSA 的 bias ± std 都属于这一组。",
+    intro: "Correlation 看“是否一起变化”，agreement 看“数值是否足够接近”。Bias、SD 与 Bland–Altman / Limits of Agreement 都属于这一组。",
     metrics: [
       {
         id: "bias-sd",
@@ -390,7 +390,7 @@ export const metricGroupsZh: MetricGroup[] = [
         ],
         reasons: [
           "Pearson r 很高并不代表两种方法数值一致。",
-          "GDKVM 已经用过 Bland–Altman；v1.1 把作图和统计规则变成可复现 evaluator。"
+          "把作图坐标、差值方向和 LoA 统计规则固定下来，才能让不同研究的 Bland–Altman 结果真正可比较。"
         ]
       }
     ]
@@ -496,7 +496,7 @@ export const metricGroupsEn: MetricGroup[] = [
         ],
         reasons: [
           "Different libraries may use ASD to mean one-way, 50/50 bidirectional, or pooled bidirectional distance.",
-          "This matches the later GDKVM MONAI symmetric surface-distance semantics."
+          "This matches common symmetric surface-distance semantics and is pinned by public regression tests."
         ]
       }
     ]
@@ -683,7 +683,7 @@ export const metricGroupsEn: MetricGroup[] = [
         ],
         reasons: [
           "Predictions can be systematically 10 units too high and still have correlation near 1.",
-          "The corr values reported by GDKVM and OSA are informative only when read alongside bias and agreement."
+          "Correlation is informative only when interpreted alongside error and agreement metrics."
         ]
       },
       {
@@ -721,7 +721,7 @@ export const metricGroupsEn: MetricGroup[] = [
         ],
         reasons: [
           "The same segmentation contours may produce different LVEF under different volume-estimation protocols.",
-          "This is why the clinical metrics used by GDKVM / OSA should be upgraded from implicit code habits to an explicit protocol."
+          "Volume estimation should therefore be upgraded from implicit code habits to an explicit, reproducible protocol."
         ]
       }
     ]
@@ -730,7 +730,7 @@ export const metricGroupsEn: MetricGroup[] = [
     id: "agreement",
     kicker: "Clinical agreement",
     title: "Clinical Agreement",
-    intro: "Correlation asks whether values move together; agreement asks whether they are numerically close enough. GDKVM's Bland–Altman analysis and the bias ± std reporting used by GDKVM / OSA belong in this category.",
+    intro: "Correlation asks whether values move together; agreement asks whether they are numerically close enough. Bias, SD, and Bland–Altman / Limits of Agreement belong in this category.",
     metrics: [
       {
         id: "bias-sd",
@@ -768,7 +768,7 @@ export const metricGroupsEn: MetricGroup[] = [
         ],
         reasons: [
           "High Pearson r does not imply numerical agreement.",
-          "GDKVM already used Bland–Altman visualization; v1.1 turns its statistical and plotting semantics into a reproducible evaluator."
+          "Fixing the plotting coordinates, difference direction, and LoA statistics makes Bland–Altman results reproducible across studies."
         ]
       }
     ]

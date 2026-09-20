@@ -316,7 +316,7 @@ For LVEF prediction:
 
 # D. Clinical agreement: Bias and Bland–Altman
 
-GDKVM and OSA both report LVEF correlation and bias ± SD. GDKVM additionally visualizes Bland–Altman agreement. Reference v1.1 turns those historical reporting patterns into an explicit protocol.
+Clinical measurement studies commonly report correlation, bias ± SD, and Bland–Altman agreement. Reference v1.1 turns these widely used reporting patterns into an explicit, reproducible protocol.
 
 ## D1. Difference direction
 
@@ -407,11 +407,11 @@ Observed on 2026-09-20:
 - MONAI 1.5.1 returned `NaN` for HD95 and `Infinity` for ASD on a prediction-empty / ground-truth-nonempty fixture;
 - the reference intentionally replaces that ambiguous behavior with the explicit field-of-view penalty.
 
-## E2. Historical GDKVM / OSA clinical reporting
+## E2. Historical implementation audit lesson
 
-Historical project code did not consistently pin the same agreement convention: training evaluators used `prediction - reference` with NumPy default `std()` (`ddof=0`), while a Bland–Altman post-processing path used `reference - prediction` with pandas sample `std()` (`ddof=1`). This is exactly the kind of silent mismatch v1.1 is designed to prevent.
+A historical implementation audit found that different evaluation paths can silently use opposite difference directions and different SD conventions—for example, `prediction - reference` with population SD (`ddof=0`) in one path versus `reference - prediction` with sample SD (`ddof=1`) in another. This is exactly the kind of silent mismatch v1.1 is designed to prevent.
 
-OSA reports Pearson correlation and bias ± std for LVEF, with LVEF derived from predicted masks under its declared volume protocol.
+Reference v1.1 therefore treats sign convention, SD definition, units, and the upstream volume-estimation protocol as explicit parts of the evaluation contract.
 
 Reference v1.1 **does not retroactively rewrite published numbers**. It defines the future reproducible standard:
 
