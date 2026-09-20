@@ -112,11 +112,11 @@ No paper is duplicated across multiple primary categories in this PR.
 ### E. Delivery
 
 - [x] Push implementation to the feature branch.
-- [ ] PR build CI passes.
-- [ ] Reference-metrics regression CI remains green.
-- [ ] Vercel Preview passes.
-- [ ] Preview content is verified before merge.
-- [ ] Squash-merge only with a clean exact head.
+- [x] PR build CI passes.
+- [x] Reference-metrics regression CI remains green.
+- [x] Vercel Preview passes.
+- [x] Preview content is verified before merge.
+- [x] Squash-merge only with a clean exact head.
 - [ ] Production deployment succeeds.
 - [ ] Production `/papers/` and `/en/papers/` return HTTP 200 with 10 papers.
 - [ ] Update this checklist and record delivery evidence.
