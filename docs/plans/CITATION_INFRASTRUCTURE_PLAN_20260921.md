@@ -102,7 +102,7 @@ If external account authentication cannot be completed safely, record the exact 
 - [x] Reference Metrics routes/build remain unaffected.
 
 ### E. Delivery
-- [ ] Push implementation to feature branch.
+- [x] Push implementation to feature branch.
 - [ ] PR build CI passes.
 - [ ] Reference-metrics regression remains green.
 - [ ] Vercel Preview passes.
