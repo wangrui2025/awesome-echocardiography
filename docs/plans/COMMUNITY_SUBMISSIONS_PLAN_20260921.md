@@ -112,7 +112,7 @@ Update README contribution text with a concise link to the submission form and c
 - [x] Reference-metrics routes/build remain unaffected.
 
 ### F. Delivery
-- [ ] Push implementation to the feature branch.
+- [x] Push implementation to the feature branch.
 - [ ] PR build CI passes.
 - [ ] Reference-metrics regression remains green.
 - [ ] Vercel Preview passes.
