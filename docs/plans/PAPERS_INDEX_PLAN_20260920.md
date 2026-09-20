@@ -97,7 +97,7 @@ The homepage and Papers page must read from the **same canonical records**. No d
 - [x] Detect and preserve the concurrent metrics Agent's uncommitted work.
 - [x] Create an isolated Git worktree and branch for this feature.
 - [x] Write this plan before implementation.
-- [ ] Open the feature PR with this plan as the first commit.
+- [x] Open the feature PR with this plan as the first commit.
 
 ### B. Data model
 
