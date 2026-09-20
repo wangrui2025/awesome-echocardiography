@@ -1,1 +1,2 @@
-numpy==2.2.6\nscipy==1.15.3\n
+numpy==2.2.6
+scipy==1.15.3
