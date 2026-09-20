@@ -76,40 +76,40 @@ Update README contribution text with a concise link to the submission form and c
 ### A. Planning
 - [x] Create an isolated worktree from current `origin/main`.
 - [x] Write this plan before implementation.
-- [ ] Open the feature PR with this plan as the first commit.
+- [x] Open the feature PR with this plan as the first commit.
 
 ### B. Issue form
-- [ ] Add structured paper submission form.
-- [ ] Require authoritative paper URL and venue/year.
-- [ ] Require research-task/category explanation.
-- [ ] Require project/page repo and implementation repo to be entered separately.
-- [ ] Include explicit code-status selection.
-- [ ] Require runnable-component evidence for code claims.
-- [ ] Ask whether author/lab repositories were searched for alternate implementation repos.
-- [ ] Capture datasets, weights/checkpoints, and verification date.
-- [ ] State clearly that submission does not guarantee inclusion.
+- [x] Add structured paper submission form.
+- [x] Require authoritative paper URL and venue/year.
+- [x] Require research-task/category explanation.
+- [x] Require project/page repo and implementation repo to be entered separately.
+- [x] Include explicit code-status selection.
+- [x] Require runnable-component evidence for code claims.
+- [x] Ask whether author/lab repositories were searched for alternate implementation repos.
+- [x] Capture datasets, weights/checkpoints, and verification date.
+- [x] State clearly that submission does not guarantee inclusion.
 
 ### C. PR template
-- [ ] Add one-feature-one-PR guidance.
-- [ ] Require a detailed plan Markdown for substantive features.
-- [ ] Require paper-content PRs to link audit/submission evidence.
-- [ ] Require code-status evidence.
-- [ ] Preserve manual editorial review.
+- [x] Add one-feature-one-PR guidance.
+- [x] Require a detailed plan Markdown for substantive features.
+- [x] Require paper-content PRs to link audit/submission evidence.
+- [x] Require code-status evidence.
+- [x] Preserve manual editorial review.
 
 ### D. Site/README integration
-- [ ] Link Papers page **Suggest a paper** directly to the form.
-- [ ] Preserve Chinese/English Papers page parity.
-- [ ] Update README contribution guidance.
-- [ ] Keep general GitHub issues available for non-paper problems.
+- [x] Link Papers page **Suggest a paper** directly to the form.
+- [x] Preserve Chinese/English Papers page parity.
+- [x] Update README contribution guidance.
+- [x] Keep general GitHub issues available for non-paper problems.
 
 ### E. Validation
-- [ ] GitHub issue-form YAML parses correctly.
-- [ ] Issue-form template contains all required evidence fields.
-- [ ] `npm run build` returns 0 errors, 0 warnings, 0 hints.
-- [ ] Chinese and English Papers pages link to the paper submission form.
-- [ ] Homepage remains exactly 3 featured papers.
-- [ ] Papers page remains exactly 10 public papers.
-- [ ] Reference-metrics routes/build remain unaffected.
+- [x] GitHub issue-form YAML parses correctly.
+- [x] Issue-form template contains all required evidence fields.
+- [x] `npm run build` returns 0 errors, 0 warnings, 0 hints.
+- [x] Chinese and English Papers pages link to the paper submission form.
+- [x] Homepage remains exactly 3 featured papers.
+- [x] Papers page remains exactly 10 public papers.
+- [x] Reference-metrics routes/build remain unaffected.
 
 ### F. Delivery
 - [ ] Push implementation to the feature branch.
