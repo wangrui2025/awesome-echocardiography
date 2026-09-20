@@ -129,7 +129,7 @@ const categoryLabels: Record<PaperCategory, string> = {
 
             <div class="paper-list">
               {categoryPapers.map((paper) => (
-                <PaperCard paper={paper} locale={locale} />
+                <PaperCard paper={paper} locale={locale} showContext={true} />
               ))}
             </div>
           </section>
