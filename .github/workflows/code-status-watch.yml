@@ -1,0 +1,55 @@
+name: Code Status Watch
+
+on:
+  schedule:
+    - cron: '17 2 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Audit implementation repositories
+        id: audit
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          python scripts/audit_code_status.py --output code-status-report.md | tee audit-output.txt
+          count="$(sed -n 's/^FINDINGS_COUNT=//p' audit-output.txt | tail -1)"
+          if [[ -z "$count" ]]; then
+            echo "Audit script did not report FINDINGS_COUNT" >&2
+            exit 1
+          fi
+          echo "count=$count" >> "$GITHUB_OUTPUT"
+          cat code-status-report.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Create or update human review issue
+        if: steps.audit.outputs.count != '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          issue_number="$(
+            gh issue list --state open --limit 100 --json number,title               --jq '.[] | select(.title == "Code status review needed") | .number'               | head -1
+          )"
+
+          if [[ -n "$issue_number" ]]; then
+            gh issue edit "$issue_number"               --title "Code status review needed"               --body-file code-status-report.md
+          else
+            gh issue create               --title "Code status review needed"               --body-file code-status-report.md
+          fi

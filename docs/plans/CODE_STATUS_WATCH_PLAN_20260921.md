@@ -94,38 +94,38 @@ Required properties:
 ### A. Planning
 - [x] Create isolated worktree from current `origin/main`.
 - [x] Write this plan before implementation.
-- [ ] Open PR with this plan as first commit.
+- [x] Open PR with this plan as first commit.
 
 ### B. Audit script
-- [ ] Parse canonical paper records.
-- [ ] Extract GitHub implementation repository URLs.
-- [ ] Query repository metadata and default-branch tree.
-- [ ] Distinguish ML/research implementation signals from project-site files.
-- [ ] Detect inaccessible/archived repositories.
-- [ ] Detect possible release from Code announced repositories.
-- [ ] Detect missing implementation signals for available/partial repositories.
-- [ ] Detect stale verification dates.
-- [ ] Emit Markdown report with human-review language.
-- [ ] Never edit `src/papers.ts`.
+- [x] Parse canonical paper records.
+- [x] Extract GitHub implementation repository URLs.
+- [x] Query repository metadata and default-branch tree.
+- [x] Distinguish ML/research implementation signals from project-site files.
+- [x] Detect inaccessible/archived repositories.
+- [x] Detect possible release from Code announced repositories.
+- [x] Detect missing implementation signals for available/partial repositories.
+- [x] Detect stale verification dates.
+- [x] Emit Markdown report with human-review language.
+- [x] Never edit `src/papers.ts`.
 
 ### C. Workflow
-- [ ] Add weekly schedule.
-- [ ] Add manual dispatch.
-- [ ] Use only built-in GitHub token.
-- [ ] Set minimal contents/issues permissions.
-- [ ] Publish report to GitHub Actions summary.
-- [ ] Create/update one review issue only when findings exist.
-- [ ] Do not auto-change catalog status.
+- [x] Add weekly schedule.
+- [x] Add manual dispatch.
+- [x] Use only built-in GitHub token.
+- [x] Set minimal contents/issues permissions.
+- [x] Publish report to GitHub Actions summary.
+- [x] Create/update one review issue only when findings exist.
+- [x] Do not auto-change catalog status.
 
 ### D. Validation
-- [ ] Script runs locally against current 10 papers.
-- [ ] Current known Code announced placeholders are not falsely classified as full code solely from website files.
-- [ ] GDKVM real implementation is recognized as having implementation signals.
-- [ ] MemSAM implementation is recognized as having implementation signals.
-- [ ] Local run does not modify tracked files.
-- [ ] Workflow YAML parses.
-- [ ] `npm run build` remains green.
-- [ ] Reference Metrics v1.1 regression remains unaffected.
+- [x] Script runs locally against current 10 papers.
+- [x] Current known Code announced placeholders are not falsely classified as full code solely from website files.
+- [x] GDKVM real implementation is recognized as having implementation signals.
+- [x] MemSAM implementation is recognized as having implementation signals.
+- [x] Local run does not modify tracked files.
+- [x] Workflow YAML parses.
+- [x] `npm run build` remains green.
+- [x] Reference Metrics v1.1 regression remains unaffected.
 
 ### E. Delivery
 - [ ] Push implementation to feature branch.
