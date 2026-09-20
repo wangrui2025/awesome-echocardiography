@@ -30,9 +30,9 @@ A curated collection of papers, datasets, and reproducible evaluation resources 
   10,030 apical four-chamber echocardiography videos with measurements and expert left-ventricular tracings, introduced for video-based cardiac function assessment.  
   [Dataset](https://echonet.github.io/dynamic/) · [Paper](https://doi.org/10.1038/s41586-020-2145-8) · [Code](https://github.com/echonet/dynamic) · [Dataset guide](https://awesome-echocardiography.vercel.app/datasets/echonet-dynamic/)
 
-## Reference Metrics v1.0
+## Reference Metrics v1.1
 
-The repository includes an executable consistency standard for **Dice · IoU · HD · HD95 · symmetric ASD · LVEF reporting**.
+The repository includes an executable consistency standard organized by scientific task: segmentation; classification / diagnosis; continuous prediction / cardiac function; and clinical agreement.
 
 The CPU reference implementation is the semantic authority. Accelerated CPU/GPU implementations should reproduce it rather than redefine the metric.
 
@@ -44,8 +44,12 @@ Key choices include:
 - an explicit one-empty-mask field-of-view diagonal penalty instead of silently dropping NaN failures;
 - item-level aggregation independent of batch size or GPU partitioning;
 - LVEF in %, with prediction error in percentage points.
+- threshold-dependent classification metrics require a declared threshold;
+- AUROC uses continuous-score ranking with half credit for ties;
+- Average Precision (AP) is distinguished from trapezoidal PR-AUC;
+- Bland–Altman fixes prediction - reference and uses sample SD (ddof=1).
 
-See [the full v1 specification](reference/metrics_v1/README.md), the [reference implementation](reference/metrics_v1/reference_metrics.py), and the [metrics guide](https://awesome-echocardiography.vercel.app/metrics/).
+See [the full v1.1 specification](reference/metrics_v1/README.md), the [reference implementation](reference/metrics_v1/reference_metrics.py), and the [metrics guide](https://awesome-echocardiography.vercel.app/metrics/).
 
 The frozen CPU audit shows 5/5 normal non-empty fixtures matching MONAI 1.5.1 semantics within <1e-6, while deliberately replacing ambiguous empty-mask behavior.
 
@@ -63,7 +67,7 @@ The project is being built incrementally. Broader coverage will be added only af
 
 ## Contributing
 
-Paper suggestions should use the structured [paper submission form](https://github.com/wangrui2025/awesome-echocardiography/issues/new?template=paper.yml), which separates project pages from actual implementation repositories and records code-status evidence. General site issues and focused pull requests are also welcome. Proposed benchmark or metric implementations should include reproducible fixtures and document any deviation from Reference Metrics v1.
+Paper suggestions should use the structured [paper submission form](https://github.com/wangrui2025/awesome-echocardiography/issues/new?template=paper.yml), which separates project pages from actual implementation repositories and records code-status evidence. General site issues and focused pull requests are also welcome. Proposed benchmark or metric implementations should include reproducible fixtures and document any deviation from Reference Metrics v1.1.
 
 ## Curation and code-status policy
 

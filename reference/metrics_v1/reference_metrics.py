@@ -1,7 +1,7 @@
-"""Awesome Echocardiography Reference Metrics v1.
+"""Awesome Echocardiography Reference Metrics v1.1.
 
 Normative CPU reference implementation for 2-D binary echocardiography
-segmentation metrics. The implementation is intentionally small and explicit.
+segmentation, classification, regression, and clinical-agreement metrics. The implementation is intentionally small and explicit.
 
 The standard is designed to match the *non-empty* mathematical semantics of the
 later private GDKVM evaluator based on MONAI 1.5.1:
@@ -21,6 +21,7 @@ from typing import Iterable, Sequence
 
 import numpy as np
 from scipy.ndimage import binary_erosion, distance_transform_edt
+from scipy.stats import rankdata
 
 
 ArrayLike = np.ndarray | Sequence[Sequence[int | bool | float]]
@@ -166,7 +167,7 @@ def evaluate_case(
 
     if p_nonempty != g_nonempty:
         if empty_policy != "image_diagonal":
-            raise ValueError("Reference Metrics v1 requires empty_policy='image_diagonal'.")
+            raise ValueError("Reference Metrics v1.1 requires empty_policy='image_diagonal'.")
         penalty = image_diagonal_penalty(p.shape, (sy, sx))
         return CaseMetrics(0.0, 0.0, penalty, penalty, penalty, "one_empty", sy, sx, distance_unit)
 
@@ -245,27 +246,269 @@ def lvef_from_volumes(edv: float, esv: float) -> float:
     return 100.0 * (edv - esv) / edv
 
 
-def lvef_error_summary(pred_percent: Sequence[float], gt_percent: Sequence[float]) -> dict[str, float | int]:
-    """Summarize LVEF prediction error in percentage points."""
-    p = np.asarray(pred_percent, dtype=np.float64)
-    g = np.asarray(gt_percent, dtype=np.float64)
-    if p.shape != g.shape:
-        raise ValueError("pred_percent and gt_percent must have the same shape.")
-    valid = np.isfinite(p) & np.isfinite(g)
-    if not valid.any():
-        return {"n": 0, "mae_pp": float("nan"), "bias_pp": float("nan"), "sd_pp": float("nan"),
-                "loa_low_pp": float("nan"), "loa_high_pp": float("nan"), "pearson_r": float("nan")}
-    p, g = p[valid], g[valid]
-    err = p - g
-    bias = float(err.mean())
-    sd = float(err.std(ddof=0))
-    r = float(np.corrcoef(p, g)[0, 1]) if len(p) > 1 and p.std() > 0 and g.std() > 0 else float("nan")
+REFERENCE_VERSION = "1.1.0"
+
+
+def _paired_finite(
+    pred: Sequence[float],
+    reference: Sequence[float],
+) -> tuple[np.ndarray, np.ndarray]:
+    """Return finite paired 1-D arrays with identical shape."""
+    p = np.asarray(pred, dtype=np.float64)
+    r = np.asarray(reference, dtype=np.float64)
+    if p.ndim != 1 or r.ndim != 1:
+        raise ValueError("pred and reference must be 1-D sequences.")
+    if p.shape != r.shape:
+        raise ValueError("pred and reference must have the same shape.")
+    valid = np.isfinite(p) & np.isfinite(r)
+    return p[valid], r[valid]
+
+
+def pearson_r(pred: Sequence[float], reference: Sequence[float]) -> float:
+    """Pearson correlation on finite paired values."""
+    p, r = _paired_finite(pred, reference)
+    if len(p) < 2 or np.std(p) == 0 or np.std(r) == 0:
+        return float("nan")
+    return float(np.corrcoef(p, r)[0, 1])
+
+
+def regression_summary(
+    pred: Sequence[float],
+    reference: Sequence[float],
+) -> dict[str, float | int]:
+    """MAE, RMSE, Pearson r and R² for continuous predictions."""
+    p, r = _paired_finite(pred, reference)
+    if len(p) == 0:
+        return {
+            "n": 0,
+            "mae": float("nan"),
+            "rmse": float("nan"),
+            "pearson_r": float("nan"),
+            "r2": float("nan"),
+        }
+    err = p - r
+    sst = float(np.sum((r - r.mean()) ** 2))
+    r2 = float(1.0 - np.sum(err**2) / sst) if sst > 0 else float("nan")
     return {
         "n": int(len(p)),
-        "mae_pp": float(np.abs(err).mean()),
-        "bias_pp": bias,
-        "sd_pp": sd,
-        "loa_low_pp": bias - 1.96 * sd,
-        "loa_high_pp": bias + 1.96 * sd,
-        "pearson_r": r,
+        "mae": float(np.mean(np.abs(err))),
+        "rmse": float(np.sqrt(np.mean(err**2))),
+        "pearson_r": pearson_r(p, r),
+        "r2": r2,
+    }
+
+
+def bland_altman_points(
+    pred: Sequence[float],
+    reference: Sequence[float],
+) -> tuple[np.ndarray, np.ndarray]:
+    """Return x=(pred+reference)/2 and y=pred-reference for a BA plot."""
+    p, r = _paired_finite(pred, reference)
+    return (p + r) / 2.0, p - r
+
+
+def bland_altman_summary(
+    pred: Sequence[float],
+    reference: Sequence[float],
+    *,
+    loa_multiplier: float = 1.96,
+) -> dict[str, float | int | str]:
+    """Classical Bland–Altman summary.
+
+    Reference Metrics v1.1 fixes the sign convention as:
+        difference = prediction - reference
+
+    Standard deviation uses the sample definition (ddof=1), so the conventional
+    95% limits of agreement are:
+        bias ± 1.96 * sample_sd
+
+    The 1.96 rule assumes the paired differences are approximately Normal.
+    """
+    p, r = _paired_finite(pred, reference)
+    n = int(len(p))
+    if n == 0:
+        return {
+            "n": 0,
+            "difference": "prediction-reference",
+            "bias": float("nan"),
+            "sample_sd": float("nan"),
+            "loa_low": float("nan"),
+            "loa_high": float("nan"),
+        }
+
+    diff = p - r
+    bias = float(np.mean(diff))
+    if n < 2:
+        sd = float("nan")
+        loa_low = float("nan")
+        loa_high = float("nan")
+    else:
+        sd = float(np.std(diff, ddof=1))
+        loa_low = bias - float(loa_multiplier) * sd
+        loa_high = bias + float(loa_multiplier) * sd
+
+    return {
+        "n": n,
+        "difference": "prediction-reference",
+        "bias": bias,
+        "sample_sd": sd,
+        "loa_low": loa_low,
+        "loa_high": loa_high,
+    }
+
+
+def _binary_labels_scores(
+    y_true: Sequence[int | bool],
+    y_score: Sequence[float],
+) -> tuple[np.ndarray, np.ndarray]:
+    y = np.asarray(y_true)
+    s = np.asarray(y_score, dtype=np.float64)
+    if y.ndim != 1 or s.ndim != 1:
+        raise ValueError("y_true and y_score must be 1-D.")
+    if y.shape != s.shape:
+        raise ValueError("y_true and y_score must have the same shape.")
+    if not np.isfinite(s).all():
+        raise ValueError("y_score must contain only finite values.")
+    if not np.isin(y, [0, 1, False, True]).all():
+        raise ValueError("y_true must contain only binary labels 0/1.")
+    return y.astype(np.int8), s
+
+
+def binary_classification_at_threshold(
+    y_true: Sequence[int | bool],
+    y_score: Sequence[float],
+    *,
+    threshold: float,
+) -> dict[str, float | int]:
+    """Threshold-dependent binary classification metrics.
+
+    A score >= threshold is classified as positive.
+    """
+    y, s = _binary_labels_scores(y_true, y_score)
+    pred = s >= float(threshold)
+
+    tp = int(np.sum((y == 1) & pred))
+    fp = int(np.sum((y == 0) & pred))
+    tn = int(np.sum((y == 0) & ~pred))
+    fn = int(np.sum((y == 1) & ~pred))
+
+    def ratio(num: int, den: int) -> float:
+        return float(num / den) if den > 0 else float("nan")
+
+    sensitivity = ratio(tp, tp + fn)
+    specificity = ratio(tn, tn + fp)
+    precision = ratio(tp, tp + fp)
+    f1 = (
+        float(2 * precision * sensitivity / (precision + sensitivity))
+        if np.isfinite(precision)
+        and np.isfinite(sensitivity)
+        and (precision + sensitivity) > 0
+        else float("nan")
+    )
+
+    return {
+        "n": int(len(y)),
+        "threshold": float(threshold),
+        "tp": tp,
+        "fp": fp,
+        "tn": tn,
+        "fn": fn,
+        "sensitivity": sensitivity,
+        "specificity": specificity,
+        "precision": precision,
+        "recall": sensitivity,
+        "f1": f1,
+        "accuracy": ratio(tp + tn, len(y)),
+    }
+
+
+def roc_auc_binary(
+    y_true: Sequence[int | bool],
+    y_score: Sequence[float],
+) -> float:
+    """Binary AUROC using the Mann–Whitney ranking identity.
+
+    Tied scores receive average ranks, equivalent to assigning half credit for a
+    positive-negative tie. At least one positive and one negative are required.
+    """
+    y, s = _binary_labels_scores(y_true, y_score)
+    n_pos = int(np.sum(y == 1))
+    n_neg = int(np.sum(y == 0))
+    if n_pos == 0 or n_neg == 0:
+        return float("nan")
+
+    ranks = rankdata(s, method="average")
+    rank_sum_pos = float(np.sum(ranks[y == 1]))
+    u = rank_sum_pos - n_pos * (n_pos + 1) / 2.0
+    return float(u / (n_pos * n_neg))
+
+
+def average_precision_binary(
+    y_true: Sequence[int | bool],
+    y_score: Sequence[float],
+) -> float:
+    """Non-interpolated Average Precision (AP) for binary classification.
+
+    AP = sum_n (R_n - R_{n-1}) P_n
+
+    This is intentionally named AP, not generic "PR-AUC": trapezoidal area
+    under the precision-recall curve is a different numerical summary.
+    """
+    y, s = _binary_labels_scores(y_true, y_score)
+    n_pos = int(np.sum(y == 1))
+    if n_pos == 0:
+        return float("nan")
+
+    order = np.argsort(-s, kind="mergesort")
+    y_sorted = y[order]
+    s_sorted = s[order]
+
+    tp_cum = np.cumsum(y_sorted == 1)
+    fp_cum = np.cumsum(y_sorted == 0)
+
+    # Evaluate only after the final item of each tied-score block.
+    distinct_last = np.r_[np.where(np.diff(s_sorted) != 0)[0], len(s_sorted) - 1]
+    tp = tp_cum[distinct_last].astype(np.float64)
+    fp = fp_cum[distinct_last].astype(np.float64)
+
+    recall = tp / n_pos
+    precision = tp / (tp + fp)
+    recall_prev = np.r_[0.0, recall[:-1]]
+    return float(np.sum((recall - recall_prev) * precision))
+
+
+def lvef_error_summary(
+    pred_percent: Sequence[float],
+    gt_percent: Sequence[float],
+) -> dict[str, float | int]:
+    """Reference Metrics v1.1 LVEF error and agreement summary.
+
+    LVEF values are percentages. Errors, bias, SD, and LoA are therefore in
+    percentage points. Bland–Altman SD uses the sample definition (ddof=1).
+    """
+    p, g = _paired_finite(pred_percent, gt_percent)
+    if len(p) == 0:
+        return {
+            "n": 0,
+            "mae_pp": float("nan"),
+            "rmse_pp": float("nan"),
+            "bias_pp": float("nan"),
+            "sd_pp": float("nan"),
+            "loa_low_pp": float("nan"),
+            "loa_high_pp": float("nan"),
+            "pearson_r": float("nan"),
+        }
+
+    err = p - g
+    ba = bland_altman_summary(p, g)
+    reg = regression_summary(p, g)
+    return {
+        "n": int(len(p)),
+        "mae_pp": float(reg["mae"]),
+        "rmse_pp": float(reg["rmse"]),
+        "bias_pp": float(ba["bias"]),
+        "sd_pp": float(ba["sample_sd"]),
+        "loa_low_pp": float(ba["loa_low"]),
+        "loa_high_pp": float(ba["loa_high"]),
+        "pearson_r": float(reg["pearson_r"]),
     }

@@ -3,27 +3,17 @@ import '../styles/global.css';
 import 'katex/dist/katex.min.css';
 import katex from 'katex';
 import SiteNav from './SiteNav.astro';
+import { metricGroupsZh, metricGroupsEn } from '../metricsContent';
 
 interface Props {
   locale: 'zh' | 'en';
 }
 
-type MetricGuide = {
-  id: string;
-  name: string;
-  short: string;
-  direction: string;
-  unit: string;
-  what: string;
-  formula: string;
-  formulaNote: string;
-  rules: string[];
-  reasons: string[];
-};
-
 const { locale } = Astro.props;
 const isZh = locale === 'zh';
 const switchHref = isZh ? '/en/metrics/' : '/metrics/';
+const groups = isZh ? metricGroupsZh : metricGroupsEn;
+const metrics = groups.flatMap((group) => group.metrics);
 const repoBase = 'https://github.com/wangrui2025/awesome-echocardiography/blob/main/reference/metrics_v1';
 
 const renderMath = (formula: string) =>
@@ -36,9 +26,11 @@ const renderMath = (formula: string) =>
 
 const copy = isZh ? {
   title: '指标与报告规范',
-  lead: '先理解指标，再固定公式，最后固定代码语义。',
-  intro: '同一个指标名字，如果数学定义、边界提取、单位、空 mask 处理或聚合方式不同，得到的数字就不能直接比较。本页按统一顺序解释每个指标：它是什么、数学公式、推荐实现规范，以及为什么这样推荐。',
-  quick: '快速对照',
+  lead: '先确定科学问题，再选择指标；先理解指标，再固定公式和代码语义。',
+  intro: '我们把指标按任务拆成四组：分割、分类/诊断、连续值/心功能、临床一致性。每个指标都按同一顺序解释：它是什么、数学公式、推荐实现规范，以及为什么这样推荐。',
+  map: '任务地图',
+  mapLead: '不要从“论文里常见什么指标”开始；先问你的模型到底在解决什么问题。',
+  quick: '全部指标',
   metric: '指标',
   measures: '它测什么',
   direction: '方向',
@@ -47,36 +39,40 @@ const copy = isZh ? {
   formula: '02 · 数学计算公式',
   implementation: '03 · 推荐的代码实现规范',
   rationale: '04 · 为什么这样推荐？',
-  openCode: '查看 Reference v1 代码 ↗',
-  referenceEyebrow: '公共标准',
-  referenceTitle: 'Reference Metrics v1.0',
-  referenceLead: 'CPU 参考实现负责定义“这个指标到底是什么意思”。更快的 GPU 实现可以替代计算过程，但不能改变数学语义。',
-  audit: 'CPU 一致性审计：5/5 个正常非空人工样本与 MONAI 1.5.1 一致。HD95 最大绝对差约 2.3e−7，ASD 约 2.1e−7；单边 empty 的 NaN / Infinity 默认行为由 v1 显式修正。',
+  openCode: '查看 Reference v1.1 代码 ↗',
+  standardEyebrow: '公共标准',
+  standardTitle: 'Reference Metrics v1.1',
+  standardLead: 'CPU 参考实现负责定义“指标是什么意思”。GPU 或更快实现可以替代计算过程，但必须通过同一套回归测试，不能改变数学语义。',
+  audit: '分割部分继续通过 MONAI 1.5.1 CPU 一致性审计；v1.1 在此基础上新增分类、连续值预测和 Bland–Altman 一致性协议。当前公开回归测试覆盖 15 个确定性案例。',
+  historyEyebrow: '从论文习惯到公共规范',
+  historyTitle: 'GDKVM / OSA 给了我们一个真实案例',
+  historyText: 'GDKVM 与 OSA 都报告了 LVEF 的 correlation 与 bias ± std；GDKVM 还使用了 Bland–Altman 图。历史代码审计还发现：训练 evaluator 曾使用 pred−gt + NumPy 默认 ddof=0，而一套 Bland–Altman 后处理脚本使用 gt−pred + sample SD。v1.1 不改写已发表数字，而是把未来实验统一为 prediction−reference、sample SD、95% LoA 和明确单位。',
   code: '参考实现 ↗',
   tests: '回归测试 ↗',
   auditLink: 'MONAI 1.5.1 审计 ↗',
-  spec: '完整规范 ↗',
-  reporting: '最小报告规范 v1.0',
-  reportingLead: '除了公式一致，还必须让数据、任务和聚合方式可审计。',
+  spec: '完整 v1.1 规范 ↗',
+  reporting: '最小报告规范 v1.1',
+  reportingLead: '一个指标公式正确还不够；任务定义、阈值、单位、聚合和统计协议也必须可审计。',
   rules: [
-    ['数据与划分', '写清 dataset、train/val/test split，以及是否排除了低质量、缺失标签或特殊病例。'],
-    ['任务定义', '写清结构（如 LV endo / LV epi / LA）、切面（A2C / A4C）、时相（ED / ES）和 frame selection。'],
-    ['原子样本', '按 case × structure × view × phase 逐项计算指标，再聚合；batch size 和 GPU 数量不得改变权重。'],
-    ['距离单位', '有物理 spacing 时用 mm；没有时明确写 px。resize 后必须同步更新 spacing。'],
-    ['空 mask', '同时报告 n_total、n_valid、n_one_empty、n_both_empty；不得让失败样本因为 NaN 被静默丢掉。'],
-    ['预处理', '公开或固定 resize / interpolation、threshold、post-processing、connected component 等规则。'],
-    ['统计', '说明 mean ± SD、median [IQR] 或其他统计方式；不要只给一个无法追溯的总平均。'],
-    ['版本', '固定评估代码版本；若偏离 Reference Metrics v1，必须明确写出差异。'],
+    ['任务先行', '先声明 segmentation / classification / regression / agreement；不要把不同任务的指标混成一个“总分”。'],
+    ['数据与划分', '写清 dataset、train/val/test split、样本量、类别 prevalence，以及排除规则。'],
+    ['原子样本', '分割按 case × structure × view × phase 逐项计算；batch size、GPU 数量和 DDP 切分不得改变权重。'],
+    ['阈值', 'Sensitivity / Specificity / Precision / F1 必须声明 threshold 或 threshold-selection procedure。'],
+    ['单位', '边界距离有 spacing 时用 mm，否则写 px；LVEF 用 %，LVEF 误差与 agreement 用 percentage points。'],
+    ['空值 / 缺失', '明确 empty mask、单类 classification set、非有限 paired values 的处理和有效 n。'],
+    ['统计', 'Bland–Altman 固定 prediction − reference、sample SD（ddof=1）与 bias ± 1.96 SD；相关性不能替代 agreement。'],
+    ['版本', '固定 evaluator 版本；任何偏离 Reference Metrics v1.1 的实现都必须明确命名差异。'],
   ],
-  echoSpecific: '为什么超声心动图尤其需要这套标准？',
-  echoSpecificText: 'CAMUS 本身就同时关心重叠、边界和 ED/ES；EchoNet-Dynamic 又把轮廓与 LVEF、EDV、ESV 联系起来。超声心动图天然跨越“分割是否重合、边界是否准确、心功能是否准确”三个层面，因此不能只靠一个 Dice，也不能允许不同代码库用同名指标算出不同含义。',
-  source: '参考来源',
-  sourceNote: 'Reference Metrics v1 是本站建议的公开一致性标准。论文如果采用不同定义，可以继续使用，但必须明确标注差异。',
+  sources: '论文与方法来源',
+  sourcesNote: '这些来源用于说明领域已有实践和标准统计定义；Reference Metrics v1.1 则把未来可复现的代码语义固定下来。',
+  back: '返回首页 ↗',
 } : {
   title: 'Metrics & reporting guide',
-  lead: 'Understand the metric, fix the formula, then fix the code semantics.',
-  intro: 'Two papers can use the same metric name yet produce incomparable numbers if they differ in formula, surface extraction, units, empty-mask behavior, or aggregation. Each metric below follows the same order: what it means, its mathematical formula, the recommended implementation contract, and why that contract is recommended.',
-  quick: 'Quick reference',
+  lead: 'Choose the metric from the scientific question, then fix the formula and code semantics.',
+  intro: 'Metrics are organized into four task families: segmentation, classification/diagnosis, continuous prediction/cardiac function, and clinical agreement. Every metric follows the same sequence: what it means, its mathematical formula, the recommended implementation contract, and why that contract is recommended.',
+  map: 'Task map',
+  mapLead: 'Do not start from “what metric is popular in papers.” Start from the question your model is actually answering.',
+  quick: 'All metrics',
   metric: 'Metric',
   measures: 'What it measures',
   direction: 'Direction',
@@ -85,290 +81,39 @@ const copy = isZh ? {
   formula: '02 · Mathematical formula',
   implementation: '03 · Recommended implementation contract',
   rationale: '04 · Why this recommendation?',
-  openCode: 'Open Reference v1 code ↗',
-  referenceEyebrow: 'Public standard',
-  referenceTitle: 'Reference Metrics v1.0',
-  referenceLead: 'The CPU reference implementation defines what each metric means. Faster GPU code may replace the computation, but must not change the mathematical semantics.',
-  audit: 'CPU consistency audit: 5/5 normal non-empty fixtures matched MONAI 1.5.1. Maximum absolute error was about 2.3e−7 for HD95 and 2.1e−7 for ASD; v1 explicitly replaces ambiguous one-empty NaN / Infinity behavior.',
+  openCode: 'Open Reference v1.1 code ↗',
+  standardEyebrow: 'Public standard',
+  standardTitle: 'Reference Metrics v1.1',
+  standardLead: 'The CPU reference defines metric meaning. GPU or faster implementations may replace the computation only after passing the same regression suite without changing the semantics.',
+  audit: 'Segmentation semantics remain covered by the MONAI 1.5.1 CPU audit. v1.1 adds classification, continuous prediction, and Bland–Altman agreement protocols. The public regression suite now covers 15 deterministic cases.',
+  historyEyebrow: 'From paper convention to public contract',
+  historyTitle: 'GDKVM / OSA provide a real field example',
+  historyText: 'GDKVM and OSA both report LVEF correlation and bias ± std; GDKVM also uses Bland–Altman plots. The historical code audit also found that training evaluators used pred−gt with NumPy default ddof=0 while a Bland–Altman post-processing path used gt−pred with sample SD. v1.1 does not rewrite published numbers; it fixes future work to prediction−reference, sample SD, 95% LoA, and explicit units.',
   code: 'Reference implementation ↗',
   tests: 'Regression tests ↗',
   auditLink: 'MONAI 1.5.1 audit ↗',
-  spec: 'Full specification ↗',
-  reporting: 'Minimum reporting contract v1.0',
-  reportingLead: 'Formula consistency is not enough; the data, task, and aggregation must also be auditable.',
+  spec: 'Full v1.1 specification ↗',
+  reporting: 'Minimum reporting contract v1.1',
+  reportingLead: 'A correct formula is not enough; task definition, thresholds, units, aggregation, and statistical protocol must also be auditable.',
   rules: [
-    ['Data & split', 'State dataset and train/val/test split, including exclusions for poor quality, missing labels, or special cases.'],
-    ['Task definition', 'State structure (e.g. LV endo / LV epi / LA), view (A2C / A4C), phase (ED / ES), and frame selection.'],
-    ['Atomic item', 'Compute per case × structure × view × phase before aggregation; batch size and GPU count must not change weighting.'],
-    ['Distance units', 'Use mm when physical spacing is known; otherwise report px explicitly. Update spacing after resize.'],
-    ['Empty masks', 'Report n_total, n_valid, n_one_empty, and n_both_empty; never silently remove failed cases through NaN reduction.'],
-    ['Preprocessing', 'Publish or pin resize/interpolation, threshold, post-processing, and connected-component rules.'],
-    ['Statistics', 'State mean ± SD, median [IQR], or other summaries; avoid a single untraceable grand average.'],
-    ['Versioning', 'Pin evaluation code. Any deviation from Reference Metrics v1 should be declared explicitly.'],
+    ['Task first', 'Declare segmentation / classification / regression / agreement before choosing metrics; do not collapse different scientific questions into one score.'],
+    ['Data & split', 'State dataset, train/val/test split, sample size, class prevalence, and exclusions.'],
+    ['Atomic item', 'For segmentation compute per case × structure × view × phase; batch size, GPU count, and DDP partitioning must not change weighting.'],
+    ['Threshold', 'Sensitivity / Specificity / Precision / F1 require a declared threshold or threshold-selection procedure.'],
+    ['Units', 'Use mm for boundary distance when spacing is known, otherwise px; LVEF is %, while LVEF error/agreement is in percentage points.'],
+    ['Missing cases', 'Declare handling of empty masks, one-class classification sets, non-finite pairs, and effective n.'],
+    ['Statistics', 'Bland–Altman fixes prediction − reference, sample SD (ddof=1), and bias ± 1.96 SD; correlation does not replace agreement.'],
+    ['Versioning', 'Pin the evaluator version and explicitly name any deviation from Reference Metrics v1.1.'],
   ],
-  echoSpecific: 'Why echocardiography especially needs this',
-  echoSpecificText: 'CAMUS already combines overlap, boundary accuracy, and ED/ES evaluation, while EchoNet-Dynamic links contours to LVEF, EDV, and ESV. Echocardiography therefore spans overlap, geometry, and cardiac function. One Dice score is not enough, and the same metric name should not hide different code semantics.',
-  source: 'References',
-  sourceNote: 'Reference Metrics v1 is this site’s proposed public consistency standard. Different definitions remain valid when scientifically justified, but the difference must be declared.',
+  sources: 'Paper & method sources',
+  sourcesNote: 'These sources document established field practice and statistical definitions; Reference Metrics v1.1 fixes the reproducible code semantics for future work.',
+  back: 'Back home ↗',
 };
 
-const metricGuides: MetricGuide[] = isZh ? [
-  {
-    id: 'dice',
-    name: 'Dice',
-    short: '区域重叠',
-    direction: '越大越好',
-    unit: '无',
-    what: 'Dice 衡量预测区域 P 与真值区域 G 的重叠程度。完全重合时为 1，完全不重叠时为 0。对于心腔分割，它回答的是“预测出来的区域和人工标注总体上有多像”。',
-    formula: '\\mathrm{Dice}(P,G)=\\frac{2\\lvert P\\cap G\\rvert}{\\lvert P\\rvert+\\lvert G\\rvert}',
-    formulaNote: 'P 和 G 都是已经二值化后的 foreground pixel set。评估阶段不在公式里加入 smoothing 常数。',
-    rules: [
-      'threshold、resize、connected-component filtering 等操作必须在进入指标函数之前完成，并单独记录。',
-      '每个 case × structure × view × phase 单独计算 Dice，再进行聚合；不要把整个数据集的像素先拼在一起。',
-      '单边 empty：Dice = 0；双边 empty：记为 N/A，并单独统计 n_both_empty。',
-      '评估代码不要加入训练 loss 常见的 epsilon / smooth 项来“稳定”分母；这会改变指标本身。',
-    ],
-    reasons: [
-      '逐例计算能避免大图像、大结构或长视频因为像素数量更多而获得额外权重。',
-      '显式 empty 规则能区分“这个结构根本不存在”和“模型完全漏检”。',
-      '训练时的 Dice loss 可以加 smooth，但 benchmark Dice 应保持纯数学定义，才能跨代码库比较。',
-    ],
-  },
-  {
-    id: 'iou',
-    name: 'IoU / Jaccard',
-    short: '区域重叠',
-    direction: '越大越好',
-    unit: '无',
-    what: 'IoU 衡量交集占并集的比例。它和 Dice 表达的是同一类区域重叠信息，但数值更严格；相同预测下，IoU 通常低于 Dice。',
-    formula: '\\mathrm{IoU}(P,G)=\\frac{\\lvert P\\cap G\\rvert}{\\lvert P\\cup G\\rvert},\\qquad \\mathrm{IoU}=\\frac{\\mathrm{Dice}}{2-\\mathrm{Dice}}',
-    formulaNote: 'Dice 和 IoU 单调对应，因此同时报告二者主要是为了兼容不同社区，而不是提供两个独立信息维度。',
-    rules: [
-      '与 Dice 使用完全相同的二值 mask、原子样本和 empty-mask 规则。',
-      '单边 empty：IoU = 0；双边 empty：N/A。',
-      '按原子样本计算后再平均，不推荐把全数据集 confusion matrix 汇总后再算一个 global IoU，除非明确另列为 global metric。',
-      '如果论文同时报告 Dice 与 IoU，两者应通过公式关系做一致性检查。',
-    ],
-    reasons: [
-      'Dice 与 IoU 使用不同聚合路径时，读者会误以为它们代表两个独立结果，实际上可能只是实现不一致。',
-      '利用 Dice–IoU 的确定关系，可以自动发现很多评估脚本中的隐藏错误。',
-      '保持和 Dice 相同的 empty 与 aggregation 语义，可以让两项指标真正可互相转换。',
-    ],
-  },
-  {
-    id: 'hd',
-    name: 'HD',
-    short: '最坏边界误差',
-    direction: '越小越好',
-    unit: 'mm / px',
-    what: 'Hausdorff Distance 关注两个轮廓之间最糟糕的局部偏差。它不是看区域整体是否重叠，而是问：预测边界上最离谱的点，离真实边界到底有多远。一个孤立错误点就可能显著拉高 HD。',
-    formula: '\\begin{aligned}d(p,\\partial G)&=\\min_{g\\in\\partial G}\\lVert p-g\\rVert_2\\\\[3pt]\\mathrm{HD}(P,G)&=\\max\\!\\left\\{\\max_{p\\in\\partial P}d(p,\\partial G),\\;\\max_{g\\in\\partial G}d(g,\\partial P)\\right\\}\\end{aligned}',
-    formulaNote: '∂P 与 ∂G 表示预测和真值的 surface。v1 用 binary erosion XOR mask 提取 2D surface。',
-    rules: [
-      '只在 surface 上计算距离，不使用全部 foreground pixels 代替边界。',
-      '默认使用 Euclidean distance；有真实 pixel spacing 时先映射到物理空间并报告 mm。',
-      '单边 empty：使用当前 field of view 的物理对角线作为有限惩罚；双边 empty：N/A。',
-      '如果图像 resize，必须同步更新 spacing；不能把 resize 后的 pixel distance 直接标成 mm。',
-    ],
-    reasons: [
-      'HD 的临床意义来自边界几何误差；把全部内部像素加入点集会改变指标含义。',
-      '相同的 2 px 在不同设备或不同 resize 后可能对应完全不同的毫米距离。',
-      '单边 empty 若返回 0、NaN 或被聚合器忽略，都会让完全漏检获得不合理的“好成绩”。',
-    ],
-  },
-  {
-    id: 'asd',
-    name: 'ASD',
-    short: '平均边界误差',
-    direction: '越小越好',
-    unit: 'mm / px',
-    what: 'Average Surface Distance 描述两条边界在整体上平均相隔多远。它比 HD 更稳定，不会让一个孤立离群点完全主导结果；因此它适合回答“整体轮廓平均偏了多少”。',
-    formula: '\\mathrm{ASD}(P,G)=\\frac{\\displaystyle\\sum_{p\\in\\partial P}d(p,\\partial G)+\\displaystyle\\sum_{g\\in\\partial G}d(g,\\partial P)}{\\lvert\\partial P\\rvert+\\lvert\\partial G\\rvert}',
-    formulaNote: '这是 Reference v1 的 symmetric ASD：把两个方向的 surface distances 合并后一次求均值，因此按两个 surface 的点数自然加权。',
-    rules: [
-      '采用 symmetric ASD，并明确为 pooled bidirectional mean：mean(concat(D(P→G), D(G→P)))。',
-      '不要默认使用 (mean(P→G) + mean(G→P)) / 2；当两个 surface 点数不同时，这两个定义并不相等。',
-      'surface、Euclidean distance、spacing 和 empty-mask 规则与 HD 保持一致。',
-      '公开实现中应把 symmetric=True 对应的数学语义写进测试，而不是只依赖第三方库参数名。',
-    ],
-    reasons: [
-      'ASD 在不同库里可能指单向、双向 50/50 平均或 pooled mean；不写清楚会出现同名不同数。',
-      '与后来 GDKVM 的 MONAI SurfaceDistanceMetric(symmetric=True) 保持一致，有利于迁移历史实验。',
-      '用回归测试固定数学行为，可以防止第三方库升级后悄悄改变结果。',
-    ],
-  },
-  {
-    id: 'hd95',
-    name: 'HD95',
-    short: '稳健边界误差',
-    direction: '越小越好',
-    unit: 'mm / px',
-    what: 'HD95 是 Hausdorff Distance 的稳健版本。它保留“关注较坏边界误差”的思想，但不让极少数最极端离群点完全支配结果，因此在医学图像分割中通常比完整 HD 更适合作为主要边界指标。',
-    formula: '\\mathrm{HD}_{95}(P,G)=\\max\\!\\left\\{Q_{0.95}\\!\\bigl(D(P\\!\\to\\!G)\\bigr),\\;Q_{0.95}\\!\\bigl(D(G\\!\\to\\!P)\\bigr)\\right\\}',
-    formulaNote: 'v1 先在两个方向分别取 95% 分位数，再取较大值；不是先把双向距离合并后再取一次 95%。分位数使用 linear interpolation。',
-    rules: [
-      '分别计算 D(P→G) 和 D(G→P) 的 95% quantile，最后取 max。',
-      'quantile interpolation 固定为 linear，与 Reference v1 / MONAI 1.5.1 正常非空语义对齐。',
-      'surface、distance、spacing 和 empty-mask 规则必须与 HD / ASD 共用同一实现。',
-      '禁止让 one-empty case 的 NaN 被 reduction 自动忽略；v1 使用 field-of-view diagonal penalty。',
-    ],
-    reasons: [
-      '“合并双向后取 95%”与“两个方向分别取 95% 再 max”不是同一个指标，结果可能不同。',
-      '固定 quantile interpolation 可以消除 NumPy / PyTorch / 其他库默认值差异。',
-      '显式 empty 规则解决了 MONAI 1.5.1 中 one-empty HD95 可能变成 NaN 并被聚合器忽略的问题。',
-    ],
-  },
-  {
-    id: 'lvef',
-    name: 'LVEF',
-    short: '心功能',
-    direction: '临床量',
-    unit: '% / percentage points',
-    what: 'Left Ventricular Ejection Fraction 是左心室射血分数，用来描述一次心搏中左心室从舒张末到收缩末排出了多少比例的血液。它不是“分割相似度”，而是由 EDV 和 ESV 推导出的临床心功能量。',
-    formula: '\\mathrm{LVEF}(\\%)=100\\times\\frac{\\mathrm{EDV}-\\mathrm{ESV}}{\\mathrm{EDV}}',
-    formulaNote: 'LVEF 本身以 % 表示；预测误差应以 percentage points（百分点）表示。例如预测 60%、真值 55%，绝对误差是 5 个百分点。',
-    rules: [
-      'LVEF 公式只负责从 EDV / ESV 得到百分比；EDV / ESV 的获得方法必须作为独立 protocol 明确声明。',
-      '不得把 single-plane area-length、biplane Simpson、临床机读 EDV/ESV 等不同体积协议混成同一个 evaluator。',
-      '建议至少报告 MAE（percentage points）与 bias；需要一致性分析时再报告 limits of agreement。',
-      'Pearson correlation 可以补充，但不能替代绝对误差，因为高相关并不意味着预测值无系统偏差。',
-    ],
-    reasons: [
-      '同一对 segmentation mask，采用不同的 volume estimation protocol 也可能得到不同 LVEF。',
-      '把 LVEF fraction（0.60）和 percent（60%）混用，会造成 100 倍尺度错误。',
-      'MAE、bias 和 limits of agreement 分别回答误差大小、系统偏差和个体一致性，临床解释比单纯相关系数更完整。',
-    ],
-  },
-] : [
-  {
-    id: 'dice',
-    name: 'Dice',
-    short: 'Region overlap',
-    direction: 'Higher is better',
-    unit: 'None',
-    what: 'Dice measures overlap between the predicted foreground P and ground truth G. It is 1 for perfect overlap and 0 for disjoint masks. In chamber segmentation, it answers how similar the predicted region is to the annotated region overall.',
-    formula: '\\mathrm{Dice}(P,G)=\\frac{2\\lvert P\\cap G\\rvert}{\\lvert P\\rvert+\\lvert G\\rvert}',
-    formulaNote: 'P and G are already-binarized foreground pixel sets. No smoothing constant is part of the evaluation formula.',
-    rules: [
-      'Apply thresholding, resize, connected-component filtering, and other post-processing before the metric function and record them separately.',
-      'Compute Dice per case × structure × view × phase, then aggregate; do not pool all dataset pixels first.',
-      'Exactly one empty: Dice = 0. Both empty: N/A and count n_both_empty separately.',
-      'Do not reuse epsilon/smoothing terms from training losses in benchmark evaluation.',
-    ],
-    reasons: [
-      'Per-item computation prevents large images or structures from receiving extra weight simply because they contain more pixels.',
-      'Explicit empty behavior separates structural absence from complete model miss.',
-      'Training Dice loss may need smoothing, but benchmark Dice should preserve the mathematical definition for cross-code comparability.',
-    ],
-  },
-  {
-    id: 'iou',
-    name: 'IoU / Jaccard',
-    short: 'Region overlap',
-    direction: 'Higher is better',
-    unit: 'None',
-    what: 'IoU measures intersection divided by union. It captures the same family of overlap information as Dice but is numerically stricter; for the same prediction, IoU is typically lower than Dice.',
-    formula: '\\mathrm{IoU}(P,G)=\\frac{\\lvert P\\cap G\\rvert}{\\lvert P\\cup G\\rvert},\\qquad \\mathrm{IoU}=\\frac{\\mathrm{Dice}}{2-\\mathrm{Dice}}',
-    formulaNote: 'Dice and IoU are monotonically related. Reporting both mainly helps align with different communities rather than adding an independent signal.',
-    rules: [
-      'Use the same binary masks, atomic items, and empty-mask policy as Dice.',
-      'Exactly one empty: IoU = 0. Both empty: N/A.',
-      'Average per atomic item; do not silently replace this with a globally pooled confusion-matrix IoU.',
-      'When both Dice and IoU are reported, verify their deterministic mathematical relationship.',
-    ],
-    reasons: [
-      'Different aggregation paths can make Dice and IoU appear to disagree even though they measure the same underlying overlap.',
-      'The Dice–IoU identity is a useful automatic consistency check for evaluation code.',
-      'Shared empty and aggregation semantics make the two metrics genuinely interconvertible.',
-    ],
-  },
-  {
-    id: 'hd',
-    name: 'HD',
-    short: 'Worst boundary error',
-    direction: 'Lower is better',
-    unit: 'mm / px',
-    what: 'Hausdorff Distance focuses on the worst local disagreement between two contours. Instead of asking whether regions overlap overall, it asks how far the most extreme predicted boundary point lies from the reference boundary. One isolated outlier can dominate HD.',
-    formula: '\\begin{aligned}d(p,\\partial G)&=\\min_{g\\in\\partial G}\\lVert p-g\\rVert_2\\\\[3pt]\\mathrm{HD}(P,G)&=\\max\\!\\left\\{\\max_{p\\in\\partial P}d(p,\\partial G),\\;\\max_{g\\in\\partial G}d(g,\\partial P)\\right\\}\\end{aligned}',
-    formulaNote: '∂P and ∂G are surfaces. Reference v1 extracts a 2-D surface with binary erosion XOR mask.',
-    rules: [
-      'Compute distances on surfaces, not all foreground pixels.',
-      'Use Euclidean distance. When physical pixel spacing is available, map into physical space and report mm.',
-      'Exactly one empty: use the physical field-of-view diagonal as a finite penalty. Both empty: N/A.',
-      'If an image is resized, update spacing consistently; never label resized pixel distance as mm.',
-    ],
-    reasons: [
-      'The clinical meaning of HD comes from geometric boundary error; using all interior foreground pixels changes the metric.',
-      'The same 2 px can correspond to very different physical errors across devices and resize operations.',
-      'Returning 0, NaN, or silently dropping a complete miss can make a failed segmentation appear artificially good.',
-    ],
-  },
-  {
-    id: 'asd',
-    name: 'ASD',
-    short: 'Mean boundary error',
-    direction: 'Lower is better',
-    unit: 'mm / px',
-    what: 'Average Surface Distance describes the average separation between two contours. It is more stable than HD because a single isolated outlier cannot fully dominate the result; it answers how far the contour is displaced on average.',
-    formula: '\\mathrm{ASD}(P,G)=\\frac{\\displaystyle\\sum_{p\\in\\partial P}d(p,\\partial G)+\\displaystyle\\sum_{g\\in\\partial G}d(g,\\partial P)}{\\lvert\\partial P\\rvert+\\lvert\\partial G\\rvert}',
-    formulaNote: 'Reference v1 uses symmetric ASD as one pooled mean over both directional surface-distance vectors, naturally weighted by surface-point count.',
-    rules: [
-      'Use symmetric ASD as mean(concat(D(P→G), D(G→P))).',
-      'Do not assume (mean(P→G) + mean(G→P)) / 2 is equivalent; it differs when surface cardinalities differ.',
-      'Share the exact same surface, Euclidean distance, spacing, and empty-mask implementation as HD.',
-      'Encode the mathematical meaning of symmetric=True in regression tests rather than relying only on a library parameter name.',
-    ],
-    reasons: [
-      'Different libraries may use ASD to mean one-way, 50/50 bidirectional, or pooled bidirectional averages.',
-      'This matches the later GDKVM MONAI SurfaceDistanceMetric(symmetric=True) semantics.',
-      'Regression tests protect the metric meaning from silent changes in future dependency versions.',
-    ],
-  },
-  {
-    id: 'hd95',
-    name: 'HD95',
-    short: 'Robust boundary error',
-    direction: 'Lower is better',
-    unit: 'mm / px',
-    what: 'HD95 is a robust Hausdorff variant. It preserves the idea of measuring bad boundary errors while preventing a tiny number of extreme outliers from fully controlling the score, making it a more practical primary boundary metric in medical segmentation.',
-    formula: '\\mathrm{HD}_{95}(P,G)=\\max\\!\\left\\{Q_{0.95}\\!\\bigl(D(P\\!\\to\\!G)\\bigr),\\;Q_{0.95}\\!\\bigl(D(G\\!\\to\\!P)\\bigr)\\right\\}',
-    formulaNote: 'v1 takes the 95th percentile separately in both directions, then uses the larger value. It does not pool directions before taking one percentile. Quantile interpolation is linear.',
-    rules: [
-      'Compute Q95 independently for D(P→G) and D(G→P), then take max.',
-      'Pin quantile interpolation to linear, matching Reference v1 and normal non-empty MONAI 1.5.1 semantics.',
-      'Share the same surface, distance, spacing, and empty-mask implementation as HD and ASD.',
-      'Never allow a one-empty NaN to disappear through reduction; v1 uses the field-of-view diagonal penalty.',
-    ],
-    reasons: [
-      'Pooling both directions before Q95 is a different metric and can produce different numbers.',
-      'Pinning interpolation removes hidden NumPy/PyTorch/library-default differences.',
-      'The explicit empty rule fixes the MONAI 1.5.1 case where one-empty HD95 may become NaN and be silently ignored.',
-    ],
-  },
-  {
-    id: 'lvef',
-    name: 'LVEF',
-    short: 'Cardiac function',
-    direction: 'Clinical quantity',
-    unit: '% / percentage points',
-    what: 'Left Ventricular Ejection Fraction describes the fraction of end-diastolic volume ejected by the left ventricle during systole. It is not a segmentation similarity score; it is a clinical functional quantity derived from EDV and ESV.',
-    formula: '\\mathrm{LVEF}(\\%)=100\\times\\frac{\\mathrm{EDV}-\\mathrm{ESV}}{\\mathrm{EDV}}',
-    formulaNote: 'LVEF itself is reported in %. Prediction error is reported in percentage points: predicting 60% for a 55% reference gives a 5-point absolute error.',
-    rules: [
-      'The LVEF formula only converts EDV/ESV to a percentage; the method used to obtain EDV/ESV must be declared as a separate protocol.',
-      'Do not silently mix single-plane area-length, biplane Simpson, clinical machine-derived volumes, or other volume protocols.',
-      'Report at least MAE in percentage points and bias; add limits of agreement when agreement analysis is needed.',
-      'Pearson correlation is supplementary and must not replace an absolute error metric.',
-    ],
-    reasons: [
-      'The same segmentation contours can yield different LVEF under different volume-estimation protocols.',
-      'Mixing fraction form (0.60) and percent form (60%) creates a 100× scale error.',
-      'MAE, bias, and limits of agreement describe magnitude, systematic error, and individual agreement more completely than correlation alone.',
-    ],
-  },
-];
-
-const metricRows = metricGuides.map((m) => [m.name, m.short, m.direction, m.unit]);
+const groupCounts = groups.map((group) => ({
+  ...group,
+  count: group.metrics.length,
+}));
 ---
 
 <html lang={isZh ? 'zh-CN' : 'en'}>
@@ -395,8 +140,29 @@ const metricRows = metricGuides.map((m) => [m.name, m.short, m.direction, m.unit
       <section class="compact-section">
         <div class="section-head">
           <div>
+            <p class="kicker">{copy.map}</p>
+            <h2>{isZh ? '先选任务，再选指标' : 'Choose the task before the metric'}</h2>
+          </div>
+          <p>{copy.mapLead}</p>
+        </div>
+
+        <div class="metric-group-grid">
+          {groupCounts.map((group, index) => (
+            <a class="metric-group-card" href={'#group-' + group.id}>
+              <span>{String(index + 1).padStart(2, '0')} · {group.kicker}</span>
+              <strong>{group.title}</strong>
+              <p>{group.intro}</p>
+              <small>{group.count} {isZh ? '个指标' : 'metrics'} →</small>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <section class="compact-section metric-quick-section">
+        <div class="section-head">
+          <div>
             <p class="kicker">{copy.quick}</p>
-            <h2>Dice · IoU · HD · ASD · HD95 · LVEF</h2>
+            <h2>{metrics.map((metric) => metric.name).join(' · ')}</h2>
           </div>
         </div>
 
@@ -407,59 +173,79 @@ const metricRows = metricGuides.map((m) => [m.name, m.short, m.direction, m.unit
             <span role="columnheader">{copy.direction}</span>
             <span role="columnheader">{copy.unit}</span>
           </div>
-          {metricRows.map((row) => (
-            <div class="metric-row" role="row">
-              {row.map((cell) => <span role="cell">{cell}</span>)}
-            </div>
+          {metrics.map((metric) => (
+            <a class="metric-row metric-row-link" role="row" href={'#' + metric.id}>
+              <span role="cell">{metric.name}</span>
+              <span role="cell">{metric.short}</span>
+              <span role="cell">{metric.direction}</span>
+              <span role="cell">{metric.unit}</span>
+            </a>
           ))}
         </div>
-
-        <nav class="metric-jump" aria-label={isZh ? '指标目录' : 'Metric index'}>
-          {metricGuides.map((metric) => <a href={'#' + metric.id}>{metric.name}</a>)}
-        </nav>
       </section>
 
-      <div class="metric-guide-list">
-        {metricGuides.map((metric, index) => (
-          <section class="metric-guide" id={metric.id}>
-            <header class="metric-guide-header">
-              <div class="metric-guide-number">{String(index + 1).padStart(2, '0')}</div>
+      <div class="metric-groups">
+        {groups.map((group, groupIndex) => (
+          <section class="metric-group" id={'group-' + group.id}>
+            <header class="metric-group-header">
+              <div class="metric-group-number">{String(groupIndex + 1).padStart(2, '0')}</div>
               <div>
-                <p class="kicker">{metric.short}</p>
-                <h2>{metric.name}</h2>
-              </div>
-              <div class="metric-guide-meta">
-                <span>{metric.direction}</span>
-                <span>{metric.unit}</span>
+                <p class="kicker">{group.kicker}</p>
+                <h2>{group.title}</h2>
+                <p>{group.intro}</p>
               </div>
             </header>
 
-            <div class="metric-guide-block">
-              <p class="metric-step">{copy.whatIsIt}</p>
-              <p class="metric-explanation">{metric.what}</p>
-            </div>
+            <nav class="metric-jump" aria-label={group.title}>
+              {group.metrics.map((metric) => <a href={'#' + metric.id}>{metric.name}</a>)}
+            </nav>
 
-            <div class="metric-guide-block formula-block">
-              <p class="metric-step">{copy.formula}</p>
-              <div class="katex-display-wrap" set:html={renderMath(metric.formula)} />
-              <p class="formula-note">{metric.formulaNote}</p>
-            </div>
+            <div class="metric-guide-list">
+              {group.metrics.map((metric, metricIndex) => (
+                <article class="metric-guide" id={metric.id}>
+                  <header class="metric-guide-header">
+                    <div class="metric-guide-number">
+                      {String(groupIndex + 1).padStart(2, '0')}.{String(metricIndex + 1).padStart(2, '0')}
+                    </div>
+                    <div>
+                      <p class="kicker">{metric.short}</p>
+                      <h3>{metric.name}</h3>
+                    </div>
+                    <div class="metric-guide-meta">
+                      <span>{metric.direction}</span>
+                      <span>{metric.unit}</span>
+                    </div>
+                  </header>
 
-            <div class="metric-implementation">
-              <div class="metric-guide-block">
-                <p class="metric-step">{copy.implementation}</p>
-                <ol class="standard-list">
-                  {metric.rules.map((rule) => <li>{rule}</li>)}
-                </ol>
-                <a class="metric-code-link" href={repoBase + '/reference_metrics.py'}>{copy.openCode}</a>
-              </div>
+                  <div class="metric-guide-block">
+                    <p class="metric-step">{copy.whatIsIt}</p>
+                    <p class="metric-explanation">{metric.what}</p>
+                  </div>
 
-              <div class="metric-guide-block rationale-block">
-                <p class="metric-step">{copy.rationale}</p>
-                <ul class="reason-list">
-                  {metric.reasons.map((reason) => <li>{reason}</li>)}
-                </ul>
-              </div>
+                  <div class="metric-guide-block formula-block">
+                    <p class="metric-step">{copy.formula}</p>
+                    <div class="katex-display-wrap" set:html={renderMath(metric.formula)} />
+                    <p class="formula-note">{metric.formulaNote}</p>
+                  </div>
+
+                  <div class="metric-implementation">
+                    <div class="metric-guide-block">
+                      <p class="metric-step">{copy.implementation}</p>
+                      <ol class="standard-list">
+                        {metric.rules.map((rule) => <li>{rule}</li>)}
+                      </ol>
+                      <a class="metric-code-link" href={repoBase + '/reference_metrics.py'}>{copy.openCode}</a>
+                    </div>
+
+                    <div class="metric-guide-block rationale-block">
+                      <p class="metric-step">{copy.rationale}</p>
+                      <ul class="reason-list">
+                        {metric.reasons.map((reason) => <li>{reason}</li>)}
+                      </ul>
+                    </div>
+                  </div>
+                </article>
+              ))}
             </div>
           </section>
         ))}
@@ -468,10 +254,10 @@ const metricRows = metricGuides.map((m) => [m.name, m.short, m.direction, m.unit
       <section class="reference-standard-section">
         <div class="section-head">
           <div>
-            <p class="kicker">{copy.referenceEyebrow}</p>
-            <h2>{copy.referenceTitle}</h2>
+            <p class="kicker">{copy.standardEyebrow}</p>
+            <h2>{copy.standardTitle}</h2>
           </div>
-          <p>{copy.referenceLead}</p>
+          <p>{copy.standardLead}</p>
         </div>
 
         <p class="source-note reference-audit">{copy.audit}</p>
@@ -480,6 +266,16 @@ const metricRows = metricGuides.map((m) => [m.name, m.short, m.direction, m.unit
           <a href={repoBase + '/test_reference_metrics.py'}>{copy.tests}</a>
           <a href={repoBase + '/monai_1_5_1_cpu_audit.json'}>{copy.auditLink}</a>
           <a href={repoBase + '/README.md'}>{copy.spec}</a>
+        </div>
+      </section>
+
+      <section class="metric-history-section">
+        <div class="section-head">
+          <div>
+            <p class="kicker">{copy.historyEyebrow}</p>
+            <h2>{copy.historyTitle}</h2>
+          </div>
+          <p>{copy.historyText}</p>
         </div>
       </section>
 
@@ -503,25 +299,21 @@ const metricRows = metricGuides.map((m) => [m.name, m.short, m.direction, m.unit
         </div>
       </section>
 
-      <section class="callout-section">
-        <p class="kicker">{copy.echoSpecific}</p>
-        <p class="callout">{copy.echoSpecificText}</p>
-      </section>
-
       <section class="source-section">
-        <p class="kicker">{copy.source}</p>
-        <p class="source-note">{copy.sourceNote}</p>
+        <p class="kicker">{copy.sources}</p>
+        <p class="source-note">{copy.sourcesNote}</p>
         <div class="source-links">
-          <a href="https://www.creatis.insa-lyon.fr/Challenge/camus/evaluationSegmentation.html">CAMUS evaluation protocol ↗</a>
-          <a href="https://echonet.github.io/dynamic/">EchoNet-Dynamic ↗</a>
-          <a href="https://docs.monai.io/en/1.5.1/metrics.html">MONAI 1.5.1 metrics ↗</a>
-          <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9208116/">Medical segmentation metrics guideline ↗</a>
+          <a href="https://openaccess.thecvf.com/content/ICCV2025/html/Wang_GDKVM_Echocardiography_Video_Segmentation_via_Spatiotemporal_Key-Value_Memory_with_Gated_ICCV_2025_paper.html">GDKVM · ICCV 2025 ↗</a>
+          <a href="https://openaccess.thecvf.com/content/ICCV2025/supplemental/Wang_GDKVM_Echocardiography_Video_ICCV_2025_supplemental.pdf">GDKVM supplemental ↗</a>
+          <a href="https://openaccess.thecvf.com/content/CVPR2026/html/Wang_OSA_Echocardiography_Video_Segmentation_via_Orthogonalized_State_Update_and_Anatomical_CVPR_2026_paper.html">OSA · CVPR 2026 ↗</a>
+          <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5654219/">Bland–Altman reference ↗</a>
+          <a href="https://scikit-learn.org/stable/modules/model_evaluation.html">Classification metrics reference ↗</a>
         </div>
       </section>
 
       <footer>
-        <p>Awesome Echocardiography</p>
-        <a href={isZh ? '/' : '/en/'}>{isZh ? '返回首页 ↗' : 'Back home ↗'}</a>
+        <p>Awesome Echocardiography · Reference Metrics v1.1</p>
+        <a href={isZh ? '/' : '/en/'}>{copy.back}</a>
       </footer>
     </main>
   </body>
