@@ -144,9 +144,9 @@ The homepage and Papers page must read from the **same canonical records**. No d
 - [x] Vercel Preview passes.
 - [x] Validate Preview content before merge.
 - [x] Squash-merge only when all gates are green.
-- [ ] Production deployment succeeds.
-- [ ] Verify production `/papers/` and `/en/papers/` return HTTP 200 and correct content.
-- [ ] Update this checklist to fully reflect completed delivery.
+- [x] Production deployment succeeds.
+- [x] Verify production `/papers/` and `/en/papers/` return HTTP 200 and correct content.
+- [x] Update this checklist to fully reflect completed delivery.
 
 ## 6. Delivery standard
 
@@ -173,3 +173,14 @@ Do not merge if any of these occur:
 - a pending candidate paper becomes public accidentally;
 - CI or Vercel Preview is red;
 - concurrent metrics work is overwritten or mixed into this PR.
+
+## 8. Delivery evidence
+
+- Feature PR: **#8 — feat: add curated Papers index**
+- Merge commit: `4d9426f6c926f584b65db560444ce7a9cc3ecadb`
+- PR exact-head gates before merge: build **SUCCESS**, reference-metrics **SUCCESS**, Vercel Preview **SUCCESS**.
+- Main CI run: `35521179188` — build **SUCCESS**, reference-metrics **SUCCESS**.
+- Main Vercel run: `35521179161` — production **SUCCESS**.
+- Production deployment: `dpl_54zfh6BNArs8qTDsKcZyMm4CTZJx` — `READY`, target `production`, commit `4d9426f6c926f584b65db560444ce7a9cc3ecadb`.
+- Production verification: `/papers/` and `/en/papers/` both returned HTTP 200 with 3 public papers; GDKVM linked to `wangrui2025/gdkvm_code`; no audited candidate paper was published accidentally.
+- Concurrent metrics work remained intact and its regression CI stayed green.
