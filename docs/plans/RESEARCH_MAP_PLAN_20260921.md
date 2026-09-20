@@ -138,7 +138,7 @@ Use the existing restrained site language:
 - [x] Metrics routes still build and retain KaTeX output.
 
 ### F. Delivery
-- [ ] Push implementation to the feature branch.
+- [x] Push implementation to the feature branch.
 - [ ] PR build CI passes.
 - [ ] Reference-metrics regression remains green.
 - [ ] Vercel Preview passes.
