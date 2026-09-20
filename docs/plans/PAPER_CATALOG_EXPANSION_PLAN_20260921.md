@@ -75,39 +75,39 @@ No paper is duplicated across multiple primary categories in this PR.
 
 - [x] Create an isolated worktree from current `origin/main`.
 - [x] Write this plan before implementation.
-- [ ] Open the feature PR with this plan as the first commit.
+- [x] Open the feature PR with this plan as the first commit.
 
 ### B. Canonical records
 
-- [ ] Add the seven accepted papers to `src/papers.ts`.
-- [ ] Preserve all audited code-status labels exactly.
-- [ ] Preserve GDKVM's verified implementation URL `wangrui2025/gdkvm_code`.
-- [ ] Add dataset metadata where the paper's official publication/audit evidence supports it.
-- [ ] Add concise bilingual editorial summaries.
-- [ ] Keep `featured: false` for all seven new papers.
-- [ ] Confirm homepage still derives exactly the original three featured papers.
+- [x] Add the seven accepted papers to `src/papers.ts`.
+- [x] Preserve all audited code-status labels exactly.
+- [x] Preserve GDKVM's verified implementation URL `wangrui2025/gdkvm_code`.
+- [x] Add dataset metadata where the paper's official publication/audit evidence supports it.
+- [x] Add concise bilingual editorial summaries.
+- [x] Keep `featured: false` for all seven new papers.
+- [x] Confirm homepage still derives exactly the original three featured papers.
 
 ### C. Catalog behavior
 
-- [ ] Render all public papers on Chinese `/papers/`.
-- [ ] Render the same public papers on English `/en/papers/`.
-- [ ] Group all papers under the intended six public categories.
-- [ ] Preserve code-status explanation and verification date.
-- [ ] Keep the candidate audit link and curation-policy link visible.
-- [ ] Ensure no paper is duplicated across category sections.
+- [x] Render all public papers on Chinese `/papers/`.
+- [x] Render the same public papers on English `/en/papers/`.
+- [x] Group all papers under the intended six public categories.
+- [x] Preserve code-status explanation and verification date.
+- [x] Keep the candidate audit link and curation-policy link visible.
+- [x] Ensure no paper is duplicated across category sections.
 
 ### D. Validation
 
-- [ ] `npm run build` returns 0 errors, 0 warnings, 0 hints.
-- [ ] Homepage renders exactly 3 paper cards and 2 dataset cards.
-- [ ] Chinese Papers page renders exactly 10 paper cards.
-- [ ] English Papers page renders exactly 10 paper cards.
-- [ ] Papers page reports exactly 6 active categories.
-- [ ] Code-state counts match the audit/editorial data.
-- [ ] GDKVM link resolves to `wangrui2025/gdkvm_code`.
-- [ ] Mobile viewport has no horizontal overflow.
-- [ ] Existing Metrics routes still build and retain KaTeX output.
-- [ ] No unaudited paper is made public.
+- [x] `npm run build` returns 0 errors, 0 warnings, 0 hints.
+- [x] Homepage renders exactly 3 paper cards and 2 dataset cards.
+- [x] Chinese Papers page renders exactly 10 paper cards.
+- [x] English Papers page renders exactly 10 paper cards.
+- [x] Papers page reports exactly 6 active categories.
+- [x] Code-state counts match the audit/editorial data.
+- [x] GDKVM link resolves to `wangrui2025/gdkvm_code`.
+- [x] Mobile viewport has no horizontal overflow.
+- [x] Existing Metrics routes still build and retain KaTeX output.
+- [x] No unaudited paper is made public.
 
 ### E. Delivery
 

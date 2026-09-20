@@ -923,3 +923,45 @@ footer p { margin: 0; }
     min-height: 96px;
   }
 }
+
+/* Paper catalog context */
+.paper-context {
+  grid-column: 2;
+  margin-top: -2px;
+}
+
+.paper-context > p {
+  max-width: 760px;
+  margin: 0 0 14px;
+  color: #555551;
+  line-height: 1.62;
+}
+
+.paper-datasets {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+}
+
+.paper-datasets > span:not(.paper-datasets-label) {
+  padding: 5px 9px;
+  border: 1px solid #deded9;
+  border-radius: 999px;
+  background: #fbfbf9;
+  color: #686864;
+  font-size: 0.76rem;
+}
+
+.paper-datasets-label {
+  margin-right: 2px;
+  color: #8a8a84;
+  font-size: 0.76rem;
+  font-weight: 650;
+}
+
+@media (max-width: 720px) {
+  .paper-context {
+    grid-column: 1;
+  }
+}

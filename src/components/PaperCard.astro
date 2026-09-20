@@ -4,9 +4,10 @@ import type { PaperRecord } from '../papers';
 interface Props {
   paper: PaperRecord;
   locale: 'zh' | 'en';
+  showContext?: boolean;
 }
 
-const { paper, locale } = Astro.props;
+const { paper, locale, showContext = false } = Astro.props;
 const isZh = locale === 'zh';
 
 const labels = isZh ? {
@@ -19,6 +20,7 @@ const labels = isZh ? {
   none: '暂无公开代码',
   unofficial: '非官方实现',
   verified: '状态核验',
+  datasets: '数据集',
 } : {
   paper: 'Paper ↗',
   repository: 'Official repo ↗',
@@ -29,15 +31,30 @@ const labels = isZh ? {
   none: 'No public code',
   unofficial: 'Unofficial implementation',
   verified: 'Verified',
+  datasets: 'Datasets',
 };
 
 const statusLabel = labels[paper.codeStatus];
+const summary = isZh ? paper.summaryZh : paper.summaryEn;
 ---
 
 <article class="paper-card">
   <div class="venue">{paper.venue}</div>
   <h3>{paper.title}</h3>
   <p class="authors">{paper.authors}</p>
+
+  {showContext && summary && (
+    <div class="paper-context">
+      <p>{summary}</p>
+      {paper.datasets && paper.datasets.length > 0 && (
+        <div class="paper-datasets" aria-label={labels.datasets}>
+          <span class="paper-datasets-label">{labels.datasets}</span>
+          {paper.datasets.map((dataset) => <span>{dataset}</span>)}
+        </div>
+      )}
+    </div>
+  )}
+
   <div class="links">
     <a href={paper.paperUrl}>{labels.paper}</a>
     {paper.repositoryUrl && <a href={paper.repositoryUrl}>{labels.repository}</a>}
