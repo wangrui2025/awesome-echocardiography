@@ -113,14 +113,14 @@ Update README contribution text with a concise link to the submission form and c
 
 ### F. Delivery
 - [x] Push implementation to the feature branch.
-- [ ] PR build CI passes.
-- [ ] Reference-metrics regression remains green.
-- [ ] Vercel Preview passes.
-- [ ] Preview link behavior verified before merge.
-- [ ] Squash-merge only with clean exact head.
-- [ ] Production deployment succeeds.
-- [ ] Production Papers pages expose the new submission link.
-- [ ] Close this checklist with delivery evidence.
+- [x] PR build CI passes.
+- [x] Reference-metrics regression remains green.
+- [x] Vercel Preview passes.
+- [x] Preview link behavior verified before merge.
+- [x] Squash-merge only with clean exact head.
+- [x] Production deployment succeeds.
+- [x] Production Papers pages expose the new submission link.
+- [x] Close this checklist with delivery evidence.
 
 ## 7. Delivery standard
 
@@ -143,3 +143,91 @@ Do not merge if:
 - site routes break;
 - existing catalog membership changes;
 - reference-metrics CI regresses.
+
+## 9. Delivery evidence
+
+- Feature PR: **#11 — feat: add community paper submission workflow**
+- Merge commit: `11130adff034a58c6bae34e6e91cc8d3b3382047`
+- Main build CI: **SUCCESS**.
+- Reference-metrics regression: **SUCCESS**.
+- Vercel Production: **SUCCESS**.
+- Default branch contains `.github/ISSUE_TEMPLATE/paper.yml`.
+- Production Chinese and English Papers pages link directly to `issues/new?template=paper.yml`.
+- Public paper membership remains 10; homepage remains 3 featured papers.
+
+## 9. Delivery evidence
+
+- Feature PR: **#11 — feat: add community paper submission workflow**
+- Merge commit: `11130adff034a58c6bae34e6e91cc8d3b3382047`
+- Main build CI: **SUCCESS**.
+- Reference-metrics regression: **SUCCESS**.
+- Vercel Production: **SUCCESS**.
+- Default branch contains `.github/ISSUE_TEMPLATE/paper.yml`.
+- Production Chinese and English Papers pages link directly to `issues/new?template=paper.yml`.
+- Public paper membership remains 10; homepage remains 3 featured papers.
+
+## 9. Delivery evidence
+
+- Feature PR: **#11 — feat: add community paper submission workflow**
+- Merge commit: `11130adff034a58c6bae34e6e91cc8d3b3382047`
+- Main build CI: **SUCCESS**.
+- Reference-metrics regression: **SUCCESS**.
+- Vercel Production: **SUCCESS**.
+- Default branch contains `.github/ISSUE_TEMPLATE/paper.yml`.
+- Production Chinese and English Papers pages link directly to `issues/new?template=paper.yml`.
+- Public paper membership remains 10; homepage remains 3 featured papers.
+
+## 9. Delivery evidence
+
+- Feature PR: **#11 — feat: add community paper submission workflow**
+- Merge commit: `11130adff034a58c6bae34e6e91cc8d3b3382047`
+- Main build CI: **SUCCESS**.
+- Reference-metrics regression: **SUCCESS**.
+- Vercel Production: **SUCCESS**.
+- Default branch contains `.github/ISSUE_TEMPLATE/paper.yml`.
+- Production Chinese and English Papers pages link directly to `issues/new?template=paper.yml`.
+- Public paper membership remains 10; homepage remains 3 featured papers.
+
+## 9. Delivery evidence
+
+- Feature PR: **#11 — feat: add community paper submission workflow**
+- Merge commit: `11130adff034a58c6bae34e6e91cc8d3b3382047`
+- Main build CI: **SUCCESS**.
+- Reference-metrics regression: **SUCCESS**.
+- Vercel Production: **SUCCESS**.
+- Default branch contains `.github/ISSUE_TEMPLATE/paper.yml`.
+- Production Chinese and English Papers pages link directly to `issues/new?template=paper.yml`.
+- Public paper membership remains 10; homepage remains 3 featured papers.
+
+## 9. Delivery evidence
+
+- Feature PR: **#11 — feat: add community paper submission workflow**
+- Merge commit: `11130adff034a58c6bae34e6e91cc8d3b3382047`
+- Main build CI: **SUCCESS**.
+- Reference-metrics regression: **SUCCESS**.
+- Vercel Production: **SUCCESS**.
+- Default branch contains `.github/ISSUE_TEMPLATE/paper.yml`.
+- Production Chinese and English Papers pages link directly to `issues/new?template=paper.yml`.
+- Public paper membership remains 10; homepage remains 3 featured papers.
+
+## 9. Delivery evidence
+
+- Feature PR: **#11 — feat: add community paper submission workflow**
+- Merge commit: `11130adff034a58c6bae34e6e91cc8d3b3382047`
+- Main build CI: **SUCCESS**.
+- Reference-metrics regression: **SUCCESS**.
+- Vercel Production: **SUCCESS**.
+- Default branch contains `.github/ISSUE_TEMPLATE/paper.yml`.
+- Production Chinese and English Papers pages link directly to `issues/new?template=paper.yml`.
+- Public paper membership remains 10; homepage remains 3 featured papers.
+
+## 9. Delivery evidence
+
+- Feature PR: **#11 — feat: add community paper submission workflow**
+- Merge commit: `11130adff034a58c6bae34e6e91cc8d3b3382047`
+- Main build CI: **SUCCESS**.
+- Reference-metrics regression: **SUCCESS**.
+- Vercel Production: **SUCCESS**.
+- Default branch contains `.github/ISSUE_TEMPLATE/paper.yml`.
+- Production Chinese and English Papers pages link directly to `issues/new?template=paper.yml`.
+- Public paper membership remains 10; homepage remains 3 featured papers.
