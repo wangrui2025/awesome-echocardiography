@@ -1,8 +1,8 @@
 # Awesome Echocardiography
 
-A curated collection of papers, datasets, and resources for artificial intelligence in echocardiography.
+A curated collection of papers, datasets, and reproducible evaluation resources for artificial intelligence in echocardiography.
 
-> **v0.1** — intentionally small. This first public version includes only three papers and two datasets while the project structure is established.
+> **v0.1** — intentionally small. The public collection currently includes three papers and two datasets, while the project is also establishing an executable evaluation standard.
 
 ## Papers
 
@@ -24,20 +24,43 @@ A curated collection of papers, datasets, and resources for artificial intellige
 
 - **CAMUS — Cardiac Acquisitions for Multi-structure Ultrasound Segmentation**  
   2D apical two-chamber and four-chamber echocardiography sequences from 500 patients, with expert annotations for cardiac structure segmentation and functional assessment.  
-  [Dataset](https://www.creatis.insa-lyon.fr/Challenge/camus/) · [Paper](https://doi.org/10.1109/TMI.2019.2900516)
+  [Dataset](https://www.creatis.insa-lyon.fr/Challenge/camus/) · [Paper](https://doi.org/10.1109/TMI.2019.2900516) · [Dataset guide](https://awesome-echocardiography.vercel.app/datasets/camus/)
 
 - **EchoNet-Dynamic**  
   10,030 apical four-chamber echocardiography videos with measurements and expert left-ventricular tracings, introduced for video-based cardiac function assessment.  
-  [Dataset](https://echonet.github.io/dynamic/) · [Paper](https://doi.org/10.1038/s41586-020-2145-8) · [Code](https://github.com/echonet/dynamic)
+  [Dataset](https://echonet.github.io/dynamic/) · [Paper](https://doi.org/10.1038/s41586-020-2145-8) · [Code](https://github.com/echonet/dynamic) · [Dataset guide](https://awesome-echocardiography.vercel.app/datasets/echonet-dynamic/)
+
+## Reference Metrics v1.0
+
+The repository includes an executable consistency standard for **Dice · IoU · HD · HD95 · symmetric ASD · LVEF reporting**.
+
+The CPU reference implementation is the semantic authority. Accelerated CPU/GPU implementations should reproduce it rather than redefine the metric.
+
+Key choices include:
+
+- HD95 = max(Q95(P→G), Q95(G→P));
+- symmetric ASD = mean(concat(D(P→G), D(G→P)));
+- physical spacing in mm when available, otherwise explicitly reported px;
+- an explicit one-empty-mask field-of-view diagonal penalty instead of silently dropping NaN failures;
+- item-level aggregation independent of batch size or GPU partitioning;
+- LVEF in %, with prediction error in percentage points.
+
+See [the full v1 specification](reference/metrics_v1/README.md), the [reference implementation](reference/metrics_v1/reference_metrics.py), and the [metrics guide](https://awesome-echocardiography.vercel.app/metrics/).
+
+The frozen CPU audit shows 5/5 normal non-empty fixtures matching MONAI 1.5.1 semantics within <1e-6, while deliberately replacing ambiguous empty-mask behavior.
 
 ## Website
 
-This repository also contains a small static website built with Astro. The site intentionally mirrors the same narrow v0.1 scope as this README.
+The bilingual static website is built with Astro:
+
+- Chinese default: https://awesome-echocardiography.vercel.app/
+- English: https://awesome-echocardiography.vercel.app/en/
+- Metrics standard: https://awesome-echocardiography.vercel.app/metrics/
 
 ## Scope
 
-The project is being built incrementally. Broader coverage will be added only after the curation structure and review criteria are stable.
+The project is being built incrementally. Broader coverage will be added only after the curation and evaluation contracts are stable.
 
 ## Contributing
 
-Suggestions are welcome through GitHub Issues and Pull Requests. Please keep proposed additions focused on echocardiography and include an authoritative paper, dataset, or project link.
+Suggestions are welcome through GitHub Issues and Pull Requests. Proposed benchmark or metric implementations should include reproducible fixtures and document any deviation from Reference Metrics v1.

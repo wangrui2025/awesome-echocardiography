@@ -1,0 +1,147 @@
+{
+  "runtime": {
+    "monai": "1.5.1",
+    "torch": "2.14.0",
+    "device": "cpu"
+  },
+  "cases": {
+    "identical_square": {
+      "reference": {
+        "status": "ok",
+        "hd95": 0.0,
+        "asd": 0.0
+      },
+      "monai_1_5_1": {
+        "hd95": 0.0,
+        "asd": 0.0,
+        "warnings": [
+          "monai.metrics.utils get_mask_edges:always_return_as_numpy: Argument `always_return_as_numpy` has been deprecated since version 1.5.0. It will be removed in version 1.7.0. The option is removed and the return type will always be equal to the input type.",
+          "monai.metrics.utils get_mask_edges:always_return_as_numpy: Argument `always_return_as_numpy` has been deprecated since version 1.5.0. It will be removed in version 1.7.0. The option is removed and the return type will always be equal to the input type."
+        ]
+      },
+      "abs_diff": {
+        "hd95": 0.0,
+        "asd": 0.0
+      }
+    },
+    "single_pixel_x_shift": {
+      "reference": {
+        "status": "ok",
+        "hd95": 1.0,
+        "asd": 1.0
+      },
+      "monai_1_5_1": {
+        "hd95": 1.0,
+        "asd": 1.0,
+        "warnings": [
+          "monai.metrics.utils get_mask_edges:always_return_as_numpy: Argument `always_return_as_numpy` has been deprecated since version 1.5.0. It will be removed in version 1.7.0. The option is removed and the return type will always be equal to the input type.",
+          "monai.metrics.utils get_mask_edges:always_return_as_numpy: Argument `always_return_as_numpy` has been deprecated since version 1.5.0. It will be removed in version 1.7.0. The option is removed and the return type will always be equal to the input type."
+        ]
+      },
+      "abs_diff": {
+        "hd95": 0.0,
+        "asd": 0.0
+      }
+    },
+    "anisotropic_y_shift": {
+      "reference": {
+        "status": "ok",
+        "hd95": 2.0,
+        "asd": 2.0
+      },
+      "monai_1_5_1": {
+        "hd95": 2.0,
+        "asd": 2.0,
+        "warnings": [
+          "monai.metrics.utils get_mask_edges:always_return_as_numpy: Argument `always_return_as_numpy` has been deprecated since version 1.5.0. It will be removed in version 1.7.0. The option is removed and the return type will always be equal to the input type.",
+          "monai.metrics.utils get_mask_edges:always_return_as_numpy: Argument `always_return_as_numpy` has been deprecated since version 1.5.0. It will be removed in version 1.7.0. The option is removed and the return type will always be equal to the input type."
+        ]
+      },
+      "abs_diff": {
+        "hd95": 0.0,
+        "asd": 0.0
+      }
+    },
+    "isolated_outlier": {
+      "reference": {
+        "status": "ok",
+        "hd95": 0.0,
+        "asd": 0.07012629234907909
+      },
+      "monai_1_5_1": {
+        "hd95": 0.0,
+        "asd": 0.07012628763914108,
+        "warnings": [
+          "monai.metrics.utils get_mask_edges:always_return_as_numpy: Argument `always_return_as_numpy` has been deprecated since version 1.5.0. It will be removed in version 1.7.0. The option is removed and the return type will always be equal to the input type.",
+          "monai.metrics.utils get_mask_edges:always_return_as_numpy: Argument `always_return_as_numpy` has been deprecated since version 1.5.0. It will be removed in version 1.7.0. The option is removed and the return type will always be equal to the input type."
+        ]
+      },
+      "abs_diff": {
+        "hd95": 0.0,
+        "asd": 4.709938009050951e-09
+      }
+    },
+    "nested_rectangles": {
+      "reference": {
+        "status": "ok",
+        "hd95": 3.098528137423857,
+        "asd": 2.4827587305345697
+      },
+      "monai_1_5_1": {
+        "hd95": 3.0985279083251953,
+        "asd": 2.4827585220336914,
+        "warnings": [
+          "monai.metrics.utils get_mask_edges:always_return_as_numpy: Argument `always_return_as_numpy` has been deprecated since version 1.5.0. It will be removed in version 1.7.0. The option is removed and the return type will always be equal to the input type.",
+          "monai.metrics.utils get_mask_edges:always_return_as_numpy: Argument `always_return_as_numpy` has been deprecated since version 1.5.0. It will be removed in version 1.7.0. The option is removed and the return type will always be equal to the input type."
+        ]
+      },
+      "abs_diff": {
+        "hd95": 2.290986618191937e-07,
+        "asd": 2.0850087834034525e-07
+      }
+    },
+    "prediction_empty": {
+      "reference": {
+        "status": "one_empty",
+        "hd95": 34.66987164671943,
+        "asd": 34.66987164671943
+      },
+      "monai_1_5_1": {
+        "hd95": "NaN",
+        "asd": "Infinity",
+        "warnings": [
+          "monai.metrics.utils get_mask_edges:always_return_as_numpy: Argument `always_return_as_numpy` has been deprecated since version 1.5.0. It will be removed in version 1.7.0. The option is removed and the return type will always be equal to the input type.",
+          "the prediction of class 0 is all 0, this may result in nan/inf distance.",
+          "monai.metrics.utils get_mask_edges:always_return_as_numpy: Argument `always_return_as_numpy` has been deprecated since version 1.5.0. It will be removed in version 1.7.0. The option is removed and the return type will always be equal to the input type.",
+          "the prediction of class 0 is all 0, this may result in nan/inf distance."
+        ]
+      }
+    },
+    "both_empty": {
+      "reference": {
+        "status": "both_empty",
+        "hd95": "NaN",
+        "asd": "NaN"
+      },
+      "monai_1_5_1": {
+        "hd95": "NaN",
+        "asd": "NaN",
+        "warnings": [
+          "monai.metrics.utils get_mask_edges:always_return_as_numpy: Argument `always_return_as_numpy` has been deprecated since version 1.5.0. It will be removed in version 1.7.0. The option is removed and the return type will always be equal to the input type.",
+          "the ground truth of class 0 is all 0, this may result in nan/inf distance.",
+          "the prediction of class 0 is all 0, this may result in nan/inf distance.",
+          "monai.metrics.utils get_mask_edges:always_return_as_numpy: Argument `always_return_as_numpy` has been deprecated since version 1.5.0. It will be removed in version 1.7.0. The option is removed and the return type will always be equal to the input type.",
+          "the ground truth of class 0 is all 0, this may result in nan/inf distance.",
+          "the prediction of class 0 is all 0, this may result in nan/inf distance."
+        ]
+      }
+    }
+  },
+  "summary": {
+    "normal_cases_compared": 5,
+    "max_abs_diff_hd95": 2.290986618191937e-07,
+    "max_abs_diff_asd": 2.0850087834034525e-07,
+    "normal_semantics_match": true,
+    "empty_policy_intentionally_differs": true
+  }
+}
