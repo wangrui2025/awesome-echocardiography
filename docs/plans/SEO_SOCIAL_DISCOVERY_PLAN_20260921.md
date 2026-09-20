@@ -117,7 +117,7 @@ The card is a site identity asset, not scientific evidence.
 - [x] Mobile site navigation/content does not regress.
 
 ### F. Delivery
-- [ ] Push implementation to feature branch.
+- [x] Push implementation to feature branch.
 - [ ] PR build CI passes.
 - [ ] Reference-metrics regression remains green.
 - [ ] Vercel Preview passes.
