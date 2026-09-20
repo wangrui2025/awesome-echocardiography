@@ -1,4 +1,4 @@
-"""CPU audit: Reference Metrics v1 vs MONAI 1.5.1.
+"""CPU audit: Reference Metrics v1.1 segmentation semantics vs MONAI 1.5.1.
 
 No GPU is used. This script exists to pin the historical semantics of the later
 private GDKVM evaluator and to document the deliberate v1 empty-mask override.

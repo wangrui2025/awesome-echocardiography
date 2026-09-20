@@ -1,41 +1,59 @@
-# Awesome Echocardiography Reference Metrics v1.0
+# Awesome Echocardiography Reference Metrics v1.1
 
-This directory is the normative, executable reference for 2-D binary echocardiography segmentation metrics used by Awesome Echocardiography.
+This directory is the normative, executable reference for evaluation metrics used by Awesome Echocardiography.
 
-The goal is simple: if two papers claim to report the same metric, they should be able to run the same masks through this code and obtain the same number.
+The goal is simple: if two papers claim to report the same metric, they should be able to feed the same predictions and references into this code and obtain the same number.
 
 ## Status
 
-**Version:** 1.0.0  
-**Scope:** 2-D binary masks; Dice, IoU, HD, HD95, symmetric ASD, and LVEF-from-volumes reporting.  
-**Reference implementation:** `reference_metrics.py`  
-**Regression tests:** `test_reference_metrics.py`  
-**MONAI compatibility audit:** `monai_1_5_1_cpu_audit.json`
+**Version:** 1.1.0
+**Scope:** 2-D binary segmentation, binary classification, continuous regression / cardiac-function prediction, and clinical agreement.
+**Reference implementation:** `reference_metrics.py`
+**Regression tests:** `test_reference_metrics.py`
+**MONAI segmentation compatibility audit:** `monai_1_5_1_cpu_audit.json`
 
-The reference implementation is intentionally CPU-first. GPU implementations are welcome, but they must reproduce this reference within the declared numerical tolerance before they are called compliant.
+The implementation is intentionally CPU-first. Faster CPU/GPU implementations are welcome, but they must reproduce this reference within the declared numerical tolerance before they are called compliant.
 
-## 1. Evaluation item
+## What changed from v1.0
 
-The atomic evaluation item is **one prediction mask and one ground-truth mask for one image/frame, structure, view, and phase**.
+v1.0 fixed Dice, IoU, HD, HD95, symmetric ASD, spacing, empty-mask, aggregation, and basic LVEF reporting.
+
+v1.1 preserves those segmentation semantics and adds:
+
+- threshold-dependent classification metrics: sensitivity/recall, specificity, precision, F1, accuracy;
+- threshold-free binary ranking metrics: AUROC and non-interpolated Average Precision (AP);
+- continuous prediction metrics: MAE, RMSE, Pearson `r`, and R²;
+- a normative Bland–Altman agreement protocol;
+- an explicit **prediction − reference** difference direction;
+- **sample SD (`ddof=1`)** for Bland–Altman limits of agreement;
+- LVEF error/agreement reporting in percentage points.
+
+The sample-SD choice is intentionally more explicit than historical experiment code that used NumPy's default `std()` (`ddof=0`). Published historical numbers remain historical evidence; v1.1 defines the standard for future comparable evaluation.
+
+---
+
+# A. Segmentation
+
+## A1. Atomic evaluation item
+
+The atomic segmentation item is **one prediction mask and one ground-truth mask for one image/frame, structure, view, and phase**.
 
 Do not let batch size, number of GPUs, or distributed-worker boundaries change metric weighting.
 
-For echocardiography, reports should preserve the relevant axes instead of silently collapsing them:
+Preserve relevant axes before any global mean:
 
 - dataset;
 - structure (for example LV endocardium, LV epicardium, LA);
 - view (for example A2C, A4C);
 - phase/frame (for example ED, ES).
 
-A global mean may be added, but the grouped results remain part of the report.
-
-## 2. Binary masks and post-processing
+## A2. Binary masks and post-processing
 
 Metric inputs are already-binarized masks with identical 2-D shape.
 
 Thresholding, resize/interpolation, connected-component filtering, temporal frame selection, and other post-processing are **outside** the metric definition. They must be reported as part of the experimental protocol.
 
-## 3. Region metrics
+## A3. Dice and IoU
 
 For foreground sets `P` and `G`:
 
@@ -49,17 +67,17 @@ Empty behavior:
 - both empty: **N/A** (`NaN`) and counted as `both_empty`;
 - exactly one empty: Dice = 0, IoU = 0.
 
-Both-empty cases are excluded from the positive-structure mean but their count must be reported.
+Do not import smoothing constants from a training Dice loss into the benchmark Dice metric.
 
-## 4. Surface definition
+## A4. Surface definition
 
-For normal non-empty masks, v1 uses the same pixel-surface semantics as the MONAI 1.5.1 CPU path:
+For normal non-empty masks, v1.1 preserves the MONAI 1.5.1-compatible 2-D pixel-surface semantics:
 
 ```text
 surface(mask) = binary_erosion(mask) XOR mask
 ```
 
-SciPy's default connectivity-1 erosion is used. For 2-D masks this corresponds to the four-connected erosion neighborhood.
+SciPy's default connectivity-1 erosion is used. In 2-D this corresponds to the four-connected erosion neighborhood.
 
 Let:
 
@@ -68,7 +86,7 @@ Let:
 
 Distances are Euclidean.
 
-## 5. HD, HD95, and symmetric ASD
+## A5. HD → HD95 → ASD
 
 ### HD
 
@@ -78,7 +96,7 @@ HD = max(max D(P→G), max D(G→P))
 
 ### HD95
 
-**Important:** v1 does not pool both directions before taking the percentile.
+HD95 immediately follows HD because it is its robust percentile variant.
 
 ```text
 HD95 = max(
@@ -87,17 +105,15 @@ HD95 = max(
 )
 ```
 
-`Q_0.95` uses linear quantile interpolation, matching the default `torch.quantile` semantics used by MONAI 1.5.1.
+The percentile is computed **separately in both directions**, then the larger value is used. `Q_0.95` uses linear interpolation.
 
-### ASD
-
-v1 uses the later-GDKVM / MONAI symmetric surface-distance semantics:
+### Symmetric ASD
 
 ```text
 ASD = mean(concat(D(P→G), D(G→P)))
 ```
 
-This is a **surface-point-count-weighted** symmetric mean. It is not necessarily equal to:
+This is a surface-point-count-weighted pooled symmetric mean. It is not necessarily equal to:
 
 ```text
 (mean D(P→G) + mean D(G→P)) / 2
@@ -105,7 +121,7 @@ This is a **surface-point-count-weighted** symmetric mean. It is not necessarily
 
 when the two surfaces contain different numbers of pixels.
 
-## 6. Spacing and units
+## A6. Spacing and units
 
 For 2-D masks, spacing is ordered as:
 
@@ -115,13 +131,13 @@ For 2-D masks, spacing is ordered as:
 
 Rules:
 
-- if physical spacing is available, use it and report distances in **mm**;
-- if spacing is unavailable, use `(1, 1)` and label the result **px**;
+- if physical spacing is available, use it and report distance metrics in **mm**;
+- if spacing is unavailable, use `(1, 1)` and report **px**;
 - never relabel a pixel distance as millimetres;
 - after resizing an image, update the physical spacing consistently;
 - do not average distance metrics expressed in different units.
 
-## 7. Empty-mask policy
+## A7. Empty-mask policy
 
 Library defaults are not the benchmark definition.
 
@@ -135,9 +151,9 @@ There is no positive structure to compare:
 
 ### Exactly one mask empty
 
-This is a complete detection/segmentation miss and must not disappear from the mean.
+This is a complete miss and must not disappear from the mean.
 
-v1 assigns a finite field-of-view penalty:
+v1.1 preserves the v1.0 finite field-of-view penalty:
 
 ```text
 penalty = sqrt(((H - 1) * y_spacing)^2 + ((W - 1) * x_spacing)^2)
@@ -152,17 +168,13 @@ Then:
 - ASD = penalty;
 - increment `n_one_empty`.
 
-This deliberately differs from MONAI 1.5.1's default percentile-Hausdorff empty behavior, which can yield `NaN`, while symmetric surface distance can yield `Infinity`.
+This deliberately avoids library-dependent NaN/Infinity reduction behavior.
 
-## 8. Aggregation
+## A8. Aggregation
 
-The reference aggregate is the arithmetic mean over valid atomic evaluation items.
+Aggregate over actual atomic items, **not averages of batches or GPUs**.
 
-- one-empty items remain in the mean via the explicit penalty;
-- both-empty items are excluded and counted;
-- aggregate across actual items, **not averages of batches or GPUs**.
-
-Every published aggregate should include at least:
+Every published segmentation aggregate should include at least:
 
 ```text
 n_total
@@ -171,9 +183,120 @@ n_one_empty
 n_both_empty
 ```
 
-For scientific reporting, also provide distribution summaries such as mean ± SD or median [IQR] as appropriate.
+Grouped results by dataset / structure / view / phase should remain available even when a global mean is added.
 
-## 9. LVEF
+---
+
+# B. Binary classification / diagnosis
+
+Classification uses a binary reference label `y ∈ {0,1}` and a **continuous model score** `s`.
+
+## B1. Threshold-dependent metrics
+
+A declared threshold `t` converts a score into a prediction:
+
+```text
+predicted positive ⇔ score >= t
+```
+
+Then:
+
+```text
+Sensitivity / Recall = TP / (TP + FN)
+Specificity          = TN / (TN + FP)
+Precision            = TP / (TP + FP)
+F1                   = 2 * Precision * Recall / (Precision + Recall)
+Accuracy             = (TP + TN) / N
+```
+
+Rules:
+
+- always report the threshold or threshold-selection procedure;
+- do not compare threshold-dependent numbers obtained from different hidden threshold-selection protocols;
+- if a denominator is zero, the corresponding metric is N/A rather than silently forced to 0 or 1.
+
+## B2. AUROC
+
+Reference v1.1 computes binary AUROC from continuous scores using the Mann–Whitney ranking identity.
+
+Interpretation:
+
+```text
+AUROC =
+P(score_positive > score_negative)
++ 0.5 * P(score_positive = score_negative)
+```
+
+Rules:
+
+- use continuous scores, not already-thresholded 0/1 predictions;
+- tied positive-negative scores receive half credit;
+- AUROC is N/A when the evaluation set contains only one class;
+- report the evaluated population and prevalence.
+
+## B3. Precision–Recall summary: Average Precision (AP)
+
+Many papers loosely write “AUPRC”. Different numerical integrations of a PR curve are not identical.
+
+Reference v1.1 recommends **non-interpolated Average Precision (AP)** as the scalar PR summary:
+
+```text
+AP = Σ_n (R_n - R_{n-1}) P_n
+```
+
+where `P_n` and `R_n` are precision and recall at score thresholds.
+
+Rules:
+
+- call this scalar **AP**;
+- if trapezoidal PR-AUC is used instead, label it explicitly as trapezoidal PR-AUC;
+- do not silently call AP and trapezoidal PR-AUC the same number;
+- for strongly imbalanced diagnosis tasks, report AP/PR information alongside AUROC rather than relying on AUROC alone.
+
+---
+
+# C. Continuous prediction and cardiac function
+
+## C1. MAE
+
+```text
+MAE = mean(|prediction - reference|)
+```
+
+MAE is in the **same unit as the target**.
+
+## C2. RMSE
+
+```text
+RMSE = sqrt(mean((prediction - reference)^2))
+```
+
+RMSE penalizes large errors more strongly than MAE and uses the same target unit.
+
+## C3. Pearson correlation
+
+```text
+r =
+Σ (p_i - p̄)(g_i - ḡ)
+/
+sqrt(Σ(p_i-p̄)^2 Σ(g_i-ḡ)^2)
+```
+
+Pearson `r` describes linear association, **not agreement**.
+
+A high `r` can coexist with a clinically important systematic bias.
+
+## C4. R²
+
+```text
+R² = 1 - Σ(prediction - reference)^2 / Σ(reference - reference_mean)^2
+```
+
+R² is N/A when the reference has zero variance.
+
+Do not confuse Pearson `r`, `r²`, and regression R².
+
+## C5. LVEF
 
 LVEF is a clinical quantity, not a mask-similarity metric:
 
@@ -181,19 +304,100 @@ LVEF is a clinical quantity, not a mask-similarity metric:
 LVEF (%) = 100 * (EDV - ESV) / EDV
 ```
 
-The method used to obtain EDV and ESV is part of the experimental protocol and is **not** hidden inside the LVEF metric. For example, single-plane area-length and biplane Simpson methods are different protocols and must be named.
+The method used to obtain EDV and ESV is a separate protocol and must be named. Examples include biplane Simpson / Method of Disks, single-plane methods, or clinically provided volumes.
 
-For LVEF prediction, v1 reports errors in **percentage points (pp)**:
+For LVEF prediction:
 
-- MAE (pp);
-- bias = prediction − ground truth (pp);
-- SD of the errors (pp);
-- optional 95% limits of agreement = bias ± 1.96 SD;
-- Pearson `r` may be reported, but should not replace an error metric.
+- LVEF itself is in `%`;
+- MAE / RMSE / bias / SD / limits of agreement are in **percentage points (pp)**;
+- correlation may supplement, but must not replace, error/agreement metrics.
 
-## 10. Compatibility audit
+---
 
-The CPU audit compares this reference with MONAI 1.5.1 on deterministic synthetic masks.
+# D. Clinical agreement: Bias and Bland–Altman
+
+GDKVM and OSA both report LVEF correlation and bias ± SD. GDKVM additionally visualizes Bland–Altman agreement. Reference v1.1 turns those historical reporting patterns into an explicit protocol.
+
+## D1. Difference direction
+
+The sign convention is fixed:
+
+```text
+difference_i = prediction_i - reference_i
+```
+
+Positive bias therefore means the model tends to **overestimate** the reference. Negative bias means underestimation.
+
+A paper using the opposite sign is not “wrong”, but must declare the sign explicitly and cannot compare signed bias values without conversion.
+
+## D2. Bias
+
+```text
+bias = mean(difference_i)
+```
+
+Bias is a systematic offset, in the original measurement unit.
+
+For LVEF, bias is in percentage points.
+
+## D3. Standard deviation of paired differences
+
+Reference v1.1 uses the **sample standard deviation**:
+
+```text
+s_d = sqrt( Σ(d_i - bias)^2 / (n - 1) )
+```
+
+This is intentionally `ddof=1`.
+
+## D4. 95% Limits of Agreement
+
+Under the conventional approximately-Normal-differences assumption:
+
+```text
+lower LoA = bias - 1.96 * s_d
+upper LoA = bias + 1.96 * s_d
+```
+
+LoA describe expected **individual-level disagreement**, not uncertainty of the mean bias.
+
+For small samples or formal method-comparison studies, confidence intervals around the bias and LoA should also be considered.
+
+## D5. Bland–Altman plot
+
+For each paired subject:
+
+```text
+x_i = (prediction_i + reference_i) / 2
+y_i = prediction_i - reference_i
+```
+
+Plot `y_i` against `x_i`, with horizontal lines at:
+
+- bias;
+- lower 95% LoA;
+- upper 95% LoA.
+
+Recommended plot/report metadata:
+
+- n paired subjects;
+- difference direction;
+- unit;
+- bias;
+- sample SD;
+- lower / upper LoA;
+- any excluded/non-finite pairs;
+- whether differences show proportional bias or changing variance across the measurement range.
+
+**Correlation and Bland–Altman answer different questions:** correlation asks whether values move together; Bland–Altman asks whether the two measurements agree closely enough.
+
+---
+
+# E. Compatibility and historical evidence
+
+## E1. Segmentation audit
+
+The frozen CPU audit compares the v1 segmentation reference with MONAI 1.5.1 on deterministic synthetic masks.
 
 Observed on 2026-09-20:
 
@@ -201,20 +405,35 @@ Observed on 2026-09-20:
 - maximum absolute HD95 difference: about `2.3e-7`;
 - maximum absolute ASD difference: about `2.1e-7`;
 - MONAI 1.5.1 returned `NaN` for HD95 and `Infinity` for ASD on a prediction-empty / ground-truth-nonempty fixture;
-- v1 intentionally replaces that ambiguous library behavior with the explicit field-of-view penalty above.
+- the reference intentionally replaces that ambiguous behavior with the explicit field-of-view penalty.
 
-The audit is CPU-only and does not require a GPU.
+## E2. Historical GDKVM / OSA clinical reporting
 
-## 11. Compliance
+Historical project code did not consistently pin the same agreement convention: training evaluators used `prediction - reference` with NumPy default `std()` (`ddof=0`), while a Bland–Altman post-processing path used `reference - prediction` with pandas sample `std()` (`ddof=1`). This is exactly the kind of silent mismatch v1.1 is designed to prevent.
 
-An accelerated CPU or GPU implementation may call itself **Awesome Echocardiography Reference Metrics v1 compliant** only if:
+OSA reports Pearson correlation and bias ± std for LVEF, with LVEF derived from predicted masks under its declared volume protocol.
 
-1. it matches the normal-case reference fixtures within absolute tolerance `1e-6`;
-2. it implements the same surface, directional-HD95, pooled-symmetric-ASD, spacing, empty-mask, and aggregation semantics;
-3. it passes the public regression suite;
-4. it declares any additional preprocessing outside the metric implementation.
+Reference v1.1 **does not retroactively rewrite published numbers**. It defines the future reproducible standard:
 
-Performance optimizations must not change the metric meaning.
+- prediction − reference;
+- sample SD (`ddof=1`);
+- LoA = bias ± 1.96 sample SD;
+- percentage points for LVEF differences.
+
+---
+
+# F. Compliance
+
+An implementation may call itself **Awesome Echocardiography Reference Metrics v1.1 compliant** only if:
+
+1. segmentation semantics match the public fixtures within absolute tolerance `1e-6`;
+2. classification and regression fixtures pass exactly within normal floating-point tolerance;
+3. Bland–Altman uses the declared sign convention and sample SD;
+4. preprocessing and threshold-selection procedures are outside the metric and explicitly documented;
+5. batch size, GPU count, and distributed partitioning do not change per-item weighting;
+6. any intentional deviation is named rather than silently reusing the same metric label.
+
+Performance optimizations must not change metric meaning.
 
 ## Run the reference tests
 
@@ -224,7 +443,7 @@ python -m pip install -r requirements.txt
 python -m unittest -v test_reference_metrics.py
 ```
 
-## Re-run the MONAI 1.5.1 audit
+## Re-run the MONAI 1.5.1 segmentation audit
 
 Install MONAI 1.5.1 and PyTorch in a CPU-capable environment, then:
 
@@ -232,4 +451,4 @@ Install MONAI 1.5.1 and PyTorch in a CPU-capable environment, then:
 python compare_monai_1_5_1.py
 ```
 
-The generated `monai_1_5_1_cpu_audit.json` records the comparison.
+The generated `monai_1_5_1_cpu_audit.json` records the segmentation comparison.

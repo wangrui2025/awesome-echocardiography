@@ -4,16 +4,26 @@ import unittest
 import numpy as np
 
 from reference_metrics import (
+    REFERENCE_VERSION,
     aggregate_cases,
+    average_precision_binary,
+    binary_classification_at_threshold,
+    bland_altman_points,
+    bland_altman_summary,
     directed_surface_distances,
     evaluate_case,
     image_diagonal_penalty,
     lvef_error_summary,
     lvef_from_volumes,
+    regression_summary,
+    roc_auc_binary,
 )
 
 
-class ReferenceMetricsV1Tests(unittest.TestCase):
+class ReferenceMetricsV11Tests(unittest.TestCase):
+    def test_version(self):
+        self.assertEqual(REFERENCE_VERSION, "1.1.0")
+
     def test_identical_square(self):
         gt = np.zeros((16, 16), dtype=bool)
         gt[4:12, 5:11] = True
@@ -53,7 +63,7 @@ class ReferenceMetricsV1Tests(unittest.TestCase):
         gt = np.zeros((32, 32), dtype=bool)
         gt[8:24, 8:24] = True
         pred = gt.copy()
-        pred[2, 2] = True  # isolated outlier
+        pred[2, 2] = True
         d_pg = directed_surface_distances(pred, gt)
         d_gp = directed_surface_distances(gt, pred)
         expected = max(
@@ -75,7 +85,6 @@ class ReferenceMetricsV1Tests(unittest.TestCase):
         equal_direction_weight = float((d_pg.mean() + d_gp.mean()) / 2.0)
         m = evaluate_case(pred, gt)
         self.assertAlmostEqual(m.asd, pooled, places=12)
-        # This fixture intentionally has different surface cardinalities.
         self.assertNotAlmostEqual(pooled, equal_direction_weight, places=12)
 
     def test_one_empty_uses_fov_diagonal_penalty(self):
@@ -113,12 +122,58 @@ class ReferenceMetricsV1Tests(unittest.TestCase):
         self.assertEqual(agg["n_both_empty"], 1)
         self.assertAlmostEqual(agg["dice_mean"], 0.5)
 
-    def test_lvef_is_percent_not_fraction(self):
+    def test_binary_classification_at_declared_threshold(self):
+        m = binary_classification_at_threshold(
+            [1, 1, 0, 0],
+            [0.9, 0.4, 0.8, 0.1],
+            threshold=0.5,
+        )
+        self.assertEqual((m["tp"], m["fp"], m["tn"], m["fn"]), (1, 1, 1, 1))
+        self.assertAlmostEqual(m["sensitivity"], 0.5)
+        self.assertAlmostEqual(m["specificity"], 0.5)
+        self.assertAlmostEqual(m["precision"], 0.5)
+        self.assertAlmostEqual(m["f1"], 0.5)
+        self.assertAlmostEqual(m["accuracy"], 0.5)
+
+    def test_roc_auc_ranking_and_ties(self):
+        self.assertAlmostEqual(roc_auc_binary([1, 1, 0, 0], [0.9, 0.8, 0.2, 0.1]), 1.0)
+        self.assertAlmostEqual(roc_auc_binary([1, 0], [0.5, 0.5]), 0.5)
+
+    def test_average_precision_is_noninterpolated_ap(self):
+        ap = average_precision_binary([1, 0, 1, 0], [0.9, 0.8, 0.7, 0.1])
+        self.assertAlmostEqual(ap, 5.0 / 6.0)
+
+    def test_regression_summary(self):
+        m = regression_summary([1.0, 2.0, 3.0], [1.0, 2.0, 4.0])
+        self.assertEqual(m["n"], 3)
+        self.assertAlmostEqual(m["mae"], 1.0 / 3.0)
+        self.assertAlmostEqual(m["rmse"], math.sqrt(1.0 / 3.0))
+        self.assertAlmostEqual(m["r2"], 11.0 / 14.0)
+
+    def test_bland_altman_uses_prediction_minus_reference_and_sample_sd(self):
+        pred = [60.0, 50.0, 70.0]
+        ref = [55.0, 52.0, 68.0]
+        x, d = bland_altman_points(pred, ref)
+        np.testing.assert_allclose(x, [57.5, 51.0, 69.0])
+        np.testing.assert_allclose(d, [5.0, -2.0, 2.0])
+
+        m = bland_altman_summary(pred, ref)
+        expected_sd = float(np.std([5.0, -2.0, 2.0], ddof=1))
+        self.assertEqual(m["difference"], "prediction-reference")
+        self.assertAlmostEqual(m["bias"], 5.0 / 3.0)
+        self.assertAlmostEqual(m["sample_sd"], expected_sd)
+        self.assertAlmostEqual(m["loa_low"], 5.0 / 3.0 - 1.96 * expected_sd)
+        self.assertAlmostEqual(m["loa_high"], 5.0 / 3.0 + 1.96 * expected_sd)
+
+    def test_lvef_is_percent_and_agreement_is_percentage_points(self):
         self.assertAlmostEqual(lvef_from_volumes(120.0, 48.0), 60.0)
         s = lvef_error_summary([60.0, 50.0], [55.0, 52.0])
         self.assertEqual(s["n"], 2)
         self.assertAlmostEqual(s["mae_pp"], 3.5)
         self.assertAlmostEqual(s["bias_pp"], 1.5)
+        self.assertAlmostEqual(s["sd_pp"], np.std([5.0, -2.0], ddof=1))
+        self.assertAlmostEqual(s["loa_low_pp"], 1.5 - 1.96 * s["sd_pp"])
+        self.assertAlmostEqual(s["loa_high_pp"], 1.5 + 1.96 * s["sd_pp"])
 
 
 if __name__ == "__main__":
