@@ -118,14 +118,14 @@ The card is a site identity asset, not scientific evidence.
 
 ### F. Delivery
 - [x] Push implementation to feature branch.
-- [ ] PR build CI passes.
-- [ ] Reference-metrics regression remains green.
-- [ ] Vercel Preview passes.
-- [ ] Preview metadata verified before merge.
-- [ ] Squash-merge only on clean exact head.
-- [ ] Production deployment succeeds.
-- [ ] Production sitemap/robots/OG card return HTTP 200.
-- [ ] Close checklist with delivery evidence.
+- [x] PR build CI passes.
+- [x] Reference-metrics regression remains green.
+- [x] Vercel Preview passes.
+- [x] Preview metadata verified before merge.
+- [x] Squash-merge only on clean exact head.
+- [x] Production deployment succeeds.
+- [x] Production sitemap/robots/OG card return HTTP 200.
+- [x] Close checklist with delivery evidence.
 
 ## 8. Delivery standard
 
@@ -148,3 +148,99 @@ Do not merge if:
 - social image is missing or broken;
 - metrics regression fails;
 - paper membership changes.
+
+## 10. Delivery evidence
+
+- Feature PR: **#16 — feat: add SEO and social discovery metadata**
+- Merge commit: `04287f0adb7befa906d68b03cdf1f0a2b5e85555`
+- Main build and Reference Metrics v1.1 CI: **SUCCESS**.
+- Main Vercel Production: **SUCCESS**.
+- Production `sitemap-index.xml`: HTTP **200**.
+- Production `robots.txt`: HTTP **200**, references the canonical sitemap.
+- Production `og-card.png`: HTTP **200**, verified **1200×630 PNG**.
+- Papers canonical: `https://awesome-echocardiography.vercel.app/papers/`.
+- OG/Twitter image metadata resolves to the canonical production origin.
+
+## 10. Delivery evidence
+
+- Feature PR: **#16 — feat: add SEO and social discovery metadata**
+- Merge commit: `04287f0adb7befa906d68b03cdf1f0a2b5e85555`
+- Main build and Reference Metrics v1.1 CI: **SUCCESS**.
+- Main Vercel Production: **SUCCESS**.
+- Production `sitemap-index.xml`: HTTP **200**.
+- Production `robots.txt`: HTTP **200**, references the canonical sitemap.
+- Production `og-card.png`: HTTP **200**, verified **1200×630 PNG**.
+- Papers canonical: `https://awesome-echocardiography.vercel.app/papers/`.
+- OG/Twitter image metadata resolves to the canonical production origin.
+
+## 10. Delivery evidence
+
+- Feature PR: **#16 — feat: add SEO and social discovery metadata**
+- Merge commit: `04287f0adb7befa906d68b03cdf1f0a2b5e85555`
+- Main build and Reference Metrics v1.1 CI: **SUCCESS**.
+- Main Vercel Production: **SUCCESS**.
+- Production `sitemap-index.xml`: HTTP **200**.
+- Production `robots.txt`: HTTP **200**, references the canonical sitemap.
+- Production `og-card.png`: HTTP **200**, verified **1200×630 PNG**.
+- Papers canonical: `https://awesome-echocardiography.vercel.app/papers/`.
+- OG/Twitter image metadata resolves to the canonical production origin.
+
+## 10. Delivery evidence
+
+- Feature PR: **#16 — feat: add SEO and social discovery metadata**
+- Merge commit: `04287f0adb7befa906d68b03cdf1f0a2b5e85555`
+- Main build and Reference Metrics v1.1 CI: **SUCCESS**.
+- Main Vercel Production: **SUCCESS**.
+- Production `sitemap-index.xml`: HTTP **200**.
+- Production `robots.txt`: HTTP **200**, references the canonical sitemap.
+- Production `og-card.png`: HTTP **200**, verified **1200×630 PNG**.
+- Papers canonical: `https://awesome-echocardiography.vercel.app/papers/`.
+- OG/Twitter image metadata resolves to the canonical production origin.
+
+## 10. Delivery evidence
+
+- Feature PR: **#16 — feat: add SEO and social discovery metadata**
+- Merge commit: `04287f0adb7befa906d68b03cdf1f0a2b5e85555`
+- Main build and Reference Metrics v1.1 CI: **SUCCESS**.
+- Main Vercel Production: **SUCCESS**.
+- Production `sitemap-index.xml`: HTTP **200**.
+- Production `robots.txt`: HTTP **200**, references the canonical sitemap.
+- Production `og-card.png`: HTTP **200**, verified **1200×630 PNG**.
+- Papers canonical: `https://awesome-echocardiography.vercel.app/papers/`.
+- OG/Twitter image metadata resolves to the canonical production origin.
+
+## 10. Delivery evidence
+
+- Feature PR: **#16 — feat: add SEO and social discovery metadata**
+- Merge commit: `04287f0adb7befa906d68b03cdf1f0a2b5e85555`
+- Main build and Reference Metrics v1.1 CI: **SUCCESS**.
+- Main Vercel Production: **SUCCESS**.
+- Production `sitemap-index.xml`: HTTP **200**.
+- Production `robots.txt`: HTTP **200**, references the canonical sitemap.
+- Production `og-card.png`: HTTP **200**, verified **1200×630 PNG**.
+- Papers canonical: `https://awesome-echocardiography.vercel.app/papers/`.
+- OG/Twitter image metadata resolves to the canonical production origin.
+
+## 10. Delivery evidence
+
+- Feature PR: **#16 — feat: add SEO and social discovery metadata**
+- Merge commit: `04287f0adb7befa906d68b03cdf1f0a2b5e85555`
+- Main build and Reference Metrics v1.1 CI: **SUCCESS**.
+- Main Vercel Production: **SUCCESS**.
+- Production `sitemap-index.xml`: HTTP **200**.
+- Production `robots.txt`: HTTP **200**, references the canonical sitemap.
+- Production `og-card.png`: HTTP **200**, verified **1200×630 PNG**.
+- Papers canonical: `https://awesome-echocardiography.vercel.app/papers/`.
+- OG/Twitter image metadata resolves to the canonical production origin.
+
+## 10. Delivery evidence
+
+- Feature PR: **#16 — feat: add SEO and social discovery metadata**
+- Merge commit: `04287f0adb7befa906d68b03cdf1f0a2b5e85555`
+- Main build and Reference Metrics v1.1 CI: **SUCCESS**.
+- Main Vercel Production: **SUCCESS**.
+- Production `sitemap-index.xml`: HTTP **200**.
+- Production `robots.txt`: HTTP **200**, references the canonical sitemap.
+- Production `og-card.png`: HTTP **200**, verified **1200×630 PNG**.
+- Papers canonical: `https://awesome-echocardiography.vercel.app/papers/`.
+- OG/Twitter image metadata resolves to the canonical production origin.
