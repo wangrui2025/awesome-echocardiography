@@ -111,7 +111,7 @@ No paper is duplicated across multiple primary categories in this PR.
 
 ### E. Delivery
 
-- [ ] Push implementation to the feature branch.
+- [x] Push implementation to the feature branch.
 - [ ] PR build CI passes.
 - [ ] Reference-metrics regression CI remains green.
 - [ ] Vercel Preview passes.
