@@ -63,7 +63,7 @@ The project is being built incrementally. Broader coverage will be added only af
 
 ## Contributing
 
-Suggestions are welcome through GitHub Issues and Pull Requests. Proposed benchmark or metric implementations should include reproducible fixtures and document any deviation from Reference Metrics v1.
+Paper suggestions should use the structured [paper submission form](https://github.com/wangrui2025/awesome-echocardiography/issues/new?template=paper.yml), which separates project pages from actual implementation repositories and records code-status evidence. General site issues and focused pull requests are also welcome. Proposed benchmark or metric implementations should include reproducible fixtures and document any deviation from Reference Metrics v1.
 
 ## Curation and code-status policy
 

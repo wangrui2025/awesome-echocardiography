@@ -1,0 +1,141 @@
+name: Suggest a paper
+description: Propose an echocardiography paper for manual curation and code-source verification.
+title: "[Paper] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a paper. Awesome Echocardiography is manually curated.
+        Submission does not guarantee inclusion, and a GitHub link does not automatically count as released code.
+
+  - type: input
+    id: title
+    attributes:
+      label: Paper title
+      placeholder: Full paper title
+    validations:
+      required: true
+
+  - type: input
+    id: venue
+    attributes:
+      label: Venue and year
+      placeholder: e.g. MICCAI 2025
+    validations:
+      required: true
+
+  - type: input
+    id: paper_url
+    attributes:
+      label: Authoritative paper URL
+      description: Prefer the official conference/journal page, DOI, or publisher-hosted open-access page.
+      placeholder: https://...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: task
+    attributes:
+      label: Primary research task
+      options:
+        - Video Segmentation
+        - Cardiac Function / EF
+        - Disease Assessment
+        - Representation Learning
+        - Foundation Models
+        - Generation / Synthesis
+        - Domain Generalization
+        - Vision-Language / Reporting
+        - Acquisition / Probe Guidance
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: relevance
+    attributes:
+      label: Why does this belong in Awesome Echocardiography?
+      description: Explain the direct echocardiography relevance and why the work is useful to researchers.
+    validations:
+      required: true
+
+  - type: input
+    id: datasets
+    attributes:
+      label: Echocardiography datasets used
+      placeholder: e.g. CAMUS, EchoNet-Dynamic
+
+  - type: input
+    id: project_url
+    attributes:
+      label: Project / paper-page repository URL
+      description: If there is a project website or presentation repository, put it here. This may be different from the implementation repository.
+      placeholder: https://...
+
+  - type: input
+    id: implementation_url
+    attributes:
+      label: Actual implementation repository URL
+      description: Link the repository that contains runnable implementation code, if one exists. Do not put a project-page repository here unless it is also the real implementation.
+      placeholder: https://github.com/owner/repo
+
+  - type: dropdown
+    id: code_status
+    attributes:
+      label: Claimed public-code status
+      options:
+        - Code available
+        - Partial code
+        - Code announced / coming soon
+        - No public code
+        - Unofficial implementation only
+        - Unsure — maintainer verification needed
+    validations:
+      required: true
+
+  - type: textarea
+    id: runnable_components
+    attributes:
+      label: What runnable components are actually public?
+      description: List concrete files/components such as training scripts, inference/evaluation, configs, preprocessing, environment files, or checkpoints. If none, say "none".
+      placeholder: "train.py, eval.py, configs/, requirements.txt, checkpoint link..."
+    validations:
+      required: true
+
+  - type: input
+    id: weights
+    attributes:
+      label: Weights / checkpoints
+      placeholder: URL, "not released", or "not applicable"
+
+  - type: checkboxes
+    id: alternate_repo_search
+    attributes:
+      label: Repository-source verification
+      options:
+        - label: I checked whether the authors or lab maintain a separate implementation repository instead of only the first project-page repository.
+          required: true
+        - label: I understand that "code available" on a paper page is not sufficient evidence by itself.
+          required: true
+
+  - type: input
+    id: checked_date
+    attributes:
+      label: Date checked
+      placeholder: YYYY-MM-DD
+    validations:
+      required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional notes
+      description: Optional details, caveats, unofficial reproductions, or links that may help the maintainer review.
+
+  - type: checkboxes
+    id: editorial_ack
+    attributes:
+      label: Editorial acknowledgement
+      options:
+        - label: I understand that this is a curated index and submission does not guarantee inclusion.
+          required: true
