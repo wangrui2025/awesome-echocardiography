@@ -4,25 +4,38 @@ export const papers = [
     title: 'OSA: Echocardiography Video Segmentation via Orthogonalized State Update and Anatomical Prior-aware Feature Enhancement',
     authors: 'Rui Wang · Huisi Wu · Jing Qin',
     paper: 'https://openaccess.thecvf.com/content/CVPR2026/html/Wang_OSA_Echocardiography_Video_Segmentation_via_Orthogonalized_State_Update_and_Anatomical_CVPR_2026_paper.html',
-    code: 'https://github.com/wangrui2025/osa',
+    repository: 'https://github.com/wangrui2025/osa',
     project: 'https://wangrui2025.github.io/osa/en/',
+    codeStatus: 'announced',
+    codeVerifiedAt: '2026-09-20',
+    codeNoteZh: '官方仓库已建立，但当前公开内容仍以项目站点/文档为主，尚未发现论文核心训练与推理实现。',
+    codeNoteEn: 'An official repository exists, but the public repository currently contains project-site/documentation code rather than the core training and inference implementation.',
   },
   {
     venue: 'ICCV 2025',
     title: 'GDKVM: Echocardiography Video Segmentation via Spatiotemporal Key-Value Memory with Gated Delta Rule',
     authors: 'Rui Wang · Yimu Sun · Jingxing Guo · Huisi Wu · Jing Qin',
     paper: 'https://openaccess.thecvf.com/content/ICCV2025/html/Wang_GDKVM_Echocardiography_Video_Segmentation_via_Spatiotemporal_Key-Value_Memory_with_Gated_ICCV_2025_paper.html',
-    code: 'https://github.com/wangrui2025/GDKVM',
+    repository: 'https://github.com/wangrui2025/GDKVM',
     project: 'https://wangrui2025.github.io/GDKVM/en/',
+    codeStatus: 'partial',
+    codeVerifiedAt: '2026-09-20',
+    codeNoteZh: '仓库包含部分实现，但 Quick Start 仍为 TBD，当前公开版本尚不足以完整复现实验。',
+    codeNoteEn: 'The repository contains part of the implementation, but Quick Start remains TBD and the current public release is not yet sufficient for full reproduction.',
   },
   {
     venue: 'CVPR 2024 · Oral',
     title: 'MemSAM: Taming Segment Anything Model for Echocardiography Video Segmentation',
     authors: 'Xiaolong Deng · Huisi Wu · Runhao Zeng · Jing Qin',
     paper: 'https://openaccess.thecvf.com/content/CVPR2024/html/Deng_MemSAM_Taming_Segment_Anything_Model_for_Echocardiography_Video_Segmentation_CVPR_2024_paper.html',
-    code: 'https://github.com/dengxl0520/MemSAM',
+    repository: 'https://github.com/dengxl0520/MemSAM',
+    project: undefined,
+    codeStatus: 'available',
+    codeVerifiedAt: '2026-09-20',
+    codeNoteZh: '公开仓库包含模型、数据预处理、训练与测试脚本，以及依赖说明。',
+    codeNoteEn: 'The public repository includes model code, dataset preprocessing, training and testing scripts, and dependency instructions.',
   },
-];
+] as const;
 
 export const datasets = [
   {
@@ -33,6 +46,7 @@ export const datasets = [
     noteZh: '500 名患者 · A2C 与 A4C · 专家分割标注',
     dataset: 'https://www.creatis.insa-lyon.fr/Challenge/camus/',
     paper: 'https://doi.org/10.1109/TMI.2019.2900516',
+    code: undefined,
   },
   {
     name: 'EchoNet-Dynamic',
@@ -44,4 +58,4 @@ export const datasets = [
     paper: 'https://doi.org/10.1038/s41586-020-2145-8',
     code: 'https://github.com/echonet/dynamic',
   },
-];
+] as const;

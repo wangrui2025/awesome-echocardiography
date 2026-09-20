@@ -64,3 +64,7 @@ The project is being built incrementally. Broader coverage will be added only af
 ## Contributing
 
 Suggestions are welcome through GitHub Issues and Pull Requests. Proposed benchmark or metric implementations should include reproducible fixtures and document any deviation from Reference Metrics v1.
+
+## Curation and code-status policy
+
+This is a curated research index, not an exhaustive bibliography. Important echocardiography work may be included even without public code. Repository links are verified separately from code availability: placeholder or “coming soon” repositories are not labeled as released code. See [CONTRIBUTING.md](CONTRIBUTING.md) for the status definitions and review rules.

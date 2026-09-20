@@ -20,11 +20,19 @@ const copy = isZh ? {
   research: '研究',
   papers: '论文',
   papersNote: '第一版有意只收录 3 篇超声心动图视频分割论文。',
+  codePolicy: '代码状态按仓库中实际公开的可运行内容核验；只有空壳或 Coming Soon 不算“代码已公开”。',
+  codePolicyLink: '查看核验标准 ↗',
   data: '数据',
   datasets: '数据集',
   datasetsNote: '不只是给下载链接：每个数据集都解释它的标注、特点、适合任务和使用注意事项。',
   paper: '论文 ↗',
-  code: '代码 ↗',
+  repository: '官方仓库 ↗',
+  datasetCode: '代码 ↗',
+  codeAvailable: '代码已公开',
+  codePartial: '部分代码',
+  codeAnnounced: '代码预告',
+  codeNone: '暂无公开代码',
+  verified: '状态核验',
   project: '项目 ↗',
   dataset: '官方数据 ↗',
   details: '了解特点 →',
@@ -44,11 +52,19 @@ const copy = isZh ? {
   research: 'Research',
   papers: 'Papers',
   papersNote: 'For the first release, the list is intentionally limited to three echocardiography video-segmentation papers.',
+  codePolicy: 'Code status is verified from the runnable public repository contents. Placeholder or “coming soon” repositories do not count as released code.',
+  codePolicyLink: 'Review the policy ↗',
   data: 'Data',
   datasets: 'Datasets',
   datasetsNote: 'More than download links: each dataset page explains labels, strengths, suitable tasks and usage caveats.',
   paper: 'Paper ↗',
-  code: 'Code ↗',
+  repository: 'Official repo ↗',
+  datasetCode: 'Code ↗',
+  codeAvailable: 'Code available',
+  codePartial: 'Partial code',
+  codeAnnounced: 'Code announced',
+  codeNone: 'No public code',
+  verified: 'Verified',
   project: 'Project ↗',
   dataset: 'Official data ↗',
   details: 'Why this dataset →',
@@ -94,6 +110,11 @@ const copy = isZh ? {
           <p>{copy.papersNote}</p>
         </div>
 
+        <div class="policy-note">
+          <span>{copy.codePolicy}</span>
+          <a href="https://github.com/wangrui2025/awesome-echocardiography/blob/main/CONTRIBUTING.md">{copy.codePolicyLink}</a>
+        </div>
+
         <div class="paper-list">
           {papers.map((item) => (
             <article class="paper-card">
@@ -102,8 +123,17 @@ const copy = isZh ? {
               <p class="authors">{item.authors}</p>
               <div class="links">
                 <a href={item.paper}>{copy.paper}</a>
-                <a href={item.code}>{copy.code}</a>
+                <a href={item.repository}>{copy.repository}</a>
                 {item.project && <a href={item.project}>{copy.project}</a>}
+              </div>
+              <div class="code-status-row">
+                <span class:list={["code-status", `code-status--${item.codeStatus}`]}>
+                  {item.codeStatus === "available" ? copy.codeAvailable : item.codeStatus === "partial" ? copy.codePartial : item.codeStatus === "announced" ? copy.codeAnnounced : copy.codeNone}
+                </span>
+                <span class="code-status-note" title={isZh ? item.codeNoteZh : item.codeNoteEn}>
+                  {isZh ? item.codeNoteZh : item.codeNoteEn}
+                </span>
+                <span class="code-verified">{copy.verified}: {item.codeVerifiedAt}</span>
               </div>
             </article>
           ))}
@@ -129,7 +159,7 @@ const copy = isZh ? {
                 <a class="detail-link" href={isZh ? `/datasets/${item.slug}/` : `/en/datasets/${item.slug}/`}>{copy.details}</a>
                 <a href={item.dataset}>{copy.dataset}</a>
                 <a href={item.paper}>{copy.paper}</a>
-                {item.code && <a href={item.code}>{copy.code}</a>}
+                {item.code && <a href={item.code}>{copy.datasetCode}</a>}
               </div>
             </article>
           ))}
