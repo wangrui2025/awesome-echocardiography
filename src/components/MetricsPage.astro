@@ -44,9 +44,6 @@ const copy = isZh ? {
   standardTitle: 'Reference Metrics v1.1',
   standardLead: 'CPU 参考实现负责定义“指标是什么意思”。GPU 或更快实现可以替代计算过程，但必须通过同一套回归测试，不能改变数学语义。',
   audit: '分割部分继续通过 MONAI 1.5.1 CPU 一致性审计；v1.1 在此基础上新增分类、连续值预测和 Bland–Altman 一致性协议。当前公开回归测试覆盖 15 个确定性案例。',
-  historyEyebrow: '从论文习惯到公共规范',
-  historyTitle: 'GDKVM / OSA 给了我们一个真实案例',
-  historyText: 'GDKVM 与 OSA 都报告了 LVEF 的 correlation 与 bias ± std；GDKVM 还使用了 Bland–Altman 图。历史代码审计还发现：训练 evaluator 曾使用 pred−gt + NumPy 默认 ddof=0，而一套 Bland–Altman 后处理脚本使用 gt−pred + sample SD。v1.1 不改写已发表数字，而是把未来实验统一为 prediction−reference、sample SD、95% LoA 和明确单位。',
   code: '参考实现 ↗',
   tests: '回归测试 ↗',
   auditLink: 'MONAI 1.5.1 审计 ↗',
@@ -63,8 +60,8 @@ const copy = isZh ? {
     ['统计', 'Bland–Altman 固定 prediction − reference、sample SD（ddof=1）与 bias ± 1.96 SD；相关性不能替代 agreement。'],
     ['版本', '固定 evaluator 版本；任何偏离 Reference Metrics v1.1 的实现都必须明确命名差异。'],
   ],
-  sources: '论文与方法来源',
-  sourcesNote: '这些来源用于说明领域已有实践和标准统计定义；Reference Metrics v1.1 则把未来可复现的代码语义固定下来。',
+  sources: '方法学来源',
+  sourcesNote: '这些来源用于说明通用评价方法与统计定义；Reference Metrics v1.1 在此基础上固定可复现的代码语义。',
   back: '返回首页 ↗',
 } : {
   title: 'Metrics & reporting guide',
@@ -86,9 +83,6 @@ const copy = isZh ? {
   standardTitle: 'Reference Metrics v1.1',
   standardLead: 'The CPU reference defines metric meaning. GPU or faster implementations may replace the computation only after passing the same regression suite without changing the semantics.',
   audit: 'Segmentation semantics remain covered by the MONAI 1.5.1 CPU audit. v1.1 adds classification, continuous prediction, and Bland–Altman agreement protocols. The public regression suite now covers 15 deterministic cases.',
-  historyEyebrow: 'From paper convention to public contract',
-  historyTitle: 'GDKVM / OSA provide a real field example',
-  historyText: 'GDKVM and OSA both report LVEF correlation and bias ± std; GDKVM also uses Bland–Altman plots. The historical code audit also found that training evaluators used pred−gt with NumPy default ddof=0 while a Bland–Altman post-processing path used gt−pred with sample SD. v1.1 does not rewrite published numbers; it fixes future work to prediction−reference, sample SD, 95% LoA, and explicit units.',
   code: 'Reference implementation ↗',
   tests: 'Regression tests ↗',
   auditLink: 'MONAI 1.5.1 audit ↗',
@@ -105,8 +99,8 @@ const copy = isZh ? {
     ['Statistics', 'Bland–Altman fixes prediction − reference, sample SD (ddof=1), and bias ± 1.96 SD; correlation does not replace agreement.'],
     ['Versioning', 'Pin the evaluator version and explicitly name any deviation from Reference Metrics v1.1.'],
   ],
-  sources: 'Paper & method sources',
-  sourcesNote: 'These sources document established field practice and statistical definitions; Reference Metrics v1.1 fixes the reproducible code semantics for future work.',
+  sources: 'Method references',
+  sourcesNote: 'These sources document general evaluation and statistical definitions; Reference Metrics v1.1 fixes reproducible code semantics on top of them.',
   back: 'Back home ↗',
 };
 
@@ -269,16 +263,6 @@ const groupCounts = groups.map((group) => ({
         </div>
       </section>
 
-      <section class="metric-history-section">
-        <div class="section-head">
-          <div>
-            <p class="kicker">{copy.historyEyebrow}</p>
-            <h2>{copy.historyTitle}</h2>
-          </div>
-          <p>{copy.historyText}</p>
-        </div>
-      </section>
-
       <section class="reporting-section">
         <div class="section-head">
           <div>
@@ -303,9 +287,6 @@ const groupCounts = groups.map((group) => ({
         <p class="kicker">{copy.sources}</p>
         <p class="source-note">{copy.sourcesNote}</p>
         <div class="source-links">
-          <a href="https://openaccess.thecvf.com/content/ICCV2025/html/Wang_GDKVM_Echocardiography_Video_Segmentation_via_Spatiotemporal_Key-Value_Memory_with_Gated_ICCV_2025_paper.html">GDKVM · ICCV 2025 ↗</a>
-          <a href="https://openaccess.thecvf.com/content/ICCV2025/supplemental/Wang_GDKVM_Echocardiography_Video_ICCV_2025_supplemental.pdf">GDKVM supplemental ↗</a>
-          <a href="https://openaccess.thecvf.com/content/CVPR2026/html/Wang_OSA_Echocardiography_Video_Segmentation_via_Orthogonalized_State_Update_and_Anatomical_CVPR_2026_paper.html">OSA · CVPR 2026 ↗</a>
           <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5654219/">Bland–Altman reference ↗</a>
           <a href="https://scikit-learn.org/stable/modules/model_evaluation.html">Classification metrics reference ↗</a>
         </div>
