@@ -1,0 +1,147 @@
+---
+import '../styles/global.css';
+import SiteNav from './SiteNav.astro';
+import PaperCard from './PaperCard.astro';
+import { papers, publicPaperCategories, type PaperCategory } from '../papers';
+
+interface Props {
+  locale: 'zh' | 'en';
+}
+
+const { locale } = Astro.props;
+const isZh = locale === 'zh';
+
+const copy = isZh ? {
+  lang: 'zh-CN',
+  title: '论文',
+  eyebrow: '精选论文索引',
+  intro: '按研究任务整理超声心动图 AI 论文。这里不是穷尽式文献表，而是经过人工筛选并核验公开代码状态的研究入口。',
+  paperCount: '公开论文',
+  categoryCount: '研究类别',
+  policy: '收录与代码核验标准',
+  policyNote: '论文是否值得收录，与是否公开代码是两个独立判断。代码状态以仓库当前真实内容为准。',
+  categoryVideoSegmentation: '视频分割',
+  categoryCardiacFunction: '心功能与 EF',
+  categoryDiseaseAssessment: '疾病评估',
+  categoryRepresentationLearning: '表征学习',
+  categoryFoundationModels: '基础模型',
+  categoryGeneration: '生成与合成',
+  categoryDomainGeneralization: '域泛化',
+  categoryVisionLanguage: '视觉语言与报告',
+  sectionNote: '当前公开列表仍保持小而精；更多候选论文先进入核验表，再决定是否正式收录。',
+  footer: '候选论文不会因为存在 GitHub 链接就自动进入主列表。',
+} : {
+  lang: 'en',
+  title: 'Papers',
+  eyebrow: 'Curated paper index',
+  intro: 'Echocardiography AI papers organized by research task. This is not an exhaustive bibliography: papers are manually curated and public code status is independently verified.',
+  paperCount: 'Public papers',
+  categoryCount: 'Research categories',
+  policy: 'Curation & code policy',
+  policyNote: 'Editorial inclusion and public-code availability are separate decisions. Code status follows the repository contents that are actually public.',
+  categoryVideoSegmentation: 'Video Segmentation',
+  categoryCardiacFunction: 'Cardiac Function & EF',
+  categoryDiseaseAssessment: 'Disease Assessment',
+  categoryRepresentationLearning: 'Representation Learning',
+  categoryFoundationModels: 'Foundation Models',
+  categoryGeneration: 'Generation & Synthesis',
+  categoryDomainGeneralization: 'Domain Generalization',
+  categoryVisionLanguage: 'Vision-Language & Reporting',
+  sectionNote: 'The public list remains deliberately small. Candidate papers are audited first, then considered for editorial inclusion.',
+  footer: 'A GitHub link alone never guarantees inclusion or released code.',
+};
+
+const categoryLabels: Record<PaperCategory, string> = {
+  'video-segmentation': copy.categoryVideoSegmentation,
+  'cardiac-function': copy.categoryCardiacFunction,
+  'disease-assessment': copy.categoryDiseaseAssessment,
+  'representation-learning': copy.categoryRepresentationLearning,
+  'foundation-models': copy.categoryFoundationModels,
+  'generation': copy.categoryGeneration,
+  'domain-generalization': copy.categoryDomainGeneralization,
+  'vision-language': copy.categoryVisionLanguage,
+};
+---
+
+<html lang={copy.lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={copy.intro} />
+    <link rel="alternate" hreflang="zh-CN" href="/papers/" />
+    <link rel="alternate" hreflang="en" href="/en/papers/" />
+    <link rel="alternate" hreflang="x-default" href="/papers/" />
+    <title>{copy.title} · Awesome Echocardiography</title>
+  </head>
+  <body>
+    <main>
+      <SiteNav
+        locale={locale}
+        switchHref={isZh ? '/en/papers/' : '/papers/'}
+        current="papers"
+      />
+
+      <header class="subpage-hero papers-hero">
+        <p class="eyebrow">{copy.eyebrow}</p>
+        <h1 class="subpage-title">{copy.title}</h1>
+        <p class="subpage-intro">{copy.intro}</p>
+      </header>
+
+      <section class="compact-section">
+        <div class="paper-summary-grid">
+          <div class="paper-summary-card">
+            <span>{copy.paperCount}</span>
+            <strong>{papers.length}</strong>
+          </div>
+          <div class="paper-summary-card">
+            <span>{copy.categoryCount}</span>
+            <strong>{publicPaperCategories.length}</strong>
+          </div>
+          <a
+            class="paper-summary-card paper-summary-link"
+            href="https://github.com/wangrui2025/awesome-echocardiography/blob/main/CONTRIBUTING.md"
+          >
+            <span>{copy.policy}</span>
+            <strong>↗</strong>
+          </a>
+        </div>
+
+        <div class="policy-note papers-policy-note">
+          <span>{copy.policyNote}</span>
+          <a href="https://github.com/wangrui2025/awesome-echocardiography/blob/main/docs/PAPER_CODE_AUDIT.md">
+            {isZh ? '查看候选核验表 ↗' : 'Open candidate audit ↗'}
+          </a>
+        </div>
+      </section>
+
+      {publicPaperCategories.map((category) => {
+        const categoryPapers = papers.filter((paper) => paper.category === category);
+
+        return (
+          <section class="papers-category" id={category}>
+            <div class="section-head">
+              <div>
+                <p class="kicker">{isZh ? '研究任务' : 'Research task'}</p>
+                <h2>{categoryLabels[category]}</h2>
+              </div>
+              <p>{copy.sectionNote}</p>
+            </div>
+
+            <div class="paper-list">
+              {categoryPapers.map((paper) => (
+                <PaperCard paper={paper} locale={locale} />
+              ))}
+            </div>
+          </section>
+        );
+      })}
+
+      <footer>
+        <p>{copy.footer}</p>
+        <a href="https://github.com/wangrui2025/awesome-echocardiography/issues">
+          {isZh ? '推荐论文 ↗' : 'Suggest a paper ↗'}
+        </a>
+      </footer>
+    </main>
+  </body>
+</html>

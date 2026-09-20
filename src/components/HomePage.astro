@@ -1,7 +1,9 @@
 ---
 import '../styles/global.css';
 import SiteNav from './SiteNav.astro';
-import { papers, datasets } from '../data';
+import PaperCard from './PaperCard.astro';
+import { featuredPapers } from '../papers';
+import { datasets } from '../data';
 
 interface Props {
   locale: 'zh' | 'en';
@@ -20,6 +22,7 @@ const copy = isZh ? {
   research: '研究',
   papers: '论文',
   papersNote: '第一版有意只收录 3 篇超声心动图视频分割论文。',
+  papersCta: '查看论文索引 →',
   codePolicy: '代码状态按仓库中实际公开的可运行内容核验；只有空壳或 Coming Soon 不算“代码已公开”。',
   codePolicyLink: '查看核验标准 ↗',
   data: '数据',
@@ -52,6 +55,7 @@ const copy = isZh ? {
   research: 'Research',
   papers: 'Papers',
   papersNote: 'For the first release, the list is intentionally limited to three echocardiography video-segmentation papers.',
+  papersCta: 'Open Papers index →',
   codePolicy: 'Code status is verified from the runnable public repository contents. Placeholder or “coming soon” repositories do not count as released code.',
   codePolicyLink: 'Review the policy ↗',
   data: 'Data',
@@ -116,28 +120,11 @@ const copy = isZh ? {
         </div>
 
         <div class="paper-list">
-          {papers.map((item) => (
-            <article class="paper-card">
-              <div class="venue">{item.venue}</div>
-              <h3>{item.title}</h3>
-              <p class="authors">{item.authors}</p>
-              <div class="links">
-                <a href={item.paper}>{copy.paper}</a>
-                <a href={item.repository}>{copy.repository}</a>
-                {item.project && <a href={item.project}>{copy.project}</a>}
-              </div>
-              <div class="code-status-row">
-                <span class:list={["code-status", `code-status--${item.codeStatus}`]}>
-                  {item.codeStatus === "available" ? copy.codeAvailable : item.codeStatus === "announced" ? copy.codeAnnounced : copy.codeNone}
-                </span>
-                <span class="code-status-note" title={isZh ? item.codeNoteZh : item.codeNoteEn}>
-                  {isZh ? item.codeNoteZh : item.codeNoteEn}
-                </span>
-                <span class="code-verified">{copy.verified}: {item.codeVerifiedAt}</span>
-              </div>
-            </article>
+          {featuredPapers.map((paper) => (
+            <PaperCard paper={paper} locale={locale} />
           ))}
         </div>
+        <a class="section-footer-link" href={isZh ? '/papers/' : '/en/papers/'}>{copy.papersCta}</a>
       </section>
 
       <section>
