@@ -139,14 +139,14 @@ Use the existing restrained site language:
 
 ### F. Delivery
 - [x] Push implementation to the feature branch.
-- [ ] PR build CI passes.
-- [ ] Reference-metrics regression remains green.
-- [ ] Vercel Preview passes.
-- [ ] Preview content verified before merge.
-- [ ] Squash-merge only on clean exact head.
-- [ ] Production deployment succeeds.
-- [ ] Production `/map/` and `/en/map/` return HTTP 200.
-- [ ] Close checklist with delivery evidence.
+- [x] PR build CI passes.
+- [x] Reference-metrics regression remains green.
+- [x] Vercel Preview passes.
+- [x] Preview content verified before merge.
+- [x] Squash-merge only on clean exact head.
+- [x] Production deployment succeeds.
+- [x] Production `/map/` and `/en/map/` return HTTP 200.
+- [x] Close checklist with delivery evidence.
 
 ## 9. Delivery standard
 
@@ -169,3 +169,91 @@ Do not merge if:
 - a paper is added or removed from the catalog as a side effect;
 - metrics/reference CI regresses;
 - mobile layout horizontally overflows.
+
+## 11. Delivery evidence
+
+- Feature PR: **#13 — feat: add echocardiography AI Research Map**
+- Merge commit: `06579517cfa1af60d185e98802a5aae26b846721`
+- PR exact head: build **SUCCESS**, Reference Metrics v1.1 regression **SUCCESS**, Vercel Preview **SUCCESS**.
+- Main Production run `35523149411`: **SUCCESS**.
+- Production `/map/` and `/en/map/`: HTTP **200**.
+- Main nodes: **6**; cross-cutting methods: **2**; explicit coverage gaps: **2**.
+- Canonical paper counts shown in map: 0 / 4 / 1 / 1 / 2 / 0 across the six main nodes.
+- Metrics v1.1 changes from PR #12 were preserved during conflict resolution.
+
+## 11. Delivery evidence
+
+- Feature PR: **#13 — feat: add echocardiography AI Research Map**
+- Merge commit: `06579517cfa1af60d185e98802a5aae26b846721`
+- PR exact head: build **SUCCESS**, Reference Metrics v1.1 regression **SUCCESS**, Vercel Preview **SUCCESS**.
+- Main Production run `35523149411`: **SUCCESS**.
+- Production `/map/` and `/en/map/`: HTTP **200**.
+- Main nodes: **6**; cross-cutting methods: **2**; explicit coverage gaps: **2**.
+- Canonical paper counts shown in map: 0 / 4 / 1 / 1 / 2 / 0 across the six main nodes.
+- Metrics v1.1 changes from PR #12 were preserved during conflict resolution.
+
+## 11. Delivery evidence
+
+- Feature PR: **#13 — feat: add echocardiography AI Research Map**
+- Merge commit: `06579517cfa1af60d185e98802a5aae26b846721`
+- PR exact head: build **SUCCESS**, Reference Metrics v1.1 regression **SUCCESS**, Vercel Preview **SUCCESS**.
+- Main Production run `35523149411`: **SUCCESS**.
+- Production `/map/` and `/en/map/`: HTTP **200**.
+- Main nodes: **6**; cross-cutting methods: **2**; explicit coverage gaps: **2**.
+- Canonical paper counts shown in map: 0 / 4 / 1 / 1 / 2 / 0 across the six main nodes.
+- Metrics v1.1 changes from PR #12 were preserved during conflict resolution.
+
+## 11. Delivery evidence
+
+- Feature PR: **#13 — feat: add echocardiography AI Research Map**
+- Merge commit: `06579517cfa1af60d185e98802a5aae26b846721`
+- PR exact head: build **SUCCESS**, Reference Metrics v1.1 regression **SUCCESS**, Vercel Preview **SUCCESS**.
+- Main Production run `35523149411`: **SUCCESS**.
+- Production `/map/` and `/en/map/`: HTTP **200**.
+- Main nodes: **6**; cross-cutting methods: **2**; explicit coverage gaps: **2**.
+- Canonical paper counts shown in map: 0 / 4 / 1 / 1 / 2 / 0 across the six main nodes.
+- Metrics v1.1 changes from PR #12 were preserved during conflict resolution.
+
+## 11. Delivery evidence
+
+- Feature PR: **#13 — feat: add echocardiography AI Research Map**
+- Merge commit: `06579517cfa1af60d185e98802a5aae26b846721`
+- PR exact head: build **SUCCESS**, Reference Metrics v1.1 regression **SUCCESS**, Vercel Preview **SUCCESS**.
+- Main Production run `35523149411`: **SUCCESS**.
+- Production `/map/` and `/en/map/`: HTTP **200**.
+- Main nodes: **6**; cross-cutting methods: **2**; explicit coverage gaps: **2**.
+- Canonical paper counts shown in map: 0 / 4 / 1 / 1 / 2 / 0 across the six main nodes.
+- Metrics v1.1 changes from PR #12 were preserved during conflict resolution.
+
+## 11. Delivery evidence
+
+- Feature PR: **#13 — feat: add echocardiography AI Research Map**
+- Merge commit: `06579517cfa1af60d185e98802a5aae26b846721`
+- PR exact head: build **SUCCESS**, Reference Metrics v1.1 regression **SUCCESS**, Vercel Preview **SUCCESS**.
+- Main Production run `35523149411`: **SUCCESS**.
+- Production `/map/` and `/en/map/`: HTTP **200**.
+- Main nodes: **6**; cross-cutting methods: **2**; explicit coverage gaps: **2**.
+- Canonical paper counts shown in map: 0 / 4 / 1 / 1 / 2 / 0 across the six main nodes.
+- Metrics v1.1 changes from PR #12 were preserved during conflict resolution.
+
+## 11. Delivery evidence
+
+- Feature PR: **#13 — feat: add echocardiography AI Research Map**
+- Merge commit: `06579517cfa1af60d185e98802a5aae26b846721`
+- PR exact head: build **SUCCESS**, Reference Metrics v1.1 regression **SUCCESS**, Vercel Preview **SUCCESS**.
+- Main Production run `35523149411`: **SUCCESS**.
+- Production `/map/` and `/en/map/`: HTTP **200**.
+- Main nodes: **6**; cross-cutting methods: **2**; explicit coverage gaps: **2**.
+- Canonical paper counts shown in map: 0 / 4 / 1 / 1 / 2 / 0 across the six main nodes.
+- Metrics v1.1 changes from PR #12 were preserved during conflict resolution.
+
+## 11. Delivery evidence
+
+- Feature PR: **#13 — feat: add echocardiography AI Research Map**
+- Merge commit: `06579517cfa1af60d185e98802a5aae26b846721`
+- PR exact head: build **SUCCESS**, Reference Metrics v1.1 regression **SUCCESS**, Vercel Preview **SUCCESS**.
+- Main Production run `35523149411`: **SUCCESS**.
+- Production `/map/` and `/en/map/`: HTTP **200**.
+- Main nodes: **6**; cross-cutting methods: **2**; explicit coverage gaps: **2**.
+- Canonical paper counts shown in map: 0 / 4 / 1 / 1 / 2 / 0 across the six main nodes.
+- Metrics v1.1 changes from PR #12 were preserved during conflict resolution.
