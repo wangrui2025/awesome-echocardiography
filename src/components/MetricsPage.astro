@@ -1,0 +1,234 @@
+---
+import '../styles/global.css';
+import SiteNav from './SiteNav.astro';
+
+interface Props {
+  locale: 'zh' | 'en';
+}
+
+const { locale } = Astro.props;
+const isZh = locale === 'zh';
+const switchHref = isZh ? '/en/metrics/' : '/metrics/';
+
+const copy = isZh ? {
+  title: '指标与报告规范',
+  lead: '同一个分数，如果定义、单位、聚合方式不同，就不能直接比较。',
+  intro: '这里不试图发明一套新的指标，而是把超声心动图论文里常见的指标放到同一套清楚的定义里，并给出本站建议的最小报告规范。目标是让不同论文、不同代码库和不同数据集的结果更容易复现、核对和比较。',
+  quick: '快速对照',
+  metric: '指标',
+  measures: '它测什么',
+  direction: '越大 / 越小',
+  unit: '单位',
+  overlap: '区域重叠',
+  worstBoundary: '最坏边界误差',
+  meanBoundary: '平均边界误差',
+  robustBoundary: '稳健边界误差',
+  clinical: '左心室射血分数',
+  high: '越大越好',
+  low: '越小越好',
+  none: '无',
+  mm: 'mm',
+  percent: '%',
+  definitions: '定义',
+  diceText: '预测区域与真值区域的重叠程度。Dice = 1 表示完全重合。',
+  iouText: '交集占并集的比例。它和 Dice 单调对应，但数值更严格。',
+  hdText: '两条边界之间“最远的最近距离”。对单个离群点非常敏感。',
+  asdText: '边界点到另一条边界最近距离的平均值。本站建议默认使用双向对称版本，并明确实现。',
+  hd95Text: '把最极端的边界误差去掉后，看双向边界距离的第 95 百分位。通常比完整 HD 更稳健。',
+  lvefText: 'LVEF 不是分割相似度，而是由 EDV 与 ESV 推导出的临床心功能量。预测 LVEF 时建议另外报告误差指标。',
+  relation: 'Dice 与 IoU 可以互换：IoU = Dice / (2 − Dice)。因此同时报告二者主要是为了和不同社区的论文对齐，而不是提供两个独立的信息维度。',
+  reporting: '本站建议：最小报告规范 v0.1',
+  reportingLead: '如果希望结果能真正进入公共 benchmark，至少把下面这些信息写清楚。',
+  rules: [
+    ['数据与划分', '写清 dataset、train/val/test split，以及是否排除了 poor-quality、缺失标签或特殊病例。'],
+    ['任务定义', '写清结构（例如 LV endo / LV epi / LA）、切面（A2C / A4C）、时相（ED / ES）和 frame selection。'],
+    ['重叠指标', '至少报告 Dice；如果报告 IoU，说明是 per-case 后求平均，还是把所有像素汇总后再计算。'],
+    ['边界指标', '优先报告 HD95 + ASD；有物理 spacing 时用 mm，而不是 px。若仍报告完整 HD，要说明它对离群点敏感。'],
+    ['聚合方式', '明确 mean ± SD、median [IQR] 或其他统计方式；不要把不同结构、不同相位先混在一起再给一个总分。'],
+    ['空 mask', '明确 prediction 或 ground truth 为空时怎么处理。不同库的默认行为可能不同。'],
+    ['LVEF', 'LVEF 本身用 %。预测误差建议报告 MAE，单位写 percentage points；如需要，再补充相关系数、bias / limits of agreement。'],
+    ['实现与预处理', '公开或固定评估代码版本，写清 resize / interpolation、pixel spacing、post-processing 和 threshold。'],
+  ],
+  echoSpecific: '为什么对超声心动图尤其重要？',
+  echoSpecificText: 'CAMUS 的官方 benchmark 本来就按结构和 ED / ES 分开报告 Dice、Hausdorff 与平均距离；EchoNet-Dynamic 又把 LV tracing 与 LVEF、EDV、ESV 放在同一数据集里。也就是说，这个领域天然同时需要“重叠、边界、心功能”三类指标，不能只靠一个 Dice 讲完。',
+  source: '参考来源',
+  sourceNote: '本页把常见定义整理为网站建议；若论文使用不同定义，请以论文和代码为准，并把差异写明。',
+} : {
+  title: 'Metrics & reporting guide',
+  lead: 'A score is not comparable if its definition, unit or aggregation rule changes.',
+  intro: 'This page does not invent new metrics. It puts common echocardiography metrics under explicit definitions and proposes a minimal reporting contract so results from papers, codebases and datasets are easier to reproduce and compare.',
+  quick: 'Quick reference',
+  metric: 'Metric',
+  measures: 'What it measures',
+  direction: 'Direction',
+  unit: 'Unit',
+  overlap: 'Region overlap',
+  worstBoundary: 'Worst boundary error',
+  meanBoundary: 'Mean boundary error',
+  robustBoundary: 'Robust boundary error',
+  clinical: 'Left-ventricular ejection fraction',
+  high: 'Higher is better',
+  low: 'Lower is better',
+  none: 'None',
+  mm: 'mm',
+  percent: '%',
+  definitions: 'Definitions',
+  diceText: 'Overlap between prediction and ground truth. Dice = 1 means perfect overlap.',
+  iouText: 'Intersection divided by union. It is monotonic with Dice but numerically stricter.',
+  hdText: 'The largest nearest-boundary distance between the two contours. It is highly sensitive to a single outlier.',
+  asdText: 'The mean nearest-boundary distance. We recommend a bidirectional symmetric definition unless a paper explicitly states otherwise.',
+  hd95Text: 'The 95th percentile of bidirectional surface distances, reducing the influence of the most extreme boundary outliers.',
+  lvefText: 'LVEF is not a segmentation similarity metric. It is a clinical quantity derived from EDV and ESV. Prediction studies should report an error metric in addition to LVEF itself.',
+  relation: 'Dice and IoU are interconvertible: IoU = Dice / (2 − Dice). Reporting both is mainly useful for alignment across communities rather than as two independent dimensions.',
+  reporting: 'Recommended minimum reporting contract v0.1',
+  reportingLead: 'For a result to be useful in a public benchmark, at least make the following explicit.',
+  rules: [
+    ['Data & split', 'State the dataset and train/val/test split, including exclusions for poor quality, missing labels or special cases.'],
+    ['Task definition', 'State structure (for example LV endo / LV epi / LA), view (A2C / A4C), phase (ED / ES) and frame selection.'],
+    ['Overlap', 'Report at least Dice. If IoU is used, state whether it is averaged per case or computed after pooling all pixels.'],
+    ['Boundary', 'Prefer HD95 + ASD. When physical spacing is available, report mm rather than pixels. If full HD is reported, note its outlier sensitivity.'],
+    ['Aggregation', 'State mean ± SD, median [IQR], or another summary. Do not silently collapse structures and phases into one score.'],
+    ['Empty masks', 'State how empty prediction or ground-truth masks are handled; library defaults differ.'],
+    ['LVEF', 'LVEF itself is in %. For prediction error, report MAE in percentage points; correlation and bias / limits of agreement may be added where useful.'],
+    ['Implementation', 'Pin or publish evaluation code and specify resize/interpolation, pixel spacing, post-processing and thresholding.'],
+  ],
+  echoSpecific: 'Why this matters in echocardiography',
+  echoSpecificText: 'The original CAMUS benchmark already reports Dice, Hausdorff and mean distance separately by structure and ED/ES phase. EchoNet-Dynamic connects LV tracings with LVEF, EDV and ESV. Echocardiography therefore naturally needs overlap, boundary and cardiac-function metrics together; one Dice score is not enough.',
+  source: 'References',
+  sourceNote: 'This page normalizes common definitions into a site recommendation. If a paper uses a different definition, the paper and code remain authoritative and the difference should be stated.',
+};
+
+const metricRows = [
+  ['Dice', copy.overlap, copy.high, copy.none],
+  ['IoU / Jaccard', copy.overlap, copy.high, copy.none],
+  ['HD', copy.worstBoundary, copy.low, copy.mm],
+  ['ASD', copy.meanBoundary, copy.low, copy.mm],
+  ['HD95', copy.robustBoundary, copy.low, copy.mm],
+  ['LVEF', copy.clinical, '—', copy.percent],
+];
+---
+
+<html lang={isZh ? 'zh-CN' : 'en'}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={copy.lead} />
+    <link rel="alternate" hreflang="zh-CN" href="/metrics/" />
+    <link rel="alternate" hreflang="en" href="/en/metrics/" />
+    <link rel="alternate" hreflang="x-default" href="/metrics/" />
+    <title>{copy.title} · Awesome Echocardiography</title>
+  </head>
+  <body>
+    <main>
+      <SiteNav locale={locale} switchHref={switchHref} current="metrics" />
+
+      <header class="subpage-hero metrics-hero">
+        <p class="eyebrow">Benchmark</p>
+        <h1 class="subpage-title">{copy.title}</h1>
+        <p class="lead">{copy.lead}</p>
+        <p class="subpage-intro">{copy.intro}</p>
+      </header>
+
+      <section class="compact-section">
+        <div class="section-head">
+          <div>
+            <p class="kicker">{copy.quick}</p>
+            <h2>Dice · IoU · HD · ASD · HD95 · LVEF</h2>
+          </div>
+          <p>{copy.relation}</p>
+        </div>
+
+        <div class="metric-table" role="table" aria-label={copy.quick}>
+          <div class="metric-row metric-header" role="row">
+            <span role="columnheader">{copy.metric}</span>
+            <span role="columnheader">{copy.measures}</span>
+            <span role="columnheader">{copy.direction}</span>
+            <span role="columnheader">{copy.unit}</span>
+          </div>
+          {metricRows.map((row) => (
+            <div class="metric-row" role="row">
+              {row.map((cell) => <span role="cell">{cell}</span>)}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section>
+        <p class="kicker">{copy.definitions}</p>
+        <div class="metric-definitions">
+          <article class="metric-definition">
+            <div class="metric-name">Dice</div>
+            <div class="formula">2 |P ∩ G| / (|P| + |G|)</div>
+            <p>{copy.diceText}</p>
+          </article>
+          <article class="metric-definition">
+            <div class="metric-name">IoU / Jaccard</div>
+            <div class="formula">|P ∩ G| / |P ∪ G|</div>
+            <p>{copy.iouText}</p>
+          </article>
+          <article class="metric-definition">
+            <div class="metric-name">HD</div>
+            <div class="formula">max(sup d(P→G), sup d(G→P))</div>
+            <p>{copy.hdText}</p>
+          </article>
+          <article class="metric-definition">
+            <div class="metric-name">ASD</div>
+            <div class="formula">mean bidirectional nearest-surface distance</div>
+            <p>{copy.asdText}</p>
+          </article>
+          <article class="metric-definition">
+            <div class="metric-name">HD95</div>
+            <div class="formula">95th percentile of bidirectional surface distances</div>
+            <p>{copy.hd95Text}</p>
+          </article>
+          <article class="metric-definition">
+            <div class="metric-name">LVEF</div>
+            <div class="formula">(EDV − ESV) / EDV × 100%</div>
+            <p>{copy.lvefText}</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="reporting-section">
+        <div class="section-head">
+          <div>
+            <p class="kicker">Open benchmark</p>
+            <h2>{copy.reporting}</h2>
+          </div>
+          <p>{copy.reportingLead}</p>
+        </div>
+
+        <div class="reporting-list">
+          {copy.rules.map(([title, description], index) => (
+            <article class="reporting-row">
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <h3>{title}</h3>
+              <p>{description}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section class="callout-section">
+        <p class="kicker">{copy.echoSpecific}</p>
+        <p class="callout">{copy.echoSpecificText}</p>
+      </section>
+
+      <section class="source-section">
+        <p class="kicker">{copy.source}</p>
+        <p class="source-note">{copy.sourceNote}</p>
+        <div class="source-links">
+          <a href="https://www.creatis.insa-lyon.fr/Challenge/camus/evaluationSegmentation.html">CAMUS evaluation protocol ↗</a>
+          <a href="https://echonet.github.io/dynamic/">EchoNet-Dynamic ↗</a>
+          <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9208116/">Medical segmentation metrics guideline ↗</a>
+          <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5817231/">Boundary metrics reference ↗</a>
+        </div>
+      </section>
+
+      <footer>
+        <p>Awesome Echocardiography</p>
+        <a href={isZh ? '/' : '/en/'}>{isZh ? '返回首页 ↗' : 'Back home ↗'}</a>
+      </footer>
+    </main>
+  </body>
+</html>

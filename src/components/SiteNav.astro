@@ -1,0 +1,29 @@
+---
+interface Props {
+  locale: 'zh' | 'en';
+  switchHref: string;
+  current?: 'home' | 'metrics';
+}
+
+const { locale, switchHref, current } = Astro.props;
+const isZh = locale === 'zh';
+const homeHref = isZh ? '/' : '/en/';
+const metricsHref = isZh ? '/metrics/' : '/en/metrics/';
+---
+
+<nav class="topbar" aria-label={isZh ? '站点导航' : 'Site navigation'}>
+  <div class="topbar-primary">
+    <a class:list={['nav-link', { active: current === 'home' }]} href={homeHref}>
+      {isZh ? '首页' : 'Home'}
+    </a>
+    <a class:list={['nav-link', { active: current === 'metrics' }]} href={metricsHref}>
+      {isZh ? '指标' : 'Metrics'}
+    </a>
+  </div>
+  <span class="topbar-separator" aria-hidden="true"></span>
+  <div class="language-switcher">
+    <a class:list={['lang-link', { active: isZh }]} href={isZh ? Astro.url.pathname : switchHref}>中文</a>
+    <span aria-hidden="true">/</span>
+    <a class:list={['lang-link', { active: !isZh }]} href={!isZh ? Astro.url.pathname : switchHref}>EN</a>
+  </div>
+</nav>

@@ -1,0 +1,138 @@
+---
+import '../styles/global.css';
+import SiteNav from './SiteNav.astro';
+import { datasetDetails, type DatasetSlug } from '../datasetDetails';
+
+interface Props {
+  locale: 'zh' | 'en';
+  slug: DatasetSlug;
+}
+
+const { locale, slug } = Astro.props;
+const isZh = locale === 'zh';
+const dataset = datasetDetails[slug];
+const copy = dataset[locale];
+const basePath = `/datasets/${slug}/`;
+const switchHref = isZh ? `/en/datasets/${slug}/` : basePath;
+const metricsHref = isZh ? '/metrics/' : '/en/metrics/';
+
+const labels = isZh ? {
+  back: '数据集',
+  characteristics: '它有什么特点？',
+  facts: '快速了解',
+  suitable: '适合做什么',
+  cautions: '使用时要注意',
+  together: '为什么常和另一个数据集一起用？',
+  source: '原始来源',
+  official: '官方数据集页面 ↗',
+  paper: '原始论文 ↗',
+  benchmark: '官方评估协议 ↗',
+  code: '官方代码 ↗',
+  metrics: '查看指标与报告规范 →',
+} : {
+  back: 'Dataset',
+  characteristics: 'What makes it useful?',
+  facts: 'At a glance',
+  suitable: 'Good for',
+  cautions: 'What to watch',
+  together: 'Why pair it with the other dataset?',
+  source: 'Primary sources',
+  official: 'Official dataset ↗',
+  paper: 'Original paper ↗',
+  benchmark: 'Official evaluation protocol ↗',
+  code: 'Official code ↗',
+  metrics: 'See metrics & reporting guide →',
+};
+---
+
+<html lang={isZh ? 'zh-CN' : 'en'}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={copy.summary} />
+    <link rel="alternate" hreflang="zh-CN" href={basePath} />
+    <link rel="alternate" hreflang="en" href={`/en/datasets/${slug}/`} />
+    <link rel="alternate" hreflang="x-default" href={basePath} />
+    <title>{dataset.name} · Awesome Echocardiography</title>
+  </head>
+  <body>
+    <main>
+      <SiteNav locale={locale} switchHref={switchHref} />
+
+      <header class="subpage-hero">
+        <p class="eyebrow">{labels.back}</p>
+        <h1 class="subpage-title">{dataset.name}</h1>
+        <p class="subpage-fullname">{dataset.full}</p>
+        <p class="lead">{copy.tagline}</p>
+      </header>
+
+      <section class="compact-section">
+        <div class="section-head">
+          <div>
+            <p class="kicker">{labels.facts}</p>
+            <h2>{labels.characteristics}</h2>
+          </div>
+          <p>{copy.summary}</p>
+        </div>
+
+        <div class="fact-grid">
+          {copy.facts.map(([label, value]) => (
+            <div class="fact-card">
+              <span>{label}</span>
+              <strong>{value}</strong>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section>
+        <div class="feature-list">
+          {copy.strengths.map(([title, description], index) => (
+            <article class="feature-row">
+              <div class="feature-index">{String(index + 1).padStart(2, '0')}</div>
+              <h3>{title}</h3>
+              <p>{description}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section class="two-column-section">
+        <div>
+          <p class="kicker">{labels.suitable}</p>
+          <div class="tag-list">
+            {copy.suitable.map((item) => <span class="tag">{item}</span>)}
+          </div>
+        </div>
+
+        <div>
+          <p class="kicker">{labels.cautions}</p>
+          <ul class="plain-list">
+            {copy.cautions.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+      </section>
+
+      <section class="callout-section">
+        <p class="kicker">{labels.together}</p>
+        <p class="callout">{copy.compare}</p>
+        <a class="text-cta" href={metricsHref}>{labels.metrics}</a>
+      </section>
+
+      <section class="source-section">
+        <p class="kicker">{labels.source}</p>
+        <div class="source-links">
+          <a href={dataset.official}>{labels.official}</a>
+          <a href={dataset.paper}>{labels.paper}</a>
+          {'benchmark' in dataset && <a href={dataset.benchmark}>{labels.benchmark}</a>}
+          {'code' in dataset && <a href={dataset.code}>{labels.code}</a>}
+        </div>
+      </section>
+
+      <footer>
+        <p>Awesome Echocardiography</p>
+        <a href={isZh ? '/' : '/en/'}>{isZh ? '返回首页 ↗' : 'Back home ↗'}</a>
+      </footer>
+    </main>
+  </body>
+</html>

@@ -219,3 +219,377 @@ footer p { margin: 0; }
     padding-bottom: 36px;
   }
 }
+
+.topbar-primary,
+.language-switcher {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.topbar-separator {
+  width: 1px;
+  height: 16px;
+  margin: 0 4px;
+  background: #c8c8c2;
+}
+
+.nav-link {
+  padding: 4px 2px;
+  border-bottom: 1px solid transparent;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: #151515;
+  border-bottom-color: #151515;
+}
+
+.detail-link {
+  font-weight: 650;
+}
+
+.standard-card-section {
+  padding: 42px 0;
+}
+
+.standard-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr) auto;
+  gap: 28px;
+  align-items: center;
+  padding: 34px;
+  border: 1px solid #d5d5cf;
+  border-radius: 20px;
+  background: #fbfbf9;
+}
+
+.standard-card h2 {
+  margin: 7px 0 0;
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  letter-spacing: -0.04em;
+}
+
+.standard-card > p {
+  margin: 0;
+  color: #686864;
+  line-height: 1.6;
+}
+
+.standard-card > span {
+  white-space: nowrap;
+  font-size: 0.95rem;
+  border-bottom: 1px solid #aaa9a2;
+  padding-bottom: 2px;
+}
+
+.subpage-hero {
+  min-height: 58vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 150px 0 72px;
+  border-bottom: 1px solid #d9d9d4;
+}
+
+.subpage-title {
+  margin-top: 18px;
+  margin-bottom: 12px;
+  font-size: clamp(3.4rem, 8vw, 6.6rem);
+}
+
+.subpage-fullname {
+  max-width: 780px;
+  margin: 0 0 30px;
+  font-size: 1rem;
+  color: #777771;
+  line-height: 1.5;
+}
+
+.subpage-intro {
+  max-width: 760px;
+  margin: 28px 0 0;
+  color: #686864;
+  line-height: 1.7;
+}
+
+.compact-section {
+  padding-top: 64px;
+}
+
+.fact-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.fact-card {
+  min-height: 120px;
+  padding: 20px;
+  border: 1px solid #deded9;
+  border-radius: 14px;
+  background: #fbfbf9;
+}
+
+.fact-card span {
+  display: block;
+  margin-bottom: 18px;
+  font-size: 0.8rem;
+  color: #777771;
+}
+
+.fact-card strong {
+  display: block;
+  font-size: 1.05rem;
+  line-height: 1.4;
+}
+
+.feature-list,
+.reporting-list {
+  border-top: 1px solid #c8c8c2;
+}
+
+.feature-row,
+.reporting-row {
+  display: grid;
+  grid-template-columns: 64px 220px 1fr;
+  gap: 22px;
+  align-items: start;
+  padding: 28px 0;
+  border-bottom: 1px solid #deded9;
+}
+
+.feature-index,
+.reporting-row > span {
+  color: #9a9a94;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+}
+
+.feature-row h3,
+.reporting-row h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.feature-row p,
+.reporting-row p {
+  margin: 0;
+  color: #686864;
+  line-height: 1.65;
+}
+
+.two-column-section {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 72px;
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 24px;
+}
+
+.tag {
+  display: inline-flex;
+  padding: 9px 12px;
+  border: 1px solid #d5d5cf;
+  border-radius: 999px;
+  font-size: 0.9rem;
+}
+
+.plain-list {
+  margin: 24px 0 0;
+  padding-left: 1.15rem;
+  color: #5f5f5b;
+}
+
+.plain-list li {
+  margin-bottom: 14px;
+  padding-left: 4px;
+  line-height: 1.65;
+}
+
+.callout-section {
+  padding-top: 68px;
+  padding-bottom: 68px;
+}
+
+.callout {
+  max-width: 900px;
+  margin: 18px 0 28px;
+  font-size: clamp(1.55rem, 3vw, 2.65rem);
+  line-height: 1.28;
+  letter-spacing: -0.035em;
+}
+
+.text-cta {
+  display: inline-block;
+  border-bottom: 1px solid #aaa9a2;
+  padding-bottom: 2px;
+}
+
+.source-section {
+  padding-top: 52px;
+  padding-bottom: 52px;
+}
+
+.source-note {
+  max-width: 760px;
+  margin: 18px 0 0;
+  color: #686864;
+  line-height: 1.65;
+}
+
+.source-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 22px;
+  font-size: 0.92rem;
+}
+
+.source-links a {
+  border-bottom: 1px solid #aaa9a2;
+  padding-bottom: 2px;
+}
+
+.metrics-hero {
+  min-height: 64vh;
+}
+
+.metric-table {
+  overflow: hidden;
+  border-top: 1px solid #c8c8c2;
+  border-bottom: 1px solid #c8c8c2;
+}
+
+.metric-row {
+  display: grid;
+  grid-template-columns: 150px 1fr 150px 80px;
+  gap: 20px;
+  padding: 18px 0;
+  border-bottom: 1px solid #e1e1dc;
+}
+
+.metric-row:last-child {
+  border-bottom: 0;
+}
+
+.metric-header {
+  color: #777771;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.metric-row span:first-child {
+  font-weight: 650;
+}
+
+.metric-definitions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.metric-definition {
+  min-height: 220px;
+  padding: 26px;
+  border: 1px solid #d5d5cf;
+  border-radius: 16px;
+  background: #fbfbf9;
+}
+
+.metric-name {
+  font-size: 1.2rem;
+  font-weight: 650;
+}
+
+.formula {
+  margin: 22px 0;
+  padding: 12px 0;
+  border-top: 1px solid #e1e1dc;
+  border-bottom: 1px solid #e1e1dc;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.9rem;
+  overflow-wrap: anywhere;
+}
+
+.metric-definition p {
+  margin: 0;
+  color: #686864;
+  line-height: 1.6;
+}
+
+@media (max-width: 820px) {
+  .standard-card {
+    grid-template-columns: 1fr;
+  }
+
+  .fact-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .feature-row,
+  .reporting-row {
+    grid-template-columns: 48px 150px 1fr;
+  }
+
+  .two-column-section {
+    grid-template-columns: 1fr;
+    gap: 44px;
+  }
+
+  .metric-row {
+    grid-template-columns: 120px 1fr 130px 60px;
+    gap: 14px;
+  }
+}
+
+@media (max-width: 720px) {
+  .topbar {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .topbar-separator {
+    display: none;
+  }
+
+  .subpage-hero {
+    min-height: auto;
+    padding: 120px 0 56px;
+  }
+
+  .subpage-title {
+    font-size: clamp(2.8rem, 15vw, 4.4rem);
+  }
+
+  .fact-grid,
+  .metric-definitions {
+    grid-template-columns: 1fr;
+  }
+
+  .feature-row,
+  .reporting-row {
+    grid-template-columns: 38px 1fr;
+    gap: 10px 16px;
+  }
+
+  .feature-row p,
+  .reporting-row p {
+    grid-column: 2;
+  }
+
+  .metric-table {
+    overflow-x: auto;
+  }
+
+  .metric-row {
+    min-width: 660px;
+  }
+}
