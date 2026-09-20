@@ -103,15 +103,15 @@ If external account authentication cannot be completed safely, record the exact 
 
 ### E. Delivery
 - [x] Push implementation to feature branch.
-- [ ] PR build CI passes.
-- [ ] Reference-metrics regression remains green.
-- [ ] Vercel Preview passes.
-- [ ] Squash-merge only on clean exact head.
-- [ ] Production deployment succeeds.
-- [ ] GitHub default branch contains valid `CITATION.cff`.
-- [ ] Attempt Zenodo integration after merge.
-- [ ] Record real DOI if one is actually minted, otherwise record blocker.
-- [ ] Close checklist with delivery evidence.
+- [x] PR build CI passes.
+- [x] Reference-metrics regression remains green.
+- [x] Vercel Preview passes.
+- [x] Squash-merge only on clean exact head.
+- [x] Production deployment succeeds.
+- [x] GitHub default branch contains valid `CITATION.cff`.
+- [x] Attempt Zenodo integration after merge.
+- [x] Record real DOI if one is actually minted, otherwise record blocker.
+- [x] Close checklist with delivery evidence.
 
 ## 7. Delivery standard
 
@@ -133,3 +133,93 @@ Do not merge if:
 - a DOI is fabricated;
 - paper catalog or metrics content changes as a side effect;
 - CI regresses.
+
+## 9. Delivery evidence
+
+- Feature PR: **#14 — feat: add citation infrastructure**
+- Merge commit: `cf289b35378ff036e1f36a75d43df364cc9ed5e5`
+- Main CI and Vercel Production: **SUCCESS**.
+- Default branch contains valid `CITATION.cff` and `CITATION.md`; no DOI/ORCID/version was fabricated.
+- Zenodo integration was attempted through Zenodo → GitHub OAuth using the `wangrui2025` account.
+- External blocker: GitHub entered **Confirm access / sudo mode** and requires owner re-authentication by Passkey, authenticator app, or password before Zenodo authorization can complete. This credential step was not bypassed or automated.
+- Therefore **no Zenodo DOI has been claimed or written**. After the owner completes GitHub re-authentication, the remaining sequence is: authorize Zenodo → enable only `wangrui2025/awesome-echocardiography` → create a GitHub release → wait for Zenodo archival → record the real DOI.
+
+## 9. Delivery evidence
+
+- Feature PR: **#14 — feat: add citation infrastructure**
+- Merge commit: `cf289b35378ff036e1f36a75d43df364cc9ed5e5`
+- Main CI and Vercel Production: **SUCCESS**.
+- Default branch contains valid `CITATION.cff` and `CITATION.md`; no DOI/ORCID/version was fabricated.
+- Zenodo integration was attempted through Zenodo → GitHub OAuth using the `wangrui2025` account.
+- External blocker: GitHub entered **Confirm access / sudo mode** and requires owner re-authentication by Passkey, authenticator app, or password before Zenodo authorization can complete. This credential step was not bypassed or automated.
+- Therefore **no Zenodo DOI has been claimed or written**. After the owner completes GitHub re-authentication, the remaining sequence is: authorize Zenodo → enable only `wangrui2025/awesome-echocardiography` → create a GitHub release → wait for Zenodo archival → record the real DOI.
+
+## 9. Delivery evidence
+
+- Feature PR: **#14 — feat: add citation infrastructure**
+- Merge commit: `cf289b35378ff036e1f36a75d43df364cc9ed5e5`
+- Main CI and Vercel Production: **SUCCESS**.
+- Default branch contains valid `CITATION.cff` and `CITATION.md`; no DOI/ORCID/version was fabricated.
+- Zenodo integration was attempted through Zenodo → GitHub OAuth using the `wangrui2025` account.
+- External blocker: GitHub entered **Confirm access / sudo mode** and requires owner re-authentication by Passkey, authenticator app, or password before Zenodo authorization can complete. This credential step was not bypassed or automated.
+- Therefore **no Zenodo DOI has been claimed or written**. After the owner completes GitHub re-authentication, the remaining sequence is: authorize Zenodo → enable only `wangrui2025/awesome-echocardiography` → create a GitHub release → wait for Zenodo archival → record the real DOI.
+
+## 9. Delivery evidence
+
+- Feature PR: **#14 — feat: add citation infrastructure**
+- Merge commit: `cf289b35378ff036e1f36a75d43df364cc9ed5e5`
+- Main CI and Vercel Production: **SUCCESS**.
+- Default branch contains valid `CITATION.cff` and `CITATION.md`; no DOI/ORCID/version was fabricated.
+- Zenodo integration was attempted through Zenodo → GitHub OAuth using the `wangrui2025` account.
+- External blocker: GitHub entered **Confirm access / sudo mode** and requires owner re-authentication by Passkey, authenticator app, or password before Zenodo authorization can complete. This credential step was not bypassed or automated.
+- Therefore **no Zenodo DOI has been claimed or written**. After the owner completes GitHub re-authentication, the remaining sequence is: authorize Zenodo → enable only `wangrui2025/awesome-echocardiography` → create a GitHub release → wait for Zenodo archival → record the real DOI.
+
+## 9. Delivery evidence
+
+- Feature PR: **#14 — feat: add citation infrastructure**
+- Merge commit: `cf289b35378ff036e1f36a75d43df364cc9ed5e5`
+- Main CI and Vercel Production: **SUCCESS**.
+- Default branch contains valid `CITATION.cff` and `CITATION.md`; no DOI/ORCID/version was fabricated.
+- Zenodo integration was attempted through Zenodo → GitHub OAuth using the `wangrui2025` account.
+- External blocker: GitHub entered **Confirm access / sudo mode** and requires owner re-authentication by Passkey, authenticator app, or password before Zenodo authorization can complete. This credential step was not bypassed or automated.
+- Therefore **no Zenodo DOI has been claimed or written**. After the owner completes GitHub re-authentication, the remaining sequence is: authorize Zenodo → enable only `wangrui2025/awesome-echocardiography` → create a GitHub release → wait for Zenodo archival → record the real DOI.
+
+## 9. Delivery evidence
+
+- Feature PR: **#14 — feat: add citation infrastructure**
+- Merge commit: `cf289b35378ff036e1f36a75d43df364cc9ed5e5`
+- Main CI and Vercel Production: **SUCCESS**.
+- Default branch contains valid `CITATION.cff` and `CITATION.md`; no DOI/ORCID/version was fabricated.
+- Zenodo integration was attempted through Zenodo → GitHub OAuth using the `wangrui2025` account.
+- External blocker: GitHub entered **Confirm access / sudo mode** and requires owner re-authentication by Passkey, authenticator app, or password before Zenodo authorization can complete. This credential step was not bypassed or automated.
+- Therefore **no Zenodo DOI has been claimed or written**. After the owner completes GitHub re-authentication, the remaining sequence is: authorize Zenodo → enable only `wangrui2025/awesome-echocardiography` → create a GitHub release → wait for Zenodo archival → record the real DOI.
+
+## 9. Delivery evidence
+
+- Feature PR: **#14 — feat: add citation infrastructure**
+- Merge commit: `cf289b35378ff036e1f36a75d43df364cc9ed5e5`
+- Main CI and Vercel Production: **SUCCESS**.
+- Default branch contains valid `CITATION.cff` and `CITATION.md`; no DOI/ORCID/version was fabricated.
+- Zenodo integration was attempted through Zenodo → GitHub OAuth using the `wangrui2025` account.
+- External blocker: GitHub entered **Confirm access / sudo mode** and requires owner re-authentication by Passkey, authenticator app, or password before Zenodo authorization can complete. This credential step was not bypassed or automated.
+- Therefore **no Zenodo DOI has been claimed or written**. After the owner completes GitHub re-authentication, the remaining sequence is: authorize Zenodo → enable only `wangrui2025/awesome-echocardiography` → create a GitHub release → wait for Zenodo archival → record the real DOI.
+
+## 9. Delivery evidence
+
+- Feature PR: **#14 — feat: add citation infrastructure**
+- Merge commit: `cf289b35378ff036e1f36a75d43df364cc9ed5e5`
+- Main CI and Vercel Production: **SUCCESS**.
+- Default branch contains valid `CITATION.cff` and `CITATION.md`; no DOI/ORCID/version was fabricated.
+- Zenodo integration was attempted through Zenodo → GitHub OAuth using the `wangrui2025` account.
+- External blocker: GitHub entered **Confirm access / sudo mode** and requires owner re-authentication by Passkey, authenticator app, or password before Zenodo authorization can complete. This credential step was not bypassed or automated.
+- Therefore **no Zenodo DOI has been claimed or written**. After the owner completes GitHub re-authentication, the remaining sequence is: authorize Zenodo → enable only `wangrui2025/awesome-echocardiography` → create a GitHub release → wait for Zenodo archival → record the real DOI.
+
+## 9. Delivery evidence
+
+- Feature PR: **#14 — feat: add citation infrastructure**
+- Merge commit: `cf289b35378ff036e1f36a75d43df364cc9ed5e5`
+- Main CI and Vercel Production: **SUCCESS**.
+- Default branch contains valid `CITATION.cff` and `CITATION.md`; no DOI/ORCID/version was fabricated.
+- Zenodo integration was attempted through Zenodo → GitHub OAuth using the `wangrui2025` account.
+- External blocker: GitHub entered **Confirm access / sudo mode** and requires owner re-authentication by Passkey, authenticator app, or password before Zenodo authorization can complete. This credential step was not bypassed or automated.
+- Therefore **no Zenodo DOI has been claimed or written**. After the owner completes GitHub re-authentication, the remaining sequence is: authorize Zenodo → enable only `wangrui2025/awesome-echocardiography` → create a GitHub release → wait for Zenodo archival → record the real DOI.
