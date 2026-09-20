@@ -1,0 +1,50 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath: string;
+  zhPath: string;
+  enPath: string;
+  isHome?: boolean;
+}
+
+const { title, description, canonicalPath, zhPath, enPath, isHome = false } = Astro.props;
+const site = Astro.site ?? new URL('https://awesome-echocardiography.vercel.app');
+const canonical = new URL(canonicalPath, site);
+const zhUrl = new URL(zhPath, site);
+const enUrl = new URL(enPath, site);
+const imageUrl = new URL('/og-card.png', site);
+const fullTitle = title === 'Awesome Echocardiography' ? title : `${title} · Awesome Echocardiography`;
+const jsonLd = isHome ? JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Awesome Echocardiography',
+  url: new URL('/', site).toString(),
+  description,
+  inLanguage: ['zh-CN', 'en'],
+  sameAs: ['https://github.com/wangrui2025/awesome-echocardiography'],
+}) : null;
+---
+
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical.toString()} />
+<link rel="alternate" hreflang="zh-CN" href={zhUrl.toString()} />
+<link rel="alternate" hreflang="en" href={enUrl.toString()} />
+<link rel="alternate" hreflang="x-default" href={zhUrl.toString()} />
+<title>{fullTitle}</title>
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Awesome Echocardiography" />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical.toString()} />
+<meta property="og:image" content={imageUrl.toString()} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl.toString()} />
+
+{jsonLd && <script type="application/ld+json" set:html={jsonLd} />}

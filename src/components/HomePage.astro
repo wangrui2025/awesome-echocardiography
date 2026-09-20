@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import SiteNav from './SiteNav.astro';
+import SeoHead from './SeoHead.astro';
 import PaperCard from './PaperCard.astro';
 import { featuredPapers } from '../papers';
 import { datasets } from '../data';
@@ -85,11 +86,7 @@ const copy = isZh ? {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <meta name="description" content={copy.description} />
-    <link rel="alternate" hreflang="zh-CN" href="/" />
-    <link rel="alternate" hreflang="en" href="/en/" />
-    <link rel="alternate" hreflang="x-default" href="/" />
-    <title>Awesome Echocardiography</title>
+    <SeoHead title="Awesome Echocardiography" description={copy.description} canonicalPath={isZh ? '/' : '/en/'} zhPath="/" enPath="/en/" isHome={true} />
   </head>
   <body>
     <main>

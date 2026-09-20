@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import SiteNav from './SiteNav.astro';
+import SeoHead from './SeoHead.astro';
 import PaperCard from './PaperCard.astro';
 import { papers, publicPaperCategories, type PaperCategory } from '../papers';
 
@@ -67,11 +68,7 @@ const categoryLabels: Record<PaperCategory, string> = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <meta name="description" content={copy.intro} />
-    <link rel="alternate" hreflang="zh-CN" href="/papers/" />
-    <link rel="alternate" hreflang="en" href="/en/papers/" />
-    <link rel="alternate" hreflang="x-default" href="/papers/" />
-    <title>{copy.title} · Awesome Echocardiography</title>
+    <SeoHead title={copy.title} description={copy.intro} canonicalPath={isZh ? '/papers/' : '/en/papers/'} zhPath="/papers/" enPath="/en/papers/" />
   </head>
   <body>
     <main>

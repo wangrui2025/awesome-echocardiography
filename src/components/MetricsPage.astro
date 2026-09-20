@@ -3,6 +3,7 @@ import '../styles/global.css';
 import 'katex/dist/katex.min.css';
 import katex from 'katex';
 import SiteNav from './SiteNav.astro';
+import SeoHead from './SeoHead.astro';
 import { metricGroupsZh, metricGroupsEn } from '../metricsContent';
 
 interface Props {
@@ -114,11 +115,7 @@ const groupCounts = groups.map((group) => ({
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <meta name="description" content={copy.lead} />
-    <link rel="alternate" hreflang="zh-CN" href="/metrics/" />
-    <link rel="alternate" hreflang="en" href="/en/metrics/" />
-    <link rel="alternate" hreflang="x-default" href="/metrics/" />
-    <title>{copy.title} · Awesome Echocardiography</title>
+    <SeoHead title={copy.title} description={copy.lead} canonicalPath={isZh ? '/metrics/' : '/en/metrics/'} zhPath="/metrics/" enPath="/en/metrics/" />
   </head>
   <body>
     <main>

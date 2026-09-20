@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import SiteNav from './SiteNav.astro';
+import SeoHead from './SeoHead.astro';
 import { papers } from '../papers';
 import { mainResearchNodes, crossCuttingNodes, type ResearchMapNode } from '../researchMap';
 
@@ -59,11 +60,7 @@ const categoryHref = (node: ResearchMapNode) => {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <meta name="description" content={copy.intro} />
-    <link rel="alternate" hreflang="zh-CN" href="/map/" />
-    <link rel="alternate" hreflang="en" href="/en/map/" />
-    <link rel="alternate" hreflang="x-default" href="/map/" />
-    <title>{copy.title} · Awesome Echocardiography</title>
+    <SeoHead title={copy.title} description={copy.intro} canonicalPath={isZh ? '/map/' : '/en/map/'} zhPath="/map/" enPath="/en/map/" />
   </head>
   <body>
     <main>
