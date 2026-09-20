@@ -101,40 +101,40 @@ The homepage and Papers page must read from the **same canonical records**. No d
 
 ### B. Data model
 
-- [ ] Add a typed canonical paper schema.
-- [ ] Migrate the three existing paper records to the canonical paper module.
-- [ ] Preserve the verified code states and repository links already established.
-- [ ] Make homepage featured papers derive from the canonical records.
-- [ ] Confirm no paper metadata is duplicated between homepage and Papers page.
+- [x] Add a typed canonical paper schema.
+- [x] Migrate the three existing paper records to the canonical paper module.
+- [x] Preserve the verified code states and repository links already established.
+- [x] Make homepage featured papers derive from the canonical records.
+- [x] Confirm no paper metadata is duplicated between homepage and Papers page.
 
 ### C. Papers page
 
-- [ ] Add Chinese `/papers/`.
-- [ ] Add English `/en/papers/`.
-- [ ] Group papers by category.
-- [ ] Show venue/year/task information.
-- [ ] Show Paper / Official repo / Project links where available.
-- [ ] Show verified code status and verification date.
-- [ ] Link to `CONTRIBUTING.md` for curation/code-status definitions.
+- [x] Add Chinese `/papers/`.
+- [x] Add English `/en/papers/`.
+- [x] Group papers by category.
+- [x] Show venue/year/task information.
+- [x] Show Paper / Official repo / Project links where available.
+- [x] Show verified code status and verification date.
+- [x] Link to `CONTRIBUTING.md` for curation/code-status definitions.
 
 ### D. Navigation and homepage integration
 
-- [ ] Add Papers to the shared navigation.
-- [ ] Preserve Home / Metrics navigation.
-- [ ] Preserve Chinese-default and English switching behavior.
-- [ ] Add a restrained homepage link to the Papers index without expanding homepage content.
+- [x] Add Papers to the shared navigation.
+- [x] Preserve Home / Metrics navigation.
+- [x] Preserve Chinese-default and English switching behavior.
+- [x] Add a restrained homepage link to the Papers index without expanding homepage content.
 
 ### E. Validation
 
-- [ ] `npm run build` returns 0 errors, 0 warnings, 0 hints.
-- [ ] Chinese Papers page renders all 3 public papers.
-- [ ] English Papers page renders all 3 public papers.
-- [ ] Homepage still renders exactly 3 paper cards and 2 dataset cards.
-- [ ] Both Papers pages expose the correct code-status labels.
-- [ ] Mobile viewport has no horizontal overflow.
-- [ ] Language switching preserves the Papers route.
-- [ ] Metrics routes still build successfully.
-- [ ] No candidate paper from `PAPER_CODE_AUDIT.md` appears publicly.
+- [x] `npm run build` returns 0 errors, 0 warnings, 0 hints.
+- [x] Chinese Papers page renders all 3 public papers.
+- [x] English Papers page renders all 3 public papers.
+- [x] Homepage still renders exactly 3 paper cards and 2 dataset cards.
+- [x] Both Papers pages expose the correct code-status labels.
+- [x] Mobile viewport has no horizontal overflow.
+- [x] Language switching preserves the Papers route.
+- [x] Metrics routes still build successfully.
+- [x] No candidate paper from `PAPER_CODE_AUDIT.md` appears publicly.
 
 ### F. PR / deployment closeout
 

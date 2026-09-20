@@ -1,0 +1,58 @@
+---
+import type { PaperRecord } from '../papers';
+
+interface Props {
+  paper: PaperRecord;
+  locale: 'zh' | 'en';
+}
+
+const { paper, locale } = Astro.props;
+const isZh = locale === 'zh';
+
+const labels = isZh ? {
+  paper: '论文 ↗',
+  repository: '官方仓库 ↗',
+  project: '项目 ↗',
+  available: '代码已公开',
+  partial: '部分代码',
+  announced: '代码预告',
+  none: '暂无公开代码',
+  unofficial: '非官方实现',
+  verified: '状态核验',
+} : {
+  paper: 'Paper ↗',
+  repository: 'Official repo ↗',
+  project: 'Project ↗',
+  available: 'Code available',
+  partial: 'Partial code',
+  announced: 'Code announced',
+  none: 'No public code',
+  unofficial: 'Unofficial implementation',
+  verified: 'Verified',
+};
+
+const statusLabel = labels[paper.codeStatus];
+---
+
+<article class="paper-card">
+  <div class="venue">{paper.venue}</div>
+  <h3>{paper.title}</h3>
+  <p class="authors">{paper.authors}</p>
+  <div class="links">
+    <a href={paper.paperUrl}>{labels.paper}</a>
+    {paper.repositoryUrl && <a href={paper.repositoryUrl}>{labels.repository}</a>}
+    {paper.projectUrl && <a href={paper.projectUrl}>{labels.project}</a>}
+  </div>
+  <div class="code-status-row">
+    <span class:list={['code-status', `code-status--${paper.codeStatus}`]}>
+      {statusLabel}
+    </span>
+    <span
+      class="code-status-note"
+      title={isZh ? paper.codeNoteZh : paper.codeNoteEn}
+    >
+      {isZh ? paper.codeNoteZh : paper.codeNoteEn}
+    </span>
+    <span class="code-verified">{labels.verified}: {paper.codeVerifiedAt}</span>
+  </div>
+</article>

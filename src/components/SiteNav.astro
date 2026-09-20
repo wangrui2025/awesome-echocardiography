@@ -2,12 +2,13 @@
 interface Props {
   locale: 'zh' | 'en';
   switchHref: string;
-  current?: 'home' | 'metrics';
+  current?: 'home' | 'papers' | 'metrics';
 }
 
 const { locale, switchHref, current } = Astro.props;
 const isZh = locale === 'zh';
 const homeHref = isZh ? '/' : '/en/';
+const papersHref = isZh ? '/papers/' : '/en/papers/';
 const metricsHref = isZh ? '/metrics/' : '/en/metrics/';
 ---
 
@@ -15,6 +16,9 @@ const metricsHref = isZh ? '/metrics/' : '/en/metrics/';
   <div class="topbar-primary">
     <a class:list={['nav-link', { active: current === 'home' }]} href={homeHref}>
       {isZh ? '首页' : 'Home'}
+    </a>
+    <a class:list={['nav-link', { active: current === 'papers' }]} href={papersHref}>
+      {isZh ? '论文' : 'Papers'}
     </a>
     <a class:list={['nav-link', { active: current === 'metrics' }]} href={metricsHref}>
       {isZh ? '指标' : 'Metrics'}
