@@ -78,43 +78,43 @@ The card is a site identity asset, not scientific evidence.
 ### A. Planning
 - [x] Create isolated worktree from current `origin/main`.
 - [x] Write this plan before implementation.
-- [ ] Open PR with this plan as first commit.
+- [x] Open PR with this plan as first commit.
 
 ### B. Core SEO
-- [ ] Set canonical Astro `site`.
-- [ ] Add sitemap integration.
-- [ ] Add reusable `SeoHead.astro`.
-- [ ] Add canonical URL metadata.
-- [ ] Add hreflang/x-default metadata.
-- [ ] Add Open Graph metadata.
-- [ ] Add Twitter card metadata.
-- [ ] Add homepage WebSite JSON-LD.
+- [x] Set canonical Astro `site`.
+- [x] Add sitemap integration.
+- [x] Add reusable `SeoHead.astro`.
+- [x] Add canonical URL metadata.
+- [x] Add hreflang/x-default metadata.
+- [x] Add Open Graph metadata.
+- [x] Add Twitter card metadata.
+- [x] Add homepage WebSite JSON-LD.
 
 ### C. Page integration
-- [ ] Home pages use shared SEO head.
-- [ ] Papers pages use shared SEO head.
-- [ ] Research Map pages use shared SEO head.
-- [ ] Metrics pages use shared SEO head.
-- [ ] Dataset detail pages use shared SEO head.
-- [ ] No page keeps conflicting duplicate canonical/hreflang metadata.
+- [x] Home pages use shared SEO head.
+- [x] Papers pages use shared SEO head.
+- [x] Research Map pages use shared SEO head.
+- [x] Metrics pages use shared SEO head.
+- [x] Dataset detail pages use shared SEO head.
+- [x] No page keeps conflicting duplicate canonical/hreflang metadata.
 
 ### D. Discovery assets
-- [ ] Add `robots.txt`.
-- [ ] Add deterministic 1200×630 social card.
-- [ ] Production build emits `sitemap-index.xml` or equivalent sitemap output.
-- [ ] robots.txt points to production sitemap.
+- [x] Add `robots.txt`.
+- [x] Add deterministic 1200×630 social card.
+- [x] Production build emits `sitemap-index.xml` or equivalent sitemap output.
+- [x] robots.txt points to production sitemap.
 
 ### E. Validation
-- [ ] `npm run build` returns 0 errors, 0 warnings, 0 hints.
-- [ ] Homepage canonical points to production origin.
-- [ ] Chinese/English Papers canonical and alternates are correct.
-- [ ] Map, Metrics, and dataset routes have correct canonicals.
-- [ ] OG image resolves from the canonical production origin.
-- [ ] No localhost/Vercel Preview host appears in built metadata.
-- [ ] Homepage remains 3 featured papers.
-- [ ] Papers page remains 10 public papers.
-- [ ] Reference Metrics v1.1 tests/build remain unaffected.
-- [ ] Mobile site navigation/content does not regress.
+- [x] `npm run build` returns 0 errors, 0 warnings, 0 hints.
+- [x] Homepage canonical points to production origin.
+- [x] Chinese/English Papers canonical and alternates are correct.
+- [x] Map, Metrics, and dataset routes have correct canonicals.
+- [x] OG image resolves from the canonical production origin.
+- [x] No localhost/Vercel Preview host appears in built metadata.
+- [x] Homepage remains 3 featured papers.
+- [x] Papers page remains 10 public papers.
+- [x] Reference Metrics v1.1 tests/build remain unaffected.
+- [x] Mobile site navigation/content does not regress.
 
 ### F. Delivery
 - [ ] Push implementation to feature branch.

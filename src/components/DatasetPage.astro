@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import SiteNav from './SiteNav.astro';
+import SeoHead from './SeoHead.astro';
 import { datasetDetails, type DatasetSlug } from '../datasetDetails';
 
 interface Props {
@@ -49,11 +50,7 @@ const labels = isZh ? {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <meta name="description" content={copy.summary} />
-    <link rel="alternate" hreflang="zh-CN" href={basePath} />
-    <link rel="alternate" hreflang="en" href={`/en/datasets/${slug}/`} />
-    <link rel="alternate" hreflang="x-default" href={basePath} />
-    <title>{dataset.name} · Awesome Echocardiography</title>
+    <SeoHead title={dataset.name} description={copy.summary} canonicalPath={isZh ? basePath : `/en/datasets/${slug}/`} zhPath={basePath} enPath={`/en/datasets/${slug}/`} />
   </head>
   <body>
     <main>
