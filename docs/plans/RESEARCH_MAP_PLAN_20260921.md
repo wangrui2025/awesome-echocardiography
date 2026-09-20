@@ -103,39 +103,39 @@ Use the existing restrained site language:
 ### A. Planning
 - [x] Create isolated worktree from current `origin/main`.
 - [x] Write this plan before implementation.
-- [ ] Open the feature PR with this plan as the first commit.
+- [x] Open the feature PR with this plan as the first commit.
 
 ### B. Map model
-- [ ] Define bilingual research-map node data.
-- [ ] Separate main task path from cross-cutting methods.
-- [ ] Connect map nodes to canonical paper categories/counts.
-- [ ] Represent empty areas as explicit coverage gaps rather than inventing papers.
+- [x] Define bilingual research-map node data.
+- [x] Separate main task path from cross-cutting methods.
+- [x] Connect map nodes to canonical paper categories/counts.
+- [x] Represent empty areas as explicit coverage gaps rather than inventing papers.
 
 ### C. Page implementation
-- [ ] Add Chinese `/map/`.
-- [ ] Add English `/en/map/`.
-- [ ] Render six main research-task nodes.
-- [ ] Render Generation and Domain Generalization as cross-cutting methods.
-- [ ] Show current paper counts and relevant catalog links.
-- [ ] Add a clear “research map, not clinical workflow” note.
+- [x] Add Chinese `/map/`.
+- [x] Add English `/en/map/`.
+- [x] Render six main research-task nodes.
+- [x] Render Generation and Domain Generalization as cross-cutting methods.
+- [x] Show current paper counts and relevant catalog links.
+- [x] Add a clear “research map, not clinical workflow” note.
 
 ### D. Navigation
-- [ ] Add Map to shared navigation.
-- [ ] Preserve Home / Papers / Metrics navigation.
-- [ ] Preserve Chinese/English route switching.
-- [ ] Highlight Map as active on Map routes.
+- [x] Add Map to shared navigation.
+- [x] Preserve Home / Papers / Metrics navigation.
+- [x] Preserve Chinese/English route switching.
+- [x] Highlight Map as active on Map routes.
 
 ### E. Validation
-- [ ] `npm run build` returns 0 errors, 0 warnings, 0 hints.
-- [ ] Chinese Map page renders all six main nodes.
-- [ ] English Map page renders all six main nodes.
-- [ ] Cross-cutting section renders Generation and Domain Generalization.
-- [ ] Segmentation/Quantification/Disease/Representation counts match canonical paper data.
-- [ ] Acquisition and Reporting show explicit coverage gaps.
-- [ ] Mobile viewport has no horizontal overflow.
-- [ ] Homepage remains 3 featured papers.
-- [ ] Papers page remains 10 public papers.
-- [ ] Metrics routes still build and retain KaTeX output.
+- [x] `npm run build` returns 0 errors, 0 warnings, 0 hints.
+- [x] Chinese Map page renders all six main nodes.
+- [x] English Map page renders all six main nodes.
+- [x] Cross-cutting section renders Generation and Domain Generalization.
+- [x] Segmentation/Quantification/Disease/Representation counts match canonical paper data.
+- [x] Acquisition and Reporting show explicit coverage gaps.
+- [x] Mobile viewport has no horizontal overflow.
+- [x] Homepage remains 3 featured papers.
+- [x] Papers page remains 10 public papers.
+- [x] Metrics routes still build and retain KaTeX output.
 
 ### F. Delivery
 - [ ] Push implementation to the feature branch.

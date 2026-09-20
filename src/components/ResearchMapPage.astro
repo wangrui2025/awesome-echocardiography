@@ -1,0 +1,182 @@
+---
+import '../styles/global.css';
+import SiteNav from './SiteNav.astro';
+import { papers } from '../papers';
+import { mainResearchNodes, crossCuttingNodes, type ResearchMapNode } from '../researchMap';
+
+interface Props {
+  locale: 'zh' | 'en';
+}
+
+const { locale } = Astro.props;
+const isZh = locale === 'zh';
+
+const copy = isZh ? {
+  lang: 'zh-CN',
+  title: '研究地图',
+  eyebrow: 'Echocardiography AI Research Map',
+  intro: '用研究任务而不是论文年份来理解超声心动图 AI：从采集与切面理解，到分割、定量、疾病评估、表征学习，再到报告与多模态理解。',
+  boundaryTitle: '这不是临床工作流',
+  boundary: '下面的顺序只是帮助研究者建立知识地图，不代表真实超声检查、诊疗决策或临床指南必须按此顺序进行。',
+  mainTitle: '主要研究任务',
+  crossTitle: '跨领域方法',
+  papers: '当前收录',
+  paperUnit: '篇',
+  gap: '待补代表作',
+  typical: '典型问题',
+  openPapers: '查看相关论文 →',
+  crossNote: '这些方法可以作用于多个研究任务，因此单独放在主路径之外。',
+  footer: '地图会随着经过人工审核的论文目录逐步扩展。',
+} : {
+  lang: 'en',
+  title: 'Research Map',
+  eyebrow: 'Echocardiography AI Research Map',
+  intro: 'Understand echocardiography AI by research problem rather than publication year: from acquisition and view understanding to segmentation, quantification, disease assessment, representation learning, and multimodal reporting.',
+  boundaryTitle: 'Not a clinical workflow',
+  boundary: 'The sequence below is a research-oriented knowledge map. It does not prescribe the order of real echocardiography acquisition, diagnosis, clinical decisions, or guidelines.',
+  mainTitle: 'Main research tasks',
+  crossTitle: 'Cross-cutting methods',
+  papers: 'Curated now',
+  paperUnit: 'papers',
+  gap: 'Coverage gap',
+  typical: 'Typical problems',
+  openPapers: 'Open related papers →',
+  crossNote: 'These methods can operate across several research tasks, so they are shown outside the main path.',
+  footer: 'The map grows only as manually reviewed papers enter the curated catalog.',
+};
+
+const countPapers = (node: ResearchMapNode) =>
+  papers.filter((paper) => node.categories.includes(paper.category));
+
+const categoryHref = (node: ResearchMapNode) => {
+  const first = node.categories[0];
+  if (!first) return isZh ? '/papers/' : '/en/papers/';
+  return `${isZh ? '/papers/' : '/en/papers/'}#${first}`;
+};
+---
+
+<html lang={copy.lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={copy.intro} />
+    <link rel="alternate" hreflang="zh-CN" href="/map/" />
+    <link rel="alternate" hreflang="en" href="/en/map/" />
+    <link rel="alternate" hreflang="x-default" href="/map/" />
+    <title>{copy.title} · Awesome Echocardiography</title>
+  </head>
+  <body>
+    <main>
+      <SiteNav locale={locale} switchHref={isZh ? '/en/map/' : '/map/'} current="map" />
+
+      <header class="subpage-hero map-hero">
+        <p class="eyebrow">{copy.eyebrow}</p>
+        <h1 class="subpage-title">{copy.title}</h1>
+        <p class="subpage-intro">{copy.intro}</p>
+      </header>
+
+      <section class="compact-section">
+        <div class="map-boundary-note">
+          <strong>{copy.boundaryTitle}</strong>
+          <p>{copy.boundary}</p>
+        </div>
+      </section>
+
+      <section class="map-section">
+        <div class="section-head">
+          <div>
+            <p class="kicker">{isZh ? '从输入到理解' : 'From input to understanding'}</p>
+            <h2>{copy.mainTitle}</h2>
+          </div>
+          <p>{isZh ? '每个节点显示当前经过人工筛选的论文覆盖情况。空白不是缺陷，而是下一步需要继续补齐的领域。' : 'Each node shows current manually curated coverage. Empty nodes are explicit gaps to fill, not content invented for completeness.'}</p>
+        </div>
+
+        <div class="research-path">
+          {mainResearchNodes.map((node, index) => {
+            const relevant = countPapers(node);
+            const title = isZh ? node.titleZh : node.titleEn;
+            const description = isZh ? node.descriptionZh : node.descriptionEn;
+            const examples = isZh ? node.examplesZh : node.examplesEn;
+
+            return (
+              <article class:list={['map-node', { 'map-node--gap': relevant.length === 0 }]}>
+                <div class="map-node-index">{String(index + 1).padStart(2, '0')}</div>
+                <div class="map-node-main">
+                  <div class="map-node-heading">
+                    <h3>{title}</h3>
+                    <span class:list={['map-count', { 'map-count--gap': relevant.length === 0 }]}>
+                      {relevant.length > 0 ? `${copy.papers} · ${relevant.length} ${copy.paperUnit}` : copy.gap}
+                    </span>
+                  </div>
+                  <p class="map-node-description">{description}</p>
+                  <div class="map-node-examples">
+                    <span>{copy.typical}</span>
+                    {examples.map((example) => <span>{example}</span>)}
+                  </div>
+                  {relevant.length > 0 && (
+                    <div class="map-paper-links">
+                      {relevant.map((paper) => (
+                        <a href={paper.paperUrl}>
+                          <strong>{paper.venue}</strong>
+                          <span>{paper.title}</span>
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                  <a class="map-catalog-link" href={categoryHref(node)}>{copy.openPapers}</a>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+      <section class="map-section cross-cutting-section">
+        <div class="section-head">
+          <div>
+            <p class="kicker">{isZh ? '跨任务方法' : 'Across tasks'}</p>
+            <h2>{copy.crossTitle}</h2>
+          </div>
+          <p>{copy.crossNote}</p>
+        </div>
+
+        <div class="cross-map-grid">
+          {crossCuttingNodes.map((node) => {
+            const relevant = countPapers(node);
+            const title = isZh ? node.titleZh : node.titleEn;
+            const description = isZh ? node.descriptionZh : node.descriptionEn;
+            const examples = isZh ? node.examplesZh : node.examplesEn;
+
+            return (
+              <article class="cross-map-card">
+                <div class="map-node-heading">
+                  <h3>{title}</h3>
+                  <span class="map-count">{copy.papers} · {relevant.length} {copy.paperUnit}</span>
+                </div>
+                <p>{description}</p>
+                <div class="map-node-examples">
+                  {examples.map((example) => <span>{example}</span>)}
+                </div>
+                <div class="map-paper-links compact-paper-links">
+                  {relevant.map((paper) => (
+                    <a href={paper.paperUrl}>
+                      <strong>{paper.venue}</strong>
+                      <span>{paper.title}</span>
+                    </a>
+                  ))}
+                </div>
+                <a class="map-catalog-link" href={categoryHref(node)}>{copy.openPapers}</a>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+
+      <footer>
+        <p>{copy.footer}</p>
+        <a href={isZh ? '/papers/' : '/en/papers/'}>
+          {isZh ? '论文索引 ↗' : 'Papers index ↗'}
+        </a>
+      </footer>
+    </main>
+  </body>
+</html>
