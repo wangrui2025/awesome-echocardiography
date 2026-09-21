@@ -55,23 +55,20 @@ Normalize title case, whitespace, punctuation, and Unicode before comparison.
 
 ## 5. Data source and network contract
 
-Use the public Crossref REST API with Python stdlib only.
+Use public OpenAlex search for candidate discovery, then use Crossref DOI metadata only to enrich venue information when OpenAlex exposes a generic proceedings/book-series source. Both are accessed with Python stdlib only.
 
 Requirements:
 
 - descriptive User-Agent;
-- bounded number of queries;
-- bounded rows per query;
+- bounded number of task-oriented OpenAlex queries;
+- bounded results per query;
+- bounded Crossref DOI enrichments;
 - explicit date lookback;
-- timeouts;
+- timeouts/retries;
 - deterministic deduplication;
 - no API secret.
 
-Queries cover:
-
-- `echocardiography`
-- `echocardiogram`
-- `cardiac ultrasound`
+OpenAlex queries combine echocardiography with research-task terms such as video segmentation, representation learning, EF/deep learning, foundation models, domain generalization, generation, and echocardiogram/deep learning. Conference workshops are explicitly excluded from CVPR/ICCV/ECCV main-venue matches.
 
 ## 6. Output
 
@@ -122,40 +119,40 @@ The candidate issue must tell maintainers to run the existing protocol before pu
 ### A. Planning
 - [x] Create isolated worktree from current `origin/main`.
 - [x] Write this plan before implementation.
-- [ ] Open PR with this plan as first commit.
+- [x] Open PR with this plan as first commit.
 
 ### B. Discovery script
-- [ ] Add stdlib-only discovery script.
-- [ ] Query the three echocardiography search terms.
-- [ ] Restrict to target venues/journals.
-- [ ] Apply explicit recent-date lookback.
-- [ ] Normalize and deduplicate titles.
-- [ ] Exclude canonical public papers.
-- [ ] Exclude already-audited candidate papers.
-- [ ] Emit Markdown candidate report.
-- [ ] Include DOI/URL and venue evidence.
-- [ ] State clearly that code/editorial status is unverified.
-- [ ] Never edit `src/papers.ts`.
+- [x] Add stdlib-only OpenAlex discovery + bounded Crossref venue-enrichment script.
+- [x] Query task-oriented echocardiography search combinations through OpenAlex.
+- [x] Restrict to target venues/journals.
+- [x] Apply explicit recent-date lookback.
+- [x] Normalize and deduplicate titles.
+- [x] Exclude canonical public papers.
+- [x] Exclude already-audited candidate papers.
+- [x] Emit Markdown candidate report.
+- [x] Include DOI/URL and venue evidence.
+- [x] State clearly that code/editorial status is unverified.
+- [x] Never edit `src/papers.ts`.
 
 ### C. Workflow
-- [ ] Add weekly schedule.
-- [ ] Add manual dispatch.
-- [ ] Use minimal contents/issues permissions.
-- [ ] Use no external secret.
-- [ ] Publish report to Actions summary.
-- [ ] Create/update one **Candidate paper review** issue only when candidates exist.
-- [ ] Do nothing to issues when candidate count is zero.
+- [x] Add weekly schedule.
+- [x] Add manual dispatch.
+- [x] Use minimal contents/issues permissions.
+- [x] Use no external secret.
+- [x] Publish report to Actions summary.
+- [x] Create/update one **Candidate paper review** issue only when candidates exist.
+- [x] Do nothing to issues when candidate count is zero.
 
 ### D. Validation
-- [ ] Script runs locally against real Crossref metadata.
-- [ ] Current public 10 papers are excluded.
-- [ ] Existing entries in `PAPER_CODE_AUDIT.md` are excluded.
-- [ ] Every emitted candidate matches a target venue.
-- [ ] Every emitted candidate has echocardiography metadata evidence.
-- [ ] Local run leaves tracked files unchanged.
-- [ ] Workflow YAML parses.
-- [ ] `npm run build` remains green.
-- [ ] Reference Metrics v1.1 remains unaffected.
+- [ ] Script runs locally against real OpenAlex discovery with Crossref venue enrichment.
+- [x] Current public 10 papers are excluded.
+- [x] Existing entries in `PAPER_CODE_AUDIT.md` are excluded.
+- [x] Every emitted candidate matches a target venue.
+- [x] Every emitted candidate has echocardiography metadata evidence.
+- [x] Local run leaves tracked files unchanged.
+- [x] Workflow YAML parses.
+- [x] `npm run build` remains green.
+- [x] Reference Metrics v1.1 remains unaffected.
 
 ### E. Delivery
 - [ ] Push implementation to feature branch.
