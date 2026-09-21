@@ -120,7 +120,7 @@ After this audit merges, each paper may separately be:
 - [x] Issue #20 titles all appear in the audit ledger after change.
 
 ### I. Delivery
-- [ ] Push audit changes to feature branch.
+- [x] Push audit changes to feature branch.
 - [ ] PR build CI passes.
 - [ ] Reference-metrics CI remains green.
 - [ ] Vercel Preview passes.
