@@ -144,7 +144,7 @@ The candidate issue must tell maintainers to run the existing protocol before pu
 - [x] Do nothing to issues when candidate count is zero.
 
 ### D. Validation
-- [ ] Script runs locally against real OpenAlex discovery with Crossref venue enrichment.
+- [x] Script runs locally against real OpenAlex discovery with Crossref venue enrichment.
 - [x] Current public 10 papers are excluded.
 - [x] Existing entries in `PAPER_CODE_AUDIT.md` are excluded.
 - [x] Every emitted candidate matches a target venue.
@@ -156,14 +156,14 @@ The candidate issue must tell maintainers to run the existing protocol before pu
 
 ### E. Delivery
 - [x] Push implementation to feature branch.
-- [ ] PR build CI passes.
-- [ ] Reference-metrics CI remains green.
-- [ ] Vercel Preview passes.
-- [ ] Squash-merge only on clean exact head.
-- [ ] Manually dispatch discovery on main.
-- [ ] Verify candidate issue/no-issue behavior.
-- [ ] Production deployment remains green.
-- [ ] Close checklist with delivery evidence.
+- [x] PR build CI passes.
+- [x] Reference-metrics CI remains green.
+- [x] Vercel Preview passes.
+- [x] Squash-merge only on clean exact head.
+- [x] Manually dispatch discovery on main.
+- [x] Verify candidate issue/no-issue behavior.
+- [x] Production deployment remains green.
+- [x] Close checklist with delivery evidence.
 
 ## 10. Delivery standard
 
@@ -186,3 +186,111 @@ Do not merge if:
 - an issue is created when there are zero candidates;
 - the workflow needs broad permissions or third-party secrets;
 - metrics CI regresses.
+
+## 12. Delivery evidence
+
+- Feature PR: **#18 — feat: add candidate paper discovery workflow**
+- Merge commit: `135b84b755acee5ccc4ea0ea4fc5b03f162b45f9`
+- PR exact head: build **SUCCESS**, Reference Metrics v1.1 **SUCCESS**, Vercel Preview **SUCCESS**.
+- Main CI / Vercel Production: **SUCCESS**.
+- Manual discovery run `35555056700`: **SUCCESS** and created exactly one review issue, **#20 Candidate paper review**.
+- Issue #20 contains **5** candidates and **0** ICCVW/CVPRW/ECCVW workshop false positives.
+- Zero-window control run `35555173285`: **SUCCESS**; issue step **skipped** and issue #20 `updatedAt` remained unchanged.
+- Local real-metadata run returned the same five candidates after excluding current public/audited papers.
+- Final discovery architecture: OpenAlex task-oriented search + bounded Crossref venue enrichment, with explicit workshop rejection.
+
+## 12. Delivery evidence
+
+- Feature PR: **#18 — feat: add candidate paper discovery workflow**
+- Merge commit: `135b84b755acee5ccc4ea0ea4fc5b03f162b45f9`
+- PR exact head: build **SUCCESS**, Reference Metrics v1.1 **SUCCESS**, Vercel Preview **SUCCESS**.
+- Main CI / Vercel Production: **SUCCESS**.
+- Manual discovery run `35555056700`: **SUCCESS** and created exactly one review issue, **#20 Candidate paper review**.
+- Issue #20 contains **5** candidates and **0** ICCVW/CVPRW/ECCVW workshop false positives.
+- Zero-window control run `35555173285`: **SUCCESS**; issue step **skipped** and issue #20 `updatedAt` remained unchanged.
+- Local real-metadata run returned the same five candidates after excluding current public/audited papers.
+- Final discovery architecture: OpenAlex task-oriented search + bounded Crossref venue enrichment, with explicit workshop rejection.
+
+## 12. Delivery evidence
+
+- Feature PR: **#18 — feat: add candidate paper discovery workflow**
+- Merge commit: `135b84b755acee5ccc4ea0ea4fc5b03f162b45f9`
+- PR exact head: build **SUCCESS**, Reference Metrics v1.1 **SUCCESS**, Vercel Preview **SUCCESS**.
+- Main CI / Vercel Production: **SUCCESS**.
+- Manual discovery run `35555056700`: **SUCCESS** and created exactly one review issue, **#20 Candidate paper review**.
+- Issue #20 contains **5** candidates and **0** ICCVW/CVPRW/ECCVW workshop false positives.
+- Zero-window control run `35555173285`: **SUCCESS**; issue step **skipped** and issue #20 `updatedAt` remained unchanged.
+- Local real-metadata run returned the same five candidates after excluding current public/audited papers.
+- Final discovery architecture: OpenAlex task-oriented search + bounded Crossref venue enrichment, with explicit workshop rejection.
+
+## 12. Delivery evidence
+
+- Feature PR: **#18 — feat: add candidate paper discovery workflow**
+- Merge commit: `135b84b755acee5ccc4ea0ea4fc5b03f162b45f9`
+- PR exact head: build **SUCCESS**, Reference Metrics v1.1 **SUCCESS**, Vercel Preview **SUCCESS**.
+- Main CI / Vercel Production: **SUCCESS**.
+- Manual discovery run `35555056700`: **SUCCESS** and created exactly one review issue, **#20 Candidate paper review**.
+- Issue #20 contains **5** candidates and **0** ICCVW/CVPRW/ECCVW workshop false positives.
+- Zero-window control run `35555173285`: **SUCCESS**; issue step **skipped** and issue #20 `updatedAt` remained unchanged.
+- Local real-metadata run returned the same five candidates after excluding current public/audited papers.
+- Final discovery architecture: OpenAlex task-oriented search + bounded Crossref venue enrichment, with explicit workshop rejection.
+
+## 12. Delivery evidence
+
+- Feature PR: **#18 — feat: add candidate paper discovery workflow**
+- Merge commit: `135b84b755acee5ccc4ea0ea4fc5b03f162b45f9`
+- PR exact head: build **SUCCESS**, Reference Metrics v1.1 **SUCCESS**, Vercel Preview **SUCCESS**.
+- Main CI / Vercel Production: **SUCCESS**.
+- Manual discovery run `35555056700`: **SUCCESS** and created exactly one review issue, **#20 Candidate paper review**.
+- Issue #20 contains **5** candidates and **0** ICCVW/CVPRW/ECCVW workshop false positives.
+- Zero-window control run `35555173285`: **SUCCESS**; issue step **skipped** and issue #20 `updatedAt` remained unchanged.
+- Local real-metadata run returned the same five candidates after excluding current public/audited papers.
+- Final discovery architecture: OpenAlex task-oriented search + bounded Crossref venue enrichment, with explicit workshop rejection.
+
+## 12. Delivery evidence
+
+- Feature PR: **#18 — feat: add candidate paper discovery workflow**
+- Merge commit: `135b84b755acee5ccc4ea0ea4fc5b03f162b45f9`
+- PR exact head: build **SUCCESS**, Reference Metrics v1.1 **SUCCESS**, Vercel Preview **SUCCESS**.
+- Main CI / Vercel Production: **SUCCESS**.
+- Manual discovery run `35555056700`: **SUCCESS** and created exactly one review issue, **#20 Candidate paper review**.
+- Issue #20 contains **5** candidates and **0** ICCVW/CVPRW/ECCVW workshop false positives.
+- Zero-window control run `35555173285`: **SUCCESS**; issue step **skipped** and issue #20 `updatedAt` remained unchanged.
+- Local real-metadata run returned the same five candidates after excluding current public/audited papers.
+- Final discovery architecture: OpenAlex task-oriented search + bounded Crossref venue enrichment, with explicit workshop rejection.
+
+## 12. Delivery evidence
+
+- Feature PR: **#18 — feat: add candidate paper discovery workflow**
+- Merge commit: `135b84b755acee5ccc4ea0ea4fc5b03f162b45f9`
+- PR exact head: build **SUCCESS**, Reference Metrics v1.1 **SUCCESS**, Vercel Preview **SUCCESS**.
+- Main CI / Vercel Production: **SUCCESS**.
+- Manual discovery run `35555056700`: **SUCCESS** and created exactly one review issue, **#20 Candidate paper review**.
+- Issue #20 contains **5** candidates and **0** ICCVW/CVPRW/ECCVW workshop false positives.
+- Zero-window control run `35555173285`: **SUCCESS**; issue step **skipped** and issue #20 `updatedAt` remained unchanged.
+- Local real-metadata run returned the same five candidates after excluding current public/audited papers.
+- Final discovery architecture: OpenAlex task-oriented search + bounded Crossref venue enrichment, with explicit workshop rejection.
+
+## 12. Delivery evidence
+
+- Feature PR: **#18 — feat: add candidate paper discovery workflow**
+- Merge commit: `135b84b755acee5ccc4ea0ea4fc5b03f162b45f9`
+- PR exact head: build **SUCCESS**, Reference Metrics v1.1 **SUCCESS**, Vercel Preview **SUCCESS**.
+- Main CI / Vercel Production: **SUCCESS**.
+- Manual discovery run `35555056700`: **SUCCESS** and created exactly one review issue, **#20 Candidate paper review**.
+- Issue #20 contains **5** candidates and **0** ICCVW/CVPRW/ECCVW workshop false positives.
+- Zero-window control run `35555173285`: **SUCCESS**; issue step **skipped** and issue #20 `updatedAt` remained unchanged.
+- Local real-metadata run returned the same five candidates after excluding current public/audited papers.
+- Final discovery architecture: OpenAlex task-oriented search + bounded Crossref venue enrichment, with explicit workshop rejection.
+
+## 12. Delivery evidence
+
+- Feature PR: **#18 — feat: add candidate paper discovery workflow**
+- Merge commit: `135b84b755acee5ccc4ea0ea4fc5b03f162b45f9`
+- PR exact head: build **SUCCESS**, Reference Metrics v1.1 **SUCCESS**, Vercel Preview **SUCCESS**.
+- Main CI / Vercel Production: **SUCCESS**.
+- Manual discovery run `35555056700`: **SUCCESS** and created exactly one review issue, **#20 Candidate paper review**.
+- Issue #20 contains **5** candidates and **0** ICCVW/CVPRW/ECCVW workshop false positives.
+- Zero-window control run `35555173285`: **SUCCESS**; issue step **skipped** and issue #20 `updatedAt` remained unchanged.
+- Local real-metadata run returned the same five candidates after excluding current public/audited papers.
+- Final discovery architecture: OpenAlex task-oriented search + bounded Crossref venue enrichment, with explicit workshop rejection.
