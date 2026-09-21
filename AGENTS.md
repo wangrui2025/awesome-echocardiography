@@ -2,6 +2,17 @@
 
 This repository is a curated public research resource. Keep startup rules short and route to the canonical owners below.
 
+## Current wish / product intent
+
+Before any user-facing product, copy, navigation, information-architecture, page-role, or major interaction decision, read [`docs/wish/LATEST.md`](docs/wish/LATEST.md).
+
+- Read [`docs/wish/DESIGN.md`](docs/wish/DESIGN.md) for homepage, navigation, information architecture, major route-role, interaction, curation-direction, or product-direction changes.
+- Do not read [`docs/wish/ARCHIVE.md`](docs/wish/ARCHIVE.md) by default; use it only to trace historical intent.
+- [`docs/wish/README.md`](docs/wish/README.md) owns the wish-system lifecycle.
+- Current owner instructions, curation evidence, metric semantics, safety boundaries, and executable truth outrank the wish. The wish owns what the resource should become, not whether a paper/code/metric claim is factually true.
+
+Do not duplicate the wish text into this root file.
+
 ## Before editing
 
 - Resolve the live `main` SHA first; concurrent PRs are common. Work from an isolated branch/worktree created from that exact SHA.
