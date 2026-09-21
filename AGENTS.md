@@ -13,6 +13,24 @@ Before any user-facing product, copy, navigation, information-architecture, page
 
 Do not duplicate the wish text into this root file.
 
+## Central website learning
+
+Before human-facing copy work, read:
+
+- https://github.com/mykcs/.codex/blob/main/website-learning/shared/content/HUMAN_EXPRESSION.md
+
+For material design or website-engineering work, also read the matching shared file and this site's learned experience:
+
+- https://github.com/mykcs/.codex/blob/main/website-learning/shared/design/LEARNED_PREFERENCES.md
+- https://github.com/mykcs/.codex/blob/main/website-learning/shared/engineering/LEARNED_PRACTICES.md
+- https://github.com/mykcs/.codex/tree/main/website-learning/sites/awesome-echocardiography
+
+Conversation closeout uses:
+
+- https://github.com/mykcs/.codex/blob/main/website-learning/CONVERSATION_CLOSEOUT.md
+
+The central system stores experience, not live paper/code-status facts or metric authority. Those remain in this repository.
+
 ## Before editing
 
 - Resolve the live `main` SHA first; concurrent PRs are common. Work from an isolated branch/worktree created from that exact SHA.
