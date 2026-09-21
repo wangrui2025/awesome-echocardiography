@@ -155,7 +155,7 @@ The candidate issue must tell maintainers to run the existing protocol before pu
 - [x] Reference Metrics v1.1 remains unaffected.
 
 ### E. Delivery
-- [ ] Push implementation to feature branch.
+- [x] Push implementation to feature branch.
 - [ ] PR build CI passes.
 - [ ] Reference-metrics CI remains green.
 - [ ] Vercel Preview passes.
