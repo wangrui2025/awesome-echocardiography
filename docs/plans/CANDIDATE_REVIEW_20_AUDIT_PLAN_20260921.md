@@ -121,13 +121,13 @@ After this audit merges, each paper may separately be:
 
 ### I. Delivery
 - [x] Push audit changes to feature branch.
-- [ ] PR build CI passes.
-- [ ] Reference-metrics CI remains green.
-- [ ] Vercel Preview passes.
-- [ ] Squash-merge only on clean exact head.
-- [ ] Close issue #20 only after merged audit exists on main.
+- [x] PR build CI passes.
+- [x] Reference-metrics CI remains green.
+- [x] Vercel Preview passes.
+- [x] Squash-merge only on clean exact head.
+- [x] Close issue #20 only after merged audit exists on main.
 - [x] Re-run Candidate Discovery and confirm these five no longer reappear.
-- [ ] Close checklist with delivery evidence.
+- [x] Close checklist with delivery evidence.
 
 ## 6. Delivery standard
 
@@ -151,3 +151,14 @@ Do not merge if:
 - a paper is silently added to the public catalog;
 - metrics/reference behavior changes;
 - one of the five candidates remains unaudited.
+
+## 8. Delivery evidence
+
+- Audit PR: **#21 — audit: verify discovered paper code sources**
+- Merge commit: `5b173585e06806925a918c67168bd830a5dfd493`
+- PR exact head: build **SUCCESS**, Reference Metrics v1.1 **SUCCESS**, Vercel Preview **SUCCESS**.
+- Main CI and Vercel Production after merge: **SUCCESS**.
+- Issue **#20 Candidate paper review** was closed only after the merged audit existed on `main`.
+- Post-audit Candidate Discovery run `35555957144`: **SUCCESS**; issue-creation step **skipped**, and no open `Candidate paper review` issue remains.
+- Public catalog remained **10** papers; homepage remained **3** featured papers; `src/papers.ts` was not changed by this audit.
+- Verified states: MSSNet **Partial code**, EchoFine **Code available**, NCM-Net **Partial code**, EchoFM **Code available**, EchoONE **Code available**.
