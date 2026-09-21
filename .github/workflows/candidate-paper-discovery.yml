@@ -1,0 +1,61 @@
+name: Candidate Paper Discovery
+
+on:
+  schedule:
+    - cron: '43 3 * * 2'
+  workflow_dispatch:
+    inputs:
+      lookback_days:
+        description: Recent-publication lookback window
+        required: false
+        default: '550'
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Discover recent candidates
+        id: discover
+        shell: bash
+        run: |
+          lookback="${{ github.event.inputs.lookback_days || '550' }}"
+          python scripts/discover_candidate_papers.py             --lookback-days "$lookback"             --output candidate-paper-report.md             | tee discovery-output.txt
+
+          count="$(sed -n 's/^CANDIDATE_COUNT=//p' discovery-output.txt | tail -1)"
+          if [[ -z "$count" ]]; then
+            echo "Discovery script did not report CANDIDATE_COUNT" >&2
+            exit 1
+          fi
+
+          echo "count=$count" >> "$GITHUB_OUTPUT"
+          cat candidate-paper-report.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Create or update candidate review issue
+        if: steps.discover.outputs.count != '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          issue_number="$(
+            gh issue list --state open --limit 100 --json number,title               --jq '.[] | select(.title == "Candidate paper review") | .number'               | head -1
+          )"
+
+          if [[ -n "$issue_number" ]]; then
+            gh issue edit "$issue_number"               --title "Candidate paper review"               --body-file candidate-paper-report.md
+          else
+            gh issue create               --title "Candidate paper review"               --body-file candidate-paper-report.md
+          fi
