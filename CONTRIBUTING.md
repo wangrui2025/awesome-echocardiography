@@ -50,3 +50,19 @@ When proposing a status change, please include:
 ## Pull requests
 
 Keep additions focused. A useful PR should explain why the resource belongs in an echocardiography research index and provide authoritative links. Please avoid bulk-generated bibliography additions without manual review.
+
+## Public benchmark and metric contributions
+
+Reference Metrics has one semantic authority: `reference/metrics_v1/README.md` plus its executable CPU reference. A contribution may optimize or accelerate that implementation, but it must not silently change the metric definition.
+
+When proposing a new or modified metric:
+
+1. state the scientific task first (segmentation, classification, continuous prediction, or clinical agreement);
+2. define the mathematics before the implementation;
+3. declare units, threshold selection, empty/missing behavior, aggregation, sign convention, and SD/quantile conventions where relevant;
+4. add deterministic regression fixtures;
+5. for an accelerated/GPU implementation, demonstrate numerical equivalence to the CPU reference before making performance claims.
+
+Public benchmark prose should remain field-neutral. Project-specific papers may appear in the catalog as research resources, but normative metric rules should be justified by the mathematical/statistical contract and general methodological evidence rather than by centering this project's own papers.
+
+On the website, metric explanations should use the common teaching order: **what it is → mathematical formula → recommended implementation → rationale**. Mathematical formulas should use the site's KaTeX rendering path rather than plain-text pseudo-math.
