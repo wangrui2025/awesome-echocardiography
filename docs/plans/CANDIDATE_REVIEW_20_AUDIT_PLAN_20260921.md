@@ -65,59 +65,59 @@ After this audit merges, each paper may separately be:
 ### A. Planning
 - [x] Create isolated worktree from current `origin/main`.
 - [x] Write this plan before changing audit records.
-- [ ] Open audit PR with this plan as first commit.
+- [x] Open audit PR with this plan as first commit.
 
 ### B. MSSNet / TMI 2026
-- [ ] Verify authoritative paper record.
-- [ ] Verify author-declared implementation repository.
-- [ ] Search for alternate author/lab repositories.
-- [ ] Inspect actual runnable contents.
-- [ ] Assign and document code state.
+- [x] Verify authoritative paper record.
+- [x] Verify author-declared implementation repository.
+- [x] Search for alternate author/lab repositories.
+- [x] Inspect actual runnable contents.
+- [x] Assign and document code state.
 
 ### C. EchoFine / MedIA 2026
-- [ ] Verify authoritative paper record.
-- [ ] Verify actual implementation repository.
-- [ ] Distinguish TTE47 dataset/model library from implementation.
-- [ ] Inspect training/evaluation contents.
-- [ ] Assign and document code state.
+- [x] Verify authoritative paper record.
+- [x] Verify actual implementation repository.
+- [x] Distinguish TTE47 dataset/model library from implementation.
+- [x] Inspect training/evaluation contents.
+- [x] Assign and document code state.
 
 ### D. NCM-Net / TMI 2025
-- [ ] Verify authoritative paper record.
-- [ ] Verify actual implementation repository.
-- [ ] Inspect what is present versus README “other codes coming soon”.
-- [ ] Search for alternate complete implementation repository.
-- [ ] Assign and document code state.
+- [x] Verify authoritative paper record.
+- [x] Verify actual implementation repository.
+- [x] Inspect what is present versus README “other codes coming soon”.
+- [x] Search for alternate complete implementation repository.
+- [x] Assign and document code state.
 
 ### E. EchoFM / TMI 2025
-- [ ] Verify authoritative paper record.
-- [ ] Verify actual implementation repository.
-- [ ] Inspect pretraining/config/environment code.
-- [ ] Verify checkpoint/weight evidence separately.
-- [ ] Assign and document code state.
+- [x] Verify authoritative paper record.
+- [x] Verify actual implementation repository.
+- [x] Inspect pretraining/config/environment code.
+- [x] Verify checkpoint/weight evidence separately.
+- [x] Assign and document code state.
 
 ### F. EchoONE / CVPR 2025
-- [ ] Verify CVPR Open Access paper record.
-- [ ] Verify actual implementation repository.
-- [ ] Inspect train/test/model/utils contents.
-- [ ] Distinguish old “code will be available” paper text from current repository state.
-- [ ] Assign and document code state.
+- [x] Verify CVPR Open Access paper record.
+- [x] Verify actual implementation repository.
+- [x] Inspect train/test/model/utils contents.
+- [x] Distinguish old “code will be available” paper text from current repository state.
+- [x] Assign and document code state.
 
 ### G. Audit ledger
-- [ ] Add all five candidates to `docs/PAPER_CODE_AUDIT.md`.
-- [ ] Include authoritative paper URL.
-- [ ] Include verified implementation/project/dataset URLs as applicable.
-- [ ] Include concrete code evidence and missing pieces.
-- [ ] Record verification date.
-- [ ] Keep editorial decision separate from code state.
-- [ ] Ensure future Candidate Discovery deduplicates all five via audit headings.
+- [x] Add all five candidates to `docs/PAPER_CODE_AUDIT.md`.
+- [x] Include authoritative paper URL.
+- [x] Include verified implementation/project/dataset URLs as applicable.
+- [x] Include concrete code evidence and missing pieces.
+- [x] Record verification date.
+- [x] Keep editorial decision separate from code state.
+- [x] Ensure future Candidate Discovery deduplicates all five via audit headings.
 
 ### H. Validation
-- [ ] `npm run build` stays green.
-- [ ] Reference Metrics v1.1 remains unchanged.
-- [ ] Public paper count remains 10.
-- [ ] Homepage featured count remains 3.
-- [ ] `src/papers.ts` is untouched.
-- [ ] Issue #20 titles all appear in the audit ledger after change.
+- [x] `npm run build` stays green.
+- [x] Reference Metrics v1.1 remains unchanged.
+- [x] Public paper count remains 10.
+- [x] Homepage featured count remains 3.
+- [x] `src/papers.ts` is untouched.
+- [x] Issue #20 titles all appear in the audit ledger after change.
 
 ### I. Delivery
 - [ ] Push audit changes to feature branch.
@@ -126,7 +126,7 @@ After this audit merges, each paper may separately be:
 - [ ] Vercel Preview passes.
 - [ ] Squash-merge only on clean exact head.
 - [ ] Close issue #20 only after merged audit exists on main.
-- [ ] Re-run Candidate Discovery and confirm these five no longer reappear.
+- [x] Re-run Candidate Discovery and confirm these five no longer reappear.
 - [ ] Close checklist with delivery evidence.
 
 ## 6. Delivery standard
