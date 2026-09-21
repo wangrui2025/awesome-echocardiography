@@ -14,6 +14,14 @@ The goal is simple: if two papers claim to report the same metric, they should b
 
 The implementation is intentionally CPU-first. Faster CPU/GPU implementations are welcome, but they must reproduce this reference within the declared numerical tolerance before they are called compliant.
 
+## Authority and migration rules
+
+- Treat the CPU reference and this specification as the metric-semantic authority. A faster implementation is an optimization, not a new definition.
+- When reconciling an older project, trace the exact evaluator version and call path that produced the historical result. A public repository, legacy branch, or similarly named file is not automatically the scientific oracle.
+- Establish mathematical equivalence on small deterministic CPU fixtures before spending GPU time on acceleration or throughput tests.
+- Keep normative documentation method-centered and field-neutral. Project-specific anecdotes belong in dated historical evidence, not in the public standard itself.
+- Preserve historical results as historical evidence when a later standard changes an implicit convention; do not retroactively rewrite published numbers.
+
 ## What changed from v1.0
 
 v1.0 fixed Dice, IoU, HD, HD95, symmetric ASD, spacing, empty-mask, aggregation, and basic LVEF reporting.
