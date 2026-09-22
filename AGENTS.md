@@ -23,7 +23,11 @@ When prior owner feedback/evidence matters, also read:
 
 - https://github.com/mykcs/.codex/blob/main/website-learning/shared/content/HUMAN_EXPRESSION.md
 
-For material design work, read the shared learned design evidence when relevant:
+For material design work, read the shared semantic web-expression / information-flow lens first:
+
+- https://github.com/mykcs/myk-skills/blob/main/website-improve/references/human-thinking-web-expression.md
+
+When prior owner feedback or design failure evidence matters, also read:
 
 - https://github.com/mykcs/.codex/blob/main/website-learning/shared/design/LEARNED_PREFERENCES.md
 
