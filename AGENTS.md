@@ -23,9 +23,16 @@ When prior owner feedback/evidence matters, also read:
 
 - https://github.com/mykcs/.codex/blob/main/website-learning/shared/content/HUMAN_EXPRESSION.md
 
-For material design or website-engineering work, also read the matching shared file and this site's learned experience:
+For material design work, read the shared learned design evidence when relevant:
 
 - https://github.com/mykcs/.codex/blob/main/website-learning/shared/design/LEARNED_PREFERENCES.md
+
+For material website-engineering work, read the current shared Engineering Standard first:
+
+- https://github.com/mykcs/.codex/blob/main/website-governance/ENGINEERING_STANDARD.md
+
+When prior engineering failure evidence matters, also read:
+
 - https://github.com/mykcs/.codex/blob/main/website-learning/shared/engineering/LEARNED_PRACTICES.md
 - https://github.com/mykcs/.codex/tree/main/website-learning/sites/awesome-echocardiography
 
