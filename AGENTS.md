@@ -58,6 +58,7 @@ The central system stores experience, not live paper/code-status facts or metric
 - Paper curation and code-status rules: `CONTRIBUTING.md`; canonical paper data: `src/papers.ts`.
 - Metric semantics: `reference/metrics_v1/README.md`; executable reference: `reference/metrics_v1/reference_metrics.py`.
 - Site deployment: `.github/workflows/deploy.yml`. Preserve its same-repository Preview secret boundary.
+- CI/provider roles, hosted-build triggers, cancellation, and rollback: the [current operating contract](docs/plans/CI_DEPLOY_DEDUP_PLAN_20260921.md#current-operating-contract). Keep Action implementation runtimes separate from application Node/Python versions.
 - Dated closeouts under `docs/closeouts/` are historical evidence, not mutable policy.
 
 ## Public-standard rules
