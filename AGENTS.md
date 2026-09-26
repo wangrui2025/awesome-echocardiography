@@ -13,6 +13,10 @@ Before any user-facing product, copy, navigation, information-architecture, page
 
 Do not duplicate the wish text into this root file.
 
+## Current development direction
+
+Before changing CI, deployment, hosting, or the local validation loop, read [`docs/dev/LATEST.md`](docs/dev/LATEST.md) and [`docs/dev/DESIGN.md`](docs/dev/DESIGN.md). [`docs/dev/README.md`](docs/dev/README.md) routes to the one current CI contract and executable owners; consult [`docs/dev/ARCHIVE.md`](docs/dev/ARCHIVE.md) only for earlier decisions. The shared Dev lifecycle is owned by https://github.com/mykcs/.codex/blob/main/engineering/DEV_PROTOCOL.md.
+
 ## Central website learning
 
 Before human-facing copy work, read the current shared human-expression standard:
