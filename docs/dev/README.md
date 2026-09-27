@@ -1,6 +1,6 @@
 # Awesome Echocardiography Dev
 
-This folder explains this repository's current development direction and why its CI and hosting roles fit a curated research resource. The shared lifecycle is [Dev folder protocol](https://github.com/mykcs/.codex/blob/main/engineering/DEV_PROTOCOL.md).
+This folder explains this repository's current development direction and why its CI and hosting roles fit a curated research resource. The shared lifecycle is [Dev folder protocol](https://github.com/mykcs/.agents/blob/main/docs/agents/DEV_PROTOCOL.md).
 
 - [LATEST.md](LATEST.md): current development direction and provider roles.
 - [DESIGN.md](DESIGN.md): reasoning, validation routing and migration conditions.
