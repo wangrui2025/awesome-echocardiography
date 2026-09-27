@@ -8,7 +8,7 @@ Before any user-facing product, copy, navigation, information-architecture, page
 
 - Read [`docs/wish/DESIGN.md`](docs/wish/DESIGN.md) for homepage, navigation, information architecture, major route-role, interaction, curation-direction, or product-direction changes.
 - Do not read [`docs/wish/ARCHIVE.md`](docs/wish/ARCHIVE.md) by default; use it only to trace historical intent.
-- Shared Wish lifecycle/update rules are owned by https://github.com/mykcs/.codex/blob/main/website-governance/WISH_PROTOCOL.md; [`docs/wish/README.md`](docs/wish/README.md) is a local navigation entrypoint only.
+- Shared Wish lifecycle/update rules are owned by https://github.com/mykcs/.agents/blob/main/docs/agents/WISH_PROTOCOL.md; [`docs/wish/README.md`](docs/wish/README.md) is a local navigation entrypoint only.
 - Current owner instructions, curation evidence, metric semantics, safety boundaries, and executable truth outrank the wish. The wish owns what the resource should become, not whether a paper/code/metric claim is factually true.
 
 Do not duplicate the wish text into this root file.
