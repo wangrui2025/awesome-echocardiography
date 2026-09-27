@@ -15,7 +15,7 @@ Do not duplicate the wish text into this root file.
 
 ## Current development direction
 
-Before changing CI, deployment, hosting, or the local validation loop, read [`docs/dev/LATEST.md`](docs/dev/LATEST.md) and [`docs/dev/DESIGN.md`](docs/dev/DESIGN.md). [`docs/dev/README.md`](docs/dev/README.md) routes to the one current CI contract and executable owners; consult [`docs/dev/ARCHIVE.md`](docs/dev/ARCHIVE.md) only for earlier decisions. The shared Dev lifecycle is owned by https://github.com/mykcs/.codex/blob/main/engineering/DEV_PROTOCOL.md.
+Before changing CI, deployment, hosting, or the local validation loop, read [`docs/dev/LATEST.md`](docs/dev/LATEST.md) and [`docs/dev/DESIGN.md`](docs/dev/DESIGN.md). [`docs/dev/README.md`](docs/dev/README.md) routes to the one current CI contract and executable owners; consult [`docs/dev/ARCHIVE.md`](docs/dev/ARCHIVE.md) only for earlier decisions. The shared Dev lifecycle is owned by https://github.com/mykcs/.agents/blob/main/docs/agents/DEV_PROTOCOL.md.
 
 ## Central website learning
 
@@ -25,7 +25,7 @@ Before human-facing copy work, read the current shared human-expression standard
 
 When prior owner feedback/evidence matters, also read:
 
-- https://github.com/mykcs/.codex/blob/main/website-learning/shared/content/HUMAN_EXPRESSION.md
+- https://github.com/mykcs/.agents/blob/main/docs/learning/shared/content/HUMAN_EXPRESSION.md
 
 For material design work, read the shared semantic web-expression / information-flow lens first:
 
@@ -33,7 +33,7 @@ For material design work, read the shared semantic web-expression / information-
 
 When prior owner feedback or design failure evidence matters, also read:
 
-- https://github.com/mykcs/.codex/blob/main/website-learning/shared/design/LEARNED_PREFERENCES.md
+- https://github.com/mykcs/.agents/blob/main/docs/learning/shared/design/LEARNED_PREFERENCES.md
 
 For material website-engineering work, read the current shared Engineering Standard first:
 
@@ -41,12 +41,12 @@ For material website-engineering work, read the current shared Engineering Stand
 
 When prior engineering failure evidence matters, also read:
 
-- https://github.com/mykcs/.codex/blob/main/website-learning/shared/engineering/LEARNED_PRACTICES.md
-- https://github.com/mykcs/.codex/tree/main/website-learning/sites/awesome-echocardiography
+- https://github.com/mykcs/.agents/blob/main/docs/learning/shared/engineering/LEARNED_PRACTICES.md
+- https://github.com/mykcs/.agents/tree/main/docs/learning/projects/awesome-echocardiography
 
 Conversation closeout uses:
 
-- https://github.com/mykcs/.codex/blob/main/website-learning/CONVERSATION_CLOSEOUT.md
+- https://github.com/mykcs/.agents/blob/main/docs/learning/CONVERSATION_CLOSEOUT.md
 
 The central system stores experience, not live paper/code-status facts or metric authority. Those remain in this repository.
 
