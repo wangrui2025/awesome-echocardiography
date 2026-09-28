@@ -4,4 +4,6 @@ This repository develops two related public resources: a small bilingual Astro r
 
 GitHub owns source, review, repository CI and scheduled candidate-review workflows. Repository CI checks the site build and the CPU reference independently. Vercel builds and serves Preview and Production for site-relevant changes. Candidate discovery and code-status monitoring create human review issues; they do not approve papers or metrics automatically. Cloudflare, GitHub Pages and CircleCI have no current delivery role.
 
+CI mode: **SPECIALIZED_CI**. The repository validates both the website and scientific CPU Reference Metrics semantics; the CPU reference remains authoritative for metric behavior.
+
 The [current CI operating contract](../plans/CI_DEPLOY_DEDUP_PLAN_20260921.md#current-operating-contract) names exact triggers, secret boundaries, cancellation and rollback. The workflows and live provider settings remain executable truth. This Dev view explains the direction and is updated when that contract materially changes.
