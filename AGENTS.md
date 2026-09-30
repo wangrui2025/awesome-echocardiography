@@ -2,6 +2,8 @@
 
 This repository is a curated public research resource. Keep startup rules short and route to the canonical owners below.
 
+Project knowledge map: [`docs/agents/README.md`](docs/agents/README.md).
+
 ## Current wish / product intent
 
 Before any user-facing product, copy, navigation, information-architecture, page-role, or major interaction decision, read [`docs/wish/LATEST.md`](docs/wish/LATEST.md).
