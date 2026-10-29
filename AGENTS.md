@@ -1,5 +1,7 @@
 # Agent entrypoint
 
+Shared operating policy: follow [the central AGENTS.md](https://github.com/mykcs/.agents/blob/main/AGENTS.md) and [Capability Routing](https://github.com/mykcs/.agents/blob/main/docs/dev/CAPABILITY_ROUTING.md) for authorization reuse, tool fallbacks and engineering completion. This repository retains its scoped scientific, resource, privacy and release requirements.
+
 This repository is a curated public research resource. Keep startup rules short and route to the canonical owners below.
 
 Project knowledge map: [`docs/agents/README.md`](docs/agents/README.md).
@@ -21,9 +23,9 @@ Before changing CI, deployment, hosting, or the local validation loop, read [`do
 
 ## Central website learning
 
-Before human-facing copy work, read the current shared human-expression standard:
+Before substantial or durable human-facing content work, read the current shared human-expression standard; ordinary chat, short explanations and minor edits keep the central lightweight rules:
 
-- https://github.com/mykcs/.codex/blob/main/website-governance/HUMAN_EXPRESSION_STANDARD.md
+- https://github.com/mykcs/.agents/blob/main/docs/agents/HUMAN_EXPRESSION_STANDARD.md
 
 When prior owner feedback/evidence matters, also read:
 
