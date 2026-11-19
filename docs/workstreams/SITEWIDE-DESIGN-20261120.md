@@ -1,36 +1,41 @@
-# Awesome Echocardiography 全站排版与年月日统一
+# Awesome Echocardiography 全站排版、间距与年月日标准
 
-> Draft · TASK SPEC ONLY · Implementation: NOT DONE
-> Size: M · Confidence: medium
+`src/styles/tokens.css` 是本站可执行设计值的唯一来源；`global.css` 及五种页面组件实际消费它。标准只约束本仓库，其他站点保留自己的字级、字体和视觉风格。当前实施、正式 CI、合并与发布证据集中在 [PR #39](https://github.com/wangrui2025/awesome-echocardiography/pull/39)。
 
-## 目标与来源
+## 读者与页面角色
 
-2026年11月20日维护者要求本站所有网页实际消费统一字体、字号、字重、行距、间距与年月日规则；跨网站保留独立风格。必须实施、验收、合并 main；规范文件不代表完成。
+Web expression: APPLY_LIGHT — 帮助研究者在已有领域入口、论文目录、数据集介绍、研究地图和指标解释之间连续阅读；沿用现有标题、段落、导航、论文条目及 KaTeX 公式结构，用一致的字号层级、行距、阅读宽度和日期降低切换成本；不改变目录内容、科研主张、顺序、CPU 参考语义或代码可用性标签。验收使用全部页面的真实计算值和桌面/手机渲染。
 
-## 当前事实与去重
+## 本站角色表
 
-12个双语路由已共用 src/styles/global.css，但字号/行高/间距硬编码；无开放重叠 PR。年份与 codeVerifiedAt 来源需保留精度。
+| 项目 | 规则 |
+| --- | --- |
+| 正文与普通界面字体 | Inter / 系统无衬线；源码文字使用系统等宽 |
+| 基本字级 | meta 12px，caption 14px，body 16px，subheading 18px，lead 20px，card 22px，stat 24px |
+| 显示角色 | hero / page / section / callout / metric / map 使用在 owner 中声明的响应式 clamp；同一角色由所有对应页面复用 |
+| 字重 | normal 400、medium 500、semibold 600、bold 700；`strong`/`b` 明确使用 bold，避免浏览器相对粗体累加 |
+| 行高 | display 1.05、heading 1.3、compact 1.5、body 1.65、reading 1.75 |
+| 间距 | 4px 根单位，有限档 2/4/8/12/16/20/24/32/40/48/56/64/72/80/96/128/160px；正负对齐均引用同一尺度 |
+| 宽度 | site 67.5rem、title 57.5rem、reading-wide 52rem、reading 48rem、lead 40rem、note 32rem；页面左右留白由同一间距单位生成 |
+| 日期 | `calendarDate` 在现有 PaperCard 展示边界输出中文 `YYYY年M月D日` 或英文 `YYYY-MM-DD`，年月/年保持已知精度；ISO 数据与 `datetime` 原值保持，不进行时区转换 |
 
-## 既有 owner 与边界
+KaTeX 的数学字体、基线、脚标、公式内嵌几何保持由 KaTeX 管理。外层公式字号缩放明确放在本站 token owner；公式阅读容器的普通 padding/margin 接入本站尺度。指标表在手机上保留局部横向滚动，不允许整页溢出。研究地图连接线和网格列的结构尺寸不作为正文阅读间距。
 
-现有 global.css 的本站语义 token 与五种页面组件消费；论文/指标/数据集页面全部纳入。
+## 实际覆盖
 
-保留论文目录和 CPU Reference Metrics 科学语义、公式和现有本站风格；不为统一日期而添加无用途的最后更新或虚构日期。
+从构建输出动态枚举全部 HTML，目前为中文/英文各 6 页：首页、Papers、Map、Metrics、CAMUS 和 EchoNet-Dynamic，共 12 页。新增独立页面也必须实际加载和消费同一 owner；仅添加 CSS 文件或在文档中写规则不能通过。
 
-## 验收合同
+## 验收标准
 
-- [ ] 在实际共享 owner 管理语义字体、字号、字重、行高、间距；旧重复定义迁移，必要论文/数学/海报/幻灯片/代码角色明确记录。
-- [ ] 全部生成 HTML 路由包含普通页面、双语、独立 HTML、404 和重定向；实际加载及计算值可检查，新增漏接页面必须失败。
-- [ ] 完整日期为中文 YYYY年M月D日、英文 YYYY-MM-DD；只有年/月的保留精度；timestamp 保留明确时区；源码数据、URL、代码、datetime不改写。
-- [ ] 桌面和440×956 CSS px 手机模拟覆盖所有路由；保持主题、语言、导航、交互；无未解释的页面横向溢出/文字裁切；必要画布/打印模式单独验收。
-- [ ] 检查具有漏接样式与非标准日期负例，不以规则文件存在冒充真实消费。
-- [ ] npm ci && npm run build；全部12路由桌面和440×956检查；既有 GitHub CI + Vercel workflow 和 same-repository secrets 边界不变。
-- [ ] 当前 head 必要检查通过后更新证据、Ready、合并 main；读回 merge SHA，部署身份另行核实。
+1. `npm run build` 保留 Astro type-check/build，先运行日期和缺陷坏例，再检查全部源样式与所有生成 HTML 的真实 CSS 依赖。
+2. `npm run test:browser` 对所有实际生成 HTML 使用 Chromium/WebKit，桌面 1440×900 和手机 440×956 CSS px。检查实际字体、字级、行高、横向溢出、已存在的核验日期、语言切换和数学公式数量。
+3. 在实际 body、正文 section 和 main 上改变字体、字号、行高、间距根单位、站点宽度，等待浏览器布局后检查属性变化，并完整恢复；公共页头的正常不能代替正文证据。
+4. 检查包含遗漏共享样式和普通 `calc(18px)` / 正负混合硬编码间距的坏例；原始日期、机器时间戳、文件标识保持不变。只渲染年或年月的材料不得补造日期。
+5. 保留 CPU Reference Metrics 独立 CI 和冻结审计；任何科学变化均不属于本次排版工作。Vercel same-repository Preview secret 条件及主分支生产发布来源保持。
+6. 合并前检查当前 head/base、正式 CI、Preview 和代表性截图；合并后读回 main SHA、生产 provider 身份与真实页面。
 
-## 执行与恢复
+## 工程归属
 
-单一写入 owner，按总优先级逐站推进。已获实现、验证、合并授权；不改科学结果、隐私、访问保护、现有发布平台。先读本仓当前文档和源码。回退使用本PR逆向变更。
+现有 `ci.yml` 的 build job 增加本站浏览器验收并固定兼容的 Ubuntu 24.04；reference-metrics job 独立保留。浏览器报告绑定 `${github.sha}`，保存 3 天。`deploy.yml` 继续只把已授权来源交给 Vercel，未增加第二个部署平台。
 
-## 证据
-
-目前仅合同；实现 NOT DONE；构建/浏览器 NOT RUN。完成后补命令、覆盖数、结果和证据。
+本地 build 与测试发现结果只证明本地候选；正式浏览器、合并和 Production 结果须从 PR 的最新记录读取，不能用历史绿色结果替代。

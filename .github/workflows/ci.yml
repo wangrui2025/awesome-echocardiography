@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - name: Checkout
@@ -32,6 +32,20 @@ jobs:
 
       - name: Type-check and build
         run: npm run build
+
+      - name: Install acceptance browsers
+        run: npx playwright install --with-deps chromium webkit
+
+      - name: Every HTML route, desktop/mobile, actual style consumers
+        run: npm run test:browser
+
+      - name: Candidate browser evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: echo-site-design-${{ github.sha }}
+          path: playwright-report
+          retention-days: 3
 
   reference-metrics:
     runs-on: ubuntu-latest

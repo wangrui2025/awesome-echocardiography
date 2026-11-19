@@ -44,7 +44,7 @@ The de-duplication above is implemented. Workflow YAML owns triggers and command
 | Responsibility | Owner | Evidence / boundary |
 | --- | --- | --- |
 | Source, history, PR and CI orchestration | GitHub | Public repository; inspect actual job/step results, not only check badges. |
-| Site correctness and Reference Metrics | GitHub-hosted Ubuntu CI | `npm ci` + build; Python CPU reference regressions and frozen audit verification. |
+| Site correctness and Reference Metrics | GitHub-hosted Ubuntu CI | `npm ci` + build + all generated HTML route standards in Chromium/WebKit at desktop and 440px; Python CPU reference regressions and frozen audit verification. |
 | Preview and Production | Vercel, invoked by `deploy.yml` | Same-repository PR Preview only; eligible `main` pushes deploy Production. Vercel performs the provider build. |
 | Paper/code-status monitoring | Two weekly GitHub Actions workflows | Candidate review issues only; no automatic scientific or catalog acceptance. |
 | Cloudflare / Pages / CircleCI | No current role | Adding a provider requires a demonstrated responsibility and quota review. |
