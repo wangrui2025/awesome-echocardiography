@@ -1,5 +1,6 @@
 ---
 import type { PaperRecord } from '../papers';
+import { calendarDate } from '../utils/calendar-date.mjs';
 
 interface Props {
   paper: PaperRecord;
@@ -70,6 +71,6 @@ const summary = isZh ? paper.summaryZh : paper.summaryEn;
     >
       {isZh ? paper.codeNoteZh : paper.codeNoteEn}
     </span>
-    <span class="code-verified">{labels.verified}: {paper.codeVerifiedAt}</span>
+    <span class="code-verified">{labels.verified}: <time datetime={paper.codeVerifiedAt}>{calendarDate(paper.codeVerifiedAt, locale)}</time></span>
   </div>
 </article>

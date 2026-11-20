@@ -5,8 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro check && astro build",
-    "preview": "astro preview"
+    "build": "npm run test:design && npm run check:design && astro check && astro build && node scripts/check-site-design.mjs --built",
+    "preview": "astro preview",
+    "check:design": "node scripts/check-site-design.mjs",
+    "test:design": "node --test tests/site-design.test.mjs",
+    "test:browser": "playwright test"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
@@ -14,5 +17,8 @@
     "astro": "^5.13.7",
     "katex": "^0.16.47",
     "typescript": "^5.9.2"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.1"
   }
 }
