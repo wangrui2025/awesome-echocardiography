@@ -1,0 +1,75 @@
+---
+import '../styles/global.css';
+import SeoHead from './SeoHead.astro';
+import SiteNav from './SiteNav.astro';
+import { routes, readerIndex, copyContext } from '../lib/agent-reader';
+interface Props { locale: 'zh' | 'en' }
+const { locale } = Astro.props;
+const zh = locale === 'zh';
+const title = zh ? '给 Agent 阅读' : 'For AI agents';
+const description = zh ? '检索公开论文、数据集和评估方法，并核对原始证据。' : 'Search public papers, datasets and evaluation methods, and verify primary evidence.';
+---
+<html lang={zh ? 'zh-CN' : 'en'}>
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <SeoHead title={title} description={description} canonicalPath={zh ? '/agent/' : '/en/agent/'} zhPath="/agent/" enPath="/en/agent/" />
+</head>
+<body>
+<main>
+  <SiteNav locale={locale} switchHref={zh ? '/en/agent/' : '/agent/'} />
+  <header class="reader-intro">
+    <p class="eyebrow">Awesome Echocardiography</p>
+    <h1>{title}</h1>
+    <p>{description}</p>
+  </header>
+  <section class="reader-section">
+    <h2>{zh ? '将上下文交给 Agent' : 'Share context with an agent'}</h2>
+    <label for="reader-context">{zh ? '可复制的阅读指令' : 'Copyable reading instructions'}</label>
+    <textarea id="reader-context" readonly rows="8">{copyContext(locale)}</textarea>
+    <button class="primary" id="reader-copy" type="button" hidden>{zh ? '复制上下文' : 'Copy context'}</button>
+    <p id="copy-status" role="status" aria-live="polite">{zh ? '也可手动选择并复制文字。' : 'You can also select and copy the text manually.'}</p>
+  </section>
+  <section class="reader-section">
+    <h2>{zh ? '机器可读资源' : 'Machine-readable resources'}</h2>
+    <p>{zh ? '公开目录随网站构建更新。论文条目：' : 'The catalog is generated from the site source. Papers: '}{readerIndex.papers.length}</p>
+    <ul>
+      <li><a href="/llms.txt">llms.txt — {zh ? '网站入口索引' : 'Site index'}</a></li>
+      <li><a href="/agent/site.json">site.json — {zh ? '结构化检索目录' : 'Searchable structured catalog'}</a></li>
+      <li><a href="/agent/SKILL.md">SKILL.md — {zh ? '阅读与证据规则' : 'Reading and evidence rules'}</a></li>
+    </ul>
+    <p>{zh ? '代码状态是有核验日期的记录。研究结论请核对原论文；本目录不是临床建议。' : 'Code-status records have verification dates. Check original papers for research conclusions; this is not clinical advice.'}</p>
+  </section>
+  <section class="reader-section">
+    <h2>{zh ? '原文入口' : 'Source pages'}</h2>
+    <ul>{routes.map(r => <li><a href={zh ? r.path : '/en' + r.path}>{zh ? r.zh : r.en}</a></li>)}</ul>
+  </section>
+</main>
+<script>
+  const button = document.querySelector<HTMLButtonElement>('#reader-copy');
+  const context = document.querySelector<HTMLTextAreaElement>('#reader-context');
+  const status = document.querySelector<HTMLElement>('#copy-status');
+  if (button && context && status) {
+    button.hidden = false;
+    const zh = document.documentElement.lang === 'zh-CN';
+    button.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(context.value);
+        status.textContent = zh ? '已复制。' : 'Copied.';
+      } catch {
+        context.focus(); context.select();
+        status.textContent = zh ? '已选中文字，请手动复制。' : 'Text selected. Copy it manually.';
+      }
+    });
+  }
+</script>
+</body>
+</html>
+<style>
+.reader-intro { padding-top: 7rem; max-width: 760px; }
+.reader-section { max-width: 760px; margin-top: 2rem; }
+.reader-section textarea { display: block; width: 100%; box-sizing: border-box; resize: vertical; min-height: 10rem; margin: .75rem 0; padding: .75rem; font: inherit; color: inherit; background: transparent; border: 1px solid currentColor; border-radius: .5rem; }
+.reader-section li { margin-block: .6rem; overflow-wrap: anywhere; }
+.reader-section button { cursor: pointer; font: inherit; }
+.reader-section button[hidden] { display: none; }
+.reader-section p { line-height: 1.65; }
+</style>
