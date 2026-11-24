@@ -13,23 +13,23 @@ const mapHref = isZh ? '/map/' : '/en/map/';
 const metricsHref = isZh ? '/metrics/' : '/en/metrics/';
 ---
 
-<nav class="topbar" aria-label={isZh ? '站点导航' : 'Site navigation'}>
-  <div class="topbar-primary">
-    <a class:list={['nav-link', { active: current === 'home' }]} href={homeHref}>
+<nav class="topbar flex items-center gap-echo-nav" aria-label={isZh ? '站点导航' : 'Site navigation'}>
+  <div class="topbar-primary flex items-center gap-echo-nav">
+    <a class:list={['nav-link', { active: current === 'home' }]} aria-current={current === 'home' ? 'page' : undefined} href={homeHref}>
       {isZh ? '首页' : 'Home'}
     </a>
-    <a class:list={['nav-link', { active: current === 'papers' }]} href={papersHref}>
+    <a class:list={['nav-link', { active: current === 'papers' }]} aria-current={current === 'papers' ? 'page' : undefined} href={papersHref}>
       {isZh ? '论文' : 'Papers'}
     </a>
-    <a class:list={['nav-link', { active: current === 'map' }]} href={mapHref}>
+    <a class:list={['nav-link', { active: current === 'map' }]} aria-current={current === 'map' ? 'page' : undefined} href={mapHref}>
       {isZh ? '地图' : 'Map'}
     </a>
-    <a class:list={['nav-link', { active: current === 'metrics' }]} href={metricsHref}>
+    <a class:list={['nav-link', { active: current === 'metrics' }]} aria-current={current === 'metrics' ? 'page' : undefined} href={metricsHref}>
       {isZh ? '指标' : 'Metrics'}
     </a>
   </div>
   <span class="topbar-separator" aria-hidden="true"></span>
-  <div class="language-switcher">
+  <div class="language-switcher flex items-center gap-echo-nav">
     <a class:list={['lang-link', { active: isZh }]} href={isZh ? Astro.url.pathname : switchHref}>中文</a>
     <span aria-hidden="true">/</span>
     <a class:list={['lang-link', { active: !isZh }]} href={!isZh ? Astro.url.pathname : switchHref}>EN</a>

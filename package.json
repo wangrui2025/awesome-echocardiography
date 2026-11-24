@@ -12,10 +12,12 @@
     "test:browser": "playwright test"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.4",
+    "@astrojs/check": "0.9.12",
     "@astrojs/sitemap": "^3.7.4",
-    "astro": "^5.13.7",
+    "@tailwindcss/vite": "4.3.5",
+    "astro": "7.4.13",
     "katex": "^0.16.47",
+    "tailwindcss": "4.3.5",
     "typescript": "^5.9.2"
   },
   "devDependencies": {

@@ -1,4 +1,5 @@
 @import "./tokens.css";
+@import "./tailwind.css";
 
 :root {
   font-family: var(--font-ui);
@@ -18,7 +19,6 @@ a {
 }
 
 main {
-  position: relative;
   width: min(var(--width-site), calc(100% - var(--page-gutter) * 2));
   margin: 0 auto;
 }
@@ -27,9 +27,6 @@ main {
   position: absolute;
   top: var(--space-6);
   right: 0;
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
   z-index: 2;
   font-size: var(--text-caption);
   color: var(--color-secondary);
@@ -222,13 +219,6 @@ footer p { margin: 0; }
     flex-direction: column;
     padding-bottom: var(--space-8);
   }
-}
-
-.topbar-primary,
-.language-switcher {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
 }
 
 .topbar-separator {

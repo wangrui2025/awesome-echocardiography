@@ -71,7 +71,7 @@ const categoryLabels: Record<PaperCategory, string> = {
     <SeoHead title={copy.title} description={copy.intro} canonicalPath={isZh ? '/papers/' : '/en/papers/'} zhPath="/papers/" enPath="/en/papers/" />
   </head>
   <body>
-    <main>
+    <main class="relative">
       <SiteNav
         locale={locale}
         switchHref={isZh ? '/en/papers/' : '/papers/'}
