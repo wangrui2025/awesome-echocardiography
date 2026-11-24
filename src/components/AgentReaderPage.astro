@@ -65,11 +65,11 @@ const description = zh ? '检索公开论文、数据集和评估方法，并核
 </body>
 </html>
 <style>
-.reader-intro { padding-top: 7rem; max-width: 760px; }
-.reader-section { max-width: 760px; margin-top: 2rem; }
-.reader-section textarea { display: block; width: 100%; box-sizing: border-box; resize: vertical; min-height: 10rem; margin: .75rem 0; padding: .75rem; font: inherit; color: inherit; background: transparent; border: 1px solid currentColor; border-radius: .5rem; }
-.reader-section li { margin-block: .6rem; overflow-wrap: anywhere; }
+.reader-intro { padding-top: calc(var(--space-24) + var(--space-4)); max-width: var(--width-reading); }
+.reader-section { max-width: var(--width-reading); margin-top: var(--space-8); }
+.reader-section textarea { display: block; width: 100%; box-sizing: border-box; resize: vertical; min-height: var(--space-40); margin: var(--space-3) 0; padding: var(--space-3); font: inherit; color: inherit; background: transparent; border: 1px solid currentColor; border-radius: .5rem; }
+.reader-section li { margin-block: var(--space-2); overflow-wrap: anywhere; }
 .reader-section button { cursor: pointer; font: inherit; }
 .reader-section button[hidden] { display: none; }
-.reader-section p { line-height: 1.65; }
+.reader-section p { line-height: var(--leading-body); }
 </style>
