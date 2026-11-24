@@ -5,10 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "npm run test:design && npm run check:design && astro check && astro build && node scripts/check-site-design.mjs --built",
+    "build": "npm run test:design && npm run check:design && astro check && astro build && node scripts/check-site-design.mjs --built && node scripts/check-agent-reader.mjs",
     "preview": "astro preview",
     "check:design": "node scripts/check-site-design.mjs",
-    "test:design": "node --test tests/site-design.test.mjs",
+    "test:design": "node --test tests/site-design.test.mjs tests/agent-reader.test.mjs",
     "test:browser": "playwright test"
   },
   "dependencies": {

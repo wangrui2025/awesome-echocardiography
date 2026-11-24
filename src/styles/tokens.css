@@ -1,6 +1,8 @@
 /* Sole executable owner for this research index. Math internals remain KaTeX-owned. */
 :root {
  --echo-design-version: 1;
+ --color-secondary: #65655f;
+ --color-meta: #686862;
  --font-ui: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
  --font-code: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
  --text-meta: 0.75rem;
