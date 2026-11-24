@@ -63,7 +63,7 @@ const categoryHref = (node: ResearchMapNode) => {
     <SeoHead title={copy.title} description={copy.intro} canonicalPath={isZh ? '/map/' : '/en/map/'} zhPath="/map/" enPath="/en/map/" />
   </head>
   <body>
-    <main>
+    <main class="relative">
       <SiteNav locale={locale} switchHref={isZh ? '/en/map/' : '/map/'} current="map" />
 
       <header class="subpage-hero map-hero">
