@@ -215,7 +215,7 @@ const groupCounts = groups.map((group) => ({
 
                   <div class="metric-guide-block formula-block">
                     <p class="metric-step">{copy.formula}</p>
-                    <div class="katex-display-wrap" set:html={renderMath(metric.formula)} />
+                    <div class="katex-display-wrap" tabindex="0" role="region" aria-label={metric.name + " — " + copy.formula} set:html={renderMath(metric.formula)} />
                     <p class="formula-note">{metric.formulaNote}</p>
                   </div>
 
