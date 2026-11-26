@@ -33,3 +33,16 @@ for(const locale of ['zh','en']) {
     for(const row of rows)expect(row.contrast,JSON.stringify(row)).toBeGreaterThanOrEqual(4.5);
   });
 }
+
+for (const locale of ["zh", "en"]) {
+  test("metric formulas are keyboard accessible " + locale, async ({page}) => {
+    await page.goto(locale === "zh" ? "/metrics/" : "/en/metrics/");
+    const formula = page.locator("#hd95 .katex-display-wrap");
+    await expect(formula).toHaveAttribute("tabindex", "0");
+    await expect(formula).toHaveAttribute("role", "region");
+    await expect(formula).toHaveAccessibleName(/HD95/i);
+    await formula.focus();
+    await expect(formula).toBeFocused();
+    expect(await formula.evaluate(el => getComputedStyle(el).outlineStyle)).not.toBe("none");
+  });
+}
