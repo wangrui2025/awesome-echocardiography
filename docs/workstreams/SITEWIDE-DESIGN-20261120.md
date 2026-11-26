@@ -40,4 +40,4 @@ KaTeX 的数学字体、基线、脚标、公式内嵌几何保持由 KaTeX 管�
 
 本地 build 与测试发现结果只证明本地候选；正式浏览器、合并和 Production 结果须从 PR 的最新记录读取，不能用历史绿色结果替代。
 
-Feature-level goals and protected semantics: [Intent](../intent/README.md). This file retains its existing ownership and history.
+Feature-level goals and protected semantics: [Feature Design](../design/features/README.md). This file retains its existing ownership and history.

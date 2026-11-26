@@ -76,4 +76,4 @@ The central system stores experience, not live paper/code-status facts or metric
 - CPU Reference Metrics is the semantic authority. Faster/GPU implementations must prove numerical equivalence; speedups do not redefine a metric.
 - Metric explanations should follow: what it is → mathematical formula → recommended implementation → rationale, with math rendered through KaTeX on the site.
 
-For material page/feature changes, resolve [Intent](docs/intent/README.md) first, then follow the existing Wish, Design, Dev and verification owners; preserve confirmed behavior and do not infer approval from implementation.
+For material page/feature changes, resolve the relevant [Feature Design](docs/design/features/README.md) (intent and realization), preserve source-backed essential outcomes, then actively compare and verify a better feasible design using the latest owner intent, technology and evidence. Do not freeze the old implementation or infer approval from a passing test.

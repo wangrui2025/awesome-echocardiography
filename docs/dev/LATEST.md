@@ -9,3 +9,5 @@ CI mode: **SPECIALIZED_CI**. The repository validates both the website and scien
 The [current CI operating contract](../plans/CI_DEPLOY_DEDUP_PLAN_20260921.md#current-operating-contract) names exact triggers, secret boundaries, cancellation and rollback. The workflows and live provider settings remain executable truth.
 
 The site uses Tailwind 4 via the Astro Vite integration for shared layout utilities. The existing tokens.css remains the only semantic design owner; no Tailwind Preflight is used, to preserve the existing research and KaTeX layout. All built routes and both desktop/mobile browser engines continue to be checked by the existing acceptance suite. This Dev view explains the direction and is updated when that contract materially changes.
+
+Feature goals and current/better design: [Feature Design](../design/features/README.md). This is part of Design, not a separate governance owner.

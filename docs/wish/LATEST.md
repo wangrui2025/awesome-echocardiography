@@ -12,4 +12,4 @@
 
 这个网站不应该变成作者作品展示页、论文链接农场或没有语义审查的排行榜。
 
-Feature-level goals and protected semantics: [Intent](../intent/README.md). This file retains its existing ownership and history.
+Feature-level goals and protected semantics: [Feature Design](../design/features/README.md). This file retains its existing ownership and history.
