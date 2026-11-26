@@ -11,3 +11,5 @@
 - **评估标准服务整个领域。** Metrics 和 reference implementation 应保持 field-neutral，不围绕本站作者自己的论文建立偏心规则。
 
 这个网站不应该变成作者作品展示页、论文链接农场或没有语义审查的排行榜。
+
+Feature-level goals and protected semantics: [Intent](../intent/README.md). This file retains its existing ownership and history.

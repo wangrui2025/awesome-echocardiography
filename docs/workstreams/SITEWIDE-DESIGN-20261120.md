@@ -39,3 +39,5 @@ KaTeX 的数学字体、基线、脚标、公式内嵌几何保持由 KaTeX 管�
 现有 `ci.yml` 的 build job 增加本站浏览器验收并固定兼容的 Ubuntu 24.04；reference-metrics job 独立保留。浏览器报告绑定 `${github.sha}`，保存 3 天。`deploy.yml` 继续只把已授权来源交给 Vercel，未增加第二个部署平台。
 
 本地 build 与测试发现结果只证明本地候选；正式浏览器、合并和 Production 结果须从 PR 的最新记录读取，不能用历史绿色结果替代。
+
+Feature-level goals and protected semantics: [Intent](../intent/README.md). This file retains its existing ownership and history.
