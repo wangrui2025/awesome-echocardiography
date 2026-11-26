@@ -75,3 +75,5 @@ The central system stores experience, not live paper/code-status facts or metric
 - Do not infer evaluator semantics from a repository name, public release, or legacy code path. Trace the exact implementation/version actually used.
 - CPU Reference Metrics is the semantic authority. Faster/GPU implementations must prove numerical equivalence; speedups do not redefine a metric.
 - Metric explanations should follow: what it is → mathematical formula → recommended implementation → rationale, with math rendered through KaTeX on the site.
+
+For material page/feature changes, resolve [Intent](docs/intent/README.md) first, then follow the existing Wish, Design, Dev and verification owners; preserve confirmed behavior and do not infer approval from implementation.

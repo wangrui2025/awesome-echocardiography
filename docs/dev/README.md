@@ -25,3 +25,5 @@ The **one current CI and deployment operating contract** remains [CI / Vercel de
 | Governance | Existing AGENTS, Wish, Dev and design/code owners. |
 
 This is a local acceptance route, not an assertion that every test has passed.
+
+Feature-level goals and protected semantics: [Intent](../intent/README.md). This file retains its existing ownership and history.
